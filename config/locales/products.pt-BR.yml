@@ -1,9 +1,10 @@
 ---
 pt-BR:
-  products:
-    new:
-      title: Cadastro de Produtos
-      submit: Registrar
+  admin:
+    products:
+      new:
+        title: Cadastro de Produtos
+        submit: Registrar
   activerecord:
     models:
       product:

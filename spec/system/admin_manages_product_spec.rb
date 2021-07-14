@@ -29,6 +29,8 @@ describe 'Admin manages products' do
       expect(page).to have_content('Altura: 0.31 m')
       expect(page).to have_content('Largura: 0.42 m')
       expect(page).to have_content('Comprimento: 0.53 m')
+      expect(page).to have_content('Peso: 1.0 kg')
+      expect(page).to have_content('SKU: 123456abcdef')
       expect(page).to have_content('Frágil')
     end
 
@@ -36,30 +38,25 @@ describe 'Admin manages products' do
       admin = create(:admin)
 
       login_as admin, scope: :admin
-      visit products_path
+      visit admin_products_path
       click_on 'Adicionar Produto'
       click_on 'Registrar' 
 
-      expect(page).to have_content('não pode ficar em branco', count: 8)
+      expect(page).to have_content('não pode ficar em branco', count: 10)
     end
 
     it 'and sku must be unique' do
       admin = create(:admin)
-      create(:product, sku: '123456abcdef')
-    
+      create(:product, sku: '123456abcdef', name: 'Produto 1')
+
       login_as admin, scope: :admin
-      visit products_path
+      visit admin_products_path
       click_on 'Adicionar Produto'
+      fill_in 'SKU', with: 'Produto 1'
       fill_in 'SKU', with: '123456abcdef'
-      click_on 'Registrar' 
-      
+      click_on 'Registrar'
+
       expect(page).to have_content('já está em uso')
     end
-
   end
 end
-# check('Fragil')
-# <div class="field form-group">
-#    <%= f.label :fragile %>
-#    <%= f.check_box :fragile %>
-# </div>

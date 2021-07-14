@@ -1,5 +1,5 @@
-class ProductsController < ApplicationController
-  before_action :get_product , only: %i[show]
+class Admin::ProductsController < ApplicationController
+  before_action :get_product, only: %i[show]
   def index; end
 
   def new
@@ -10,7 +10,10 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
     if @product.save
-      redirect_to @product
+      redirect_to admin_product_path(@product)
+    else
+      @products = Product.all
+      render :new
     end
   end
 
@@ -21,11 +24,10 @@ class ProductsController < ApplicationController
   def product_params
     params.require(:product).permit(:name, :price, :brand, :description,
                                     :height, :length, :width, :weight,
-                                    :product_picture, :fragile)
+                                    :product_picture, :fragile, :sku)
   end
 
   def get_product
     @product = Product.find(params[:id])
   end
-
 end
