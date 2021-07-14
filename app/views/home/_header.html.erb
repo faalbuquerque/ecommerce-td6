@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  
+  <%= link_to "Página Inicial", root_path, class:"navbar-brand ms-4" %>
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <%= link_to '', '#', class:"nav-link" %>
+      </li>
+      <% if admin_signed_in? %>
+      <li class="nav-item active">
+          <%= link_to '', '#', class:"nav-link" %>
+        </li>
+        <li class="nav-item active">
+          <%= link_to 'Sair', '#', method: :delete, class:"nav-link" %>
+        </li>
+        <li class="nav-item active">
+          <%= link_to 'Editar conta', '#', method: :put, class:"nav-link" %>
+        </li>
+      <% elsif !admin_signed_in? && !user_signed_in? %>
+         <li class="nav-item active">
+          <%= link_to 'Entrar', '#', class:"nav-link" %>
+        </li>
+        <li class="nav-item active">
+          <%= link_to 'Registrar-se', '#', class:"nav-link" %>
+        </li>
+      <% end %>
+      <% if admin_signed_in? %>
+        <li class="nav-item active">
+          <%= link_to 'Sair Admin', '#', method: :delete, class:"nav-link" %>
+        </li>
+        <li class="nav-item active">
+          <%= link_to 'Editar conta', '#', method: :put, class:"nav-link" %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>

@@ -31,6 +31,31 @@ describe 'Admin manages products' do
       expect(page).to have_content('Comprimento: 0.53 m')
       expect(page).to have_content('Frágil')
     end
+
+    it 'and attributes cannot be blank' do
+      admin = create(:admin)
+
+      login_as admin, scope: :admin
+      visit products_path
+      click_on 'Adicionar Produto'
+      click_on 'Registrar' 
+
+      expect(page).to have_content('não pode ficar em branco', count: 8)
+    end
+
+    it 'and sku must be unique' do
+      admin = create(:admin)
+      create(:product, sku: '123456abcdef')
+    
+      login_as admin, scope: :admin
+      visit products_path
+      click_on 'Adicionar Produto'
+      fill_in 'SKU', with: '123456abcdef'
+      click_on 'Registrar' 
+      
+      expect(page).to have_content('já está em uso')
+    end
+
   end
 end
 # check('Fragil')
