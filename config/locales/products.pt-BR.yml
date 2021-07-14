@@ -1,0 +1,26 @@
+---
+pt-BR:
+  products:
+    new:
+      title: Cadastro de Produtos
+      submit: Registrar
+  activerecord:
+    models:
+      product:
+        one: Produto
+        other: Produtos
+    attributes:
+      product:
+        name: Nome
+        brand: Marca
+        price: Preço
+        description: Descrição 
+        weight: Peso
+        length: Comprimento
+        height: Altura
+        width: Largura
+        fragile: Frágil
+        sku: SKU
+        status:
+          active: Ativo
+
