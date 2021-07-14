@@ -19,8 +19,10 @@ pt-BR:
         length: Comprimento
         height: Altura
         width: Largura
-        fragile: Frágil
         sku: SKU
-        status:
-          active: Ativo
+        fragiles:
+          negative: Não
+          positive: Sim
+      product/status:
+        active: Ativo
 

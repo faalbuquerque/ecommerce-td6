@@ -7,7 +7,7 @@ class AddColumnsToProduct < ActiveRecord::Migration[6.1]
     add_column :products, :width, :decimal
     add_column :products, :length, :decimal
     add_column :products, :weight, :decimal
-    add_column :products, :fragile, :boolean
+    add_column :products, :fragile, :integer, null: false, default: 0
     add_column :products, :status, :integer, null: false, default: 0
   end
 end

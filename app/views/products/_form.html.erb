@@ -44,8 +44,8 @@
     <%= f.number_field :weight, step: 0.01, class:"form-control" %>
   </div>
   <div class="field form-group">
-    <%= f.label :fragile %>
-    <%= f.check_box :fragile %>
+    <%= f.label :fragile, 'Frágil?' %>
+    <%= f.select(:fragile, products.fragiles.keys.map {|key| [products.human_enum_name(:fragile, key), key]}, class:"form-control") %>
   </div>
   <div class="field form-group">
     <%= f.label :product_picture %>
