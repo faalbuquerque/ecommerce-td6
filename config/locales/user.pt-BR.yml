@@ -1,0 +1,6 @@
+pt-BR:
+  activerecord:
+    attributes:
+      user:
+        password: 'Senha'
+        password_confirmation: 'Confirmação de Senha'  
