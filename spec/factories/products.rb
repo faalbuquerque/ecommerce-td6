@@ -7,11 +7,11 @@ FactoryBot.define do
     sequence(:name) { |n| "Produto #{n}" }
     sequence(:description) { |n| "Uma descrição sobre alguma coisa #{n}" }
     sequence(:sku) { |n| "123#{n}ABC" }
-    sequence(:price) { |n| 10 + n } # { rand(10..100) }
+    price { 20 } # { rand(10..100) }
     length { 0.3 }
     width { 0.2 }
     height { 0.4 }
     weight { 0.4 }
-    brand { 'Marca X'}
+    brand { 'Marca X' }
   end
 end

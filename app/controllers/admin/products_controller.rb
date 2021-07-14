@@ -1,9 +1,10 @@
 class Admin::ProductsController < ApplicationController
-  before_action :get_product, only: %i[show]
+  before_action :find_product, only: %i[show edit update]
+  before_action :all_products, only: %i[index new create edit update]
+
   def index; end
 
   def new
-    @products = Product.all
     @product = Product.new
   end
 
@@ -12,12 +13,21 @@ class Admin::ProductsController < ApplicationController
     if @product.save
       redirect_to admin_product_path(@product)
     else
-      @products = Product.all
       render :new
     end
   end
 
   def show; end
+
+  def edit; end
+
+  def update
+    if @product.update(product_params)
+      redirect_to admin_product_path(@product), notice: 'Opção atualizada com sucesso'
+    else
+      render :edit
+    end
+  end
 
   private
 
@@ -27,7 +37,11 @@ class Admin::ProductsController < ApplicationController
                                     :product_picture, :fragile, :sku)
   end
 
-  def get_product
+  def find_product
     @product = Product.find(params[:id])
+  end
+
+  def all_products
+    @products = Product.all
   end
 end

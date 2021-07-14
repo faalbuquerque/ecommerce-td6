@@ -1,4 +1,5 @@
 <h2><%= @product.name%></h2>
+<%= link_to "Editar", edit_admin_product_path(@product) %>
 <div>
   <li><%= @product.brand%></li>
   <li><%= number_to_currency @product.price%></li>

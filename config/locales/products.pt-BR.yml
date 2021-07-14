@@ -5,6 +5,9 @@ pt-BR:
       new:
         title: Cadastro de Produtos
         submit: Registrar
+      edit:
+        title: Atualização dos dados
+        submit: Atualizar
   activerecord:
     models:
       product:
