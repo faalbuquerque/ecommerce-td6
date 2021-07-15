@@ -1,9 +1,11 @@
 <% if product.errors.any? %>
   <p>Foram encontrados <%= product.errors.count %> erro(s):</p>
   <ul>
-    <%  product.errors.full_messages.each do |error| %>
-      <li><%= error %></li>
-    <% end %>
+    <div class="alert alert-warning alert-dismissible fade show d-inline-block" role="alert">
+      <%  product.errors.full_messages.each do |error| %>
+        <p><%= error %></p>
+      <% end %>
+    </div>
   </ul>
 <% end %>
 <%= form_with url: url, model: product do |f| %>
