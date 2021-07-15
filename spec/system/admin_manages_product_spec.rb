@@ -62,7 +62,6 @@ describe 'Admin manages products' do
   context 'view' do
     it 'no product registered' do
       admin = create(:admin)
-      Product.last.destroy
 
       login_as admin, scope: :admin
       visit admin_products_path
@@ -73,8 +72,8 @@ describe 'Admin manages products' do
     it 'index' do
       admin = create(:admin)
 
-      product1 = create(:product)
-      product2 = create(:product)
+      product1 = create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1')
+      product2 = create(:product, name: 'Nome do Produto 2', brand: 'Marca do Produto 2')
 
       login_as admin, scope: :admin
       visit root_path
