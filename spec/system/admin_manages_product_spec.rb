@@ -86,7 +86,24 @@ describe 'Admin manages products' do
       expect(page).to have_content(product2.name)
       expect(page).to have_content(product2.brand)
     end
-    xit 'show' do
+    it 'show' do
+      admin = create(:admin)
+
+      product = create(:product)
+
+      login_as admin, scope: :admin
+      visit admin_product_path(product)
+
+      expect(page).to have_content(product.name)
+      expect(page).to have_content(product.description)
+      expect(page).to have_content('R$ 20')
+      expect(page).to have_content(product.brand)
+      expect(page).to have_content(product.height)
+      expect(page).to have_content(product.length)
+      expect(page).to have_content(product.width)
+      expect(page).to have_content(product.weight)
+      expect(page).to have_content("SKU: #{product.sku}")
+      expect(page).to have_content('Frágil')
     end
   end
 
