@@ -5,7 +5,7 @@ describe 'User management' do
     it 'success' do
       visit root_path
       click_on 'Registrar-me'
-      fill_in 'Email', with: 'matheus@hotmail.com.br'
+      fill_in 'Email', with: 'john@hmail.com.br'
       fill_in 'Senha', with: '123456'
       fill_in 'Confirmação de Senha', with: '123456'
       click_on 'Criar conta'
@@ -32,7 +32,7 @@ describe 'User management' do
     it 'and confirmation password is diferent from password' do
       visit root_path
       click_on 'Registrar-me'
-      fill_in 'Email', with: 'matheus@hotmail.com.br'
+      fill_in 'Email', with: 'john@hotmail.com.br'
       fill_in 'Senha', with: '123456'
       fill_in 'Confirmação de Senha', with: '098765'
       click_on 'Criar conta'

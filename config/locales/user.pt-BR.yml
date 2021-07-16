@@ -1,6 +1,12 @@
+---
 pt-BR:
   activerecord:
     attributes:
       user:
         password: 'Senha'
-        password_confirmation: 'Confirmação de Senha'  
+        password_confirmation: 'Confirmação de Senha'
+  users:
+    registrations:
+      new:
+        submit: 'Criar conta'
+        characters_minimum: '%{count} é a quantidade mínima de caracteres'
