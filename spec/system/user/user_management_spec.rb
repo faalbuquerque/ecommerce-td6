@@ -16,7 +16,7 @@ describe 'User management' do
     end
 
     it 'and logout' do
-      user = create(:user)
+      user = create(:user, email: 'john@mail.com', password: '123456')
 
       login_as user, scope: :user
       visit root_path
@@ -52,7 +52,7 @@ describe 'User management' do
 
   context 'sign-in' do
     it 'with valid email and password' do
-      user = create(:user)
+      user = create(:user, email: 'john@mail.com', password: '123456')
 
       visit root_path
       click_on 'Entrar'
@@ -62,15 +62,17 @@ describe 'User management' do
 
       expect(current_path).to eq(root_path)
       expect(page).to have_text('Login efetuado com sucesso')
+      expect(page).to have_text('john@mail.com')
+      expect(page).to_not have_link('Entrar')
       expect(page).to have_link('Sair')
     end
 
     it 'with invalid email and password' do
-      user = create(:user, password: '123456')
+      create(:user, email: 'jonh@doe.com', password: '123456')
 
       visit root_path
       click_on 'Entrar'
-      fill_in 'Email', with: user.email
+      fill_in 'Email', with: 'jane@doe.com'
       fill_in 'Senha', with: '098765'
       click_on 'Log in'
 
