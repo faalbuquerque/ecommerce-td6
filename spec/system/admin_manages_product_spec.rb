@@ -79,11 +79,11 @@ describe 'Admin manages products' do
       visit root_path
       click_on 'Produtos'
 
-      expect(page).to have_content(product1.name)
-      expect(page).to have_content(product1.brand)
+      expect(page).to have_content('Nome do Produto 1')
+      expect(page).to have_content('Marca do Produto 1')
       expect(page).to have_content('R$ 20,00')
-      expect(page).to have_content(product2.name)
-      expect(page).to have_content(product2.brand)
+      expect(page).to have_content('Nome do Produto 2')
+      expect(page).to have_content('Marca do Produto 2')
     end
     it 'show' do
       admin = create(:admin)
@@ -95,15 +95,15 @@ describe 'Admin manages products' do
       login_as admin, scope: :admin
       visit admin_product_path(product)
 
-      expect(page).to have_content(product.name)
-      expect(page).to have_content(product.description)
+      expect(page).to have_content('Nome do Produto 1')
+      expect(page).to have_content('Descrição sobre este produto')
       expect(page).to have_content('R$ 20')
-      expect(page).to have_content(product.brand)
-      expect(page).to have_content(product.height)
-      expect(page).to have_content(product.length)
-      expect(page).to have_content(product.width)
-      expect(page).to have_content(product.weight)
-      expect(page).to have_content("SKU: #{product.sku}")
+      expect(page).to have_content('Marca do Produto 1')
+      expect(page).to have_content('2.0 m')
+      expect(page).to have_content('1.0 m')
+      expect(page).to have_content('3.0 m')
+      expect(page).to have_content('4.0 kg')
+      expect(page).to have_content('SKU: woeife3483ru')
       expect(page).to have_content('Frágil')
     end
   end
