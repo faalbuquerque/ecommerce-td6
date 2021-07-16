@@ -4,10 +4,10 @@
     Nenhum produto cadastrado
   <% else %>
     Produtos
-  </h2>
   <% end %>
-  <%= link_to "Adicionar Produto", new_admin_product_path %>
-  <%= link_to 'Voltar', root_path , class:"btn btn-primary btn-sm" %> <br>
+  </h2>
+  <%= link_to "Adicionar Produto", new_admin_product_path, class:"btn btn-success btn-sm"  %>
+  <%= link_to 'Voltar', root_path, class:"btn btn-primary btn-sm" %> <br>
   <div>
     <% @products.each do |product|%>
       <ul class="list-group">

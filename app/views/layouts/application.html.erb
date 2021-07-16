@@ -17,7 +17,7 @@
       <% if user_signed_in? %>
         <p><%= current_user.email %></p>
       <% end %>
-      <% if notice || alert%>
+      <% if notice || alert %>
         <%= render 'layouts/alerts' %>
       <% end %>
       <%= yield %>
