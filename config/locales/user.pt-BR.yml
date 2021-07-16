@@ -5,6 +5,7 @@ pt-BR:
       user:
         password: 'Senha'
         password_confirmation: 'Confirmação de Senha'
+        remember_me: 'Lembrar-me'
   users:
     registrations:
       new:
