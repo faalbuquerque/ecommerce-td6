@@ -1,0 +1,57 @@
+<% if product.errors.any? %>
+  <p>Foram encontrados <%= product.errors.count %> erro(s):</p>
+  <ul>
+    <div class="alert alert-warning alert-dismissible fade show d-inline-block" role="alert">
+      <%  product.errors.full_messages.each do |error| %>
+        <p><%= error %></p>
+      <% end %>
+    </div>
+  </ul>
+<% end %>
+<%= form_with url: url, model: product do |f| %>
+  <div class="field form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class:"form-control" %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :price %>
+    <%= f.number_field :price, class:"form-control" %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :brand %>
+    <%= f.text_field :brand, class:"form-control" %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, class:"form-control" %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :sku %>
+    <%= f.text_field :sku, class:"form-control" %>
+  </div>
+    <div class="field form-group">
+    <%= f.label :height %>
+    <%= f.number_field :height, step: 0.01, class:"form-control" %>
+  </div>
+    <div class="field form-group">
+    <%= f.label :width %>
+    <%= f.number_field :width, step: 0.01, class:"form-control" %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :length %>
+    <%= f.number_field :length, step: 0.01, class:"form-control" %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :weight %>
+    <%= f.number_field :weight, step: 0.01, class:"form-control" %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :fragile, 'Frágil?' %>
+    <%= f.select(:fragile, products.fragiles.keys.map {|key| [products.human_enum_name(:fragile, key), key]}, class:"form-control") %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :product_picture %>
+    <%= f.file_field :product_picture, id:"product_picture", class:"form-control" %>
+  </div>
+  <%= f.submit button_text, class:"btn btn-success mb-1 mt-1" %>
+<% end %>
