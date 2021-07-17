@@ -11,17 +11,17 @@
   </head>
 
   <body>
-    <nav>
+   <%= render 'home/header' %>
+    <div class="container">
+      <br>
       <% if user_signed_in? %>
-        <%= current_user.email %>
-        <%= link_to 'Sair', destroy_user_session_path, method: :delete %>
-      <% else %>
-        <%= link_to 'Registrar-me', new_user_registration_path %>
-        <%= link_to 'Entrar', new_user_session_path %>
+        <p><%= current_user.email %></p>
       <% end %>
-    </nav>
-    <%= yield %>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+      <% if notice || alert %>
+        <%= render 'layouts/alerts' %>
+      <% end %>
+      <%= yield %>
+    </div>
+
   </body>
 </html>

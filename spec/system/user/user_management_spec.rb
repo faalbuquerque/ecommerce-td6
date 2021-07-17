@@ -4,7 +4,7 @@ describe 'User management' do
   context 'registration' do
     it 'success' do
       visit root_path
-      click_on 'Registrar-me'
+      click_on 'Registrar-se'
       fill_in 'Email', with: 'john@hmail.com.br'
       fill_in 'Senha', with: '123456'
       fill_in 'Confirmação de Senha', with: '123456'
@@ -26,12 +26,12 @@ describe 'User management' do
       expect(page).to_not have_text(user.email)
       expect(page).to_not have_link('Sair')
       expect(page).to have_link('Entrar')
-      expect(page).to have_link('Registrar-me')
+      expect(page).to have_link('Registrar-se')
     end
 
     it 'and confirmation password is diferent from password' do
       visit root_path
-      click_on 'Registrar-me'
+      click_on 'Registrar-se'
       fill_in 'Email', with: 'john@hotmail.com.br'
       fill_in 'Senha', with: '123456'
       fill_in 'Confirmação de Senha', with: '098765'
@@ -42,7 +42,7 @@ describe 'User management' do
 
     it 'with empty email and password' do
       visit root_path
-      click_on 'Registrar-me'
+      click_on 'Registrar-se'
       click_on 'Criar conta'
 
       expect(page).to have_text('Email não pode ficar em branco')
