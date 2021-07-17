@@ -1,0 +1,17 @@
+<%= form_with model: [:user, address] do |f| %>
+  <%= f.label :state, 'Estado' %>
+  <%= f.text_field :state %>
+  <%= f.label :city, 'Cidade' %>
+  <%= f.text_field :city %>
+  <%= f.label :cep, 'CEP' %>
+  <%= f.text_field :cep %>
+  <%= f.label :neighborhood, 'Bairro' %>
+  <%= f.text_field :neighborhood %>
+  <%= f.label :street, 'Logradouro' %>
+  <%= f.text_field :street %>
+  <%= f.label :number, 'Número' %>
+  <%= f.text_field :number %>
+  <%= f.label :details, 'Complemento' %>
+  <%= f.text_field :details %>
+  <%= f.submit button_text %>
+<%end%>

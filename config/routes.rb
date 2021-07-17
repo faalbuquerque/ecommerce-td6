@@ -5,4 +5,9 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :products, only: %i[index new create show edit update]
   end
+  namespace :user do
+    get '/profile', to: 'profile#index'
+    resources :addresses, only: %i[index new create show edit update]
+  end
+
 end
