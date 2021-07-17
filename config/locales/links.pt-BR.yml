@@ -1,0 +1,8 @@
+pt-BR:
+  links:
+    login: 'Entrar'
+    sign-up: 'Cadastrar-me'
+    forgot-password: 'Esqueceu sua senha?'
+    confirmation-instruction: 'Não recebeu instruções de confirmação?'
+    unlock-instruction: 'Não recebeu instruções de desbloqueio?'
+    sign-in: 'Entrar com %{omniauth}'

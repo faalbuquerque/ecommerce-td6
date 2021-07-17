@@ -23,12 +23,19 @@
         </li>
       <% elsif !admin_signed_in? && !user_signed_in? %>
          <li class="nav-item active">
-          <%= link_to 'Entrar', '#', class:"nav-link" %>
+          <%= link_to 'Entrar', new_user_session_path, class:"nav-link" %>
         </li>
         <li class="nav-item active">
-          <%= link_to 'Registrar-se', '#', class:"nav-link" %>
+          <%= link_to 'Registrar-se', new_user_registration_path, class:"nav-link" %>
         </li>
       <% end %>
+
+      <% if user_signed_in? %>
+        <li class="nav-item active">
+          <%= link_to 'Sair', destroy_user_session_path, method: :delete, class:"nav-link" %>
+        </li>
+      <% end %>
+
       <% if admin_signed_in? %>
         <li class="nav-item active">
           <%= link_to 'Sair Admin', '#', method: :delete, class:"nav-link" %>
