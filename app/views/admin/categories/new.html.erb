@@ -1,0 +1,20 @@
+<h2>Nova Categoria</h2>
+
+<% if  @category.category %>
+  <%= link_to "categoria pai: #{ @category.category.name }", category_path(@category.category) %>
+<% else %>
+  <%= link_to "categorias", admin_categories_path %>
+<% end %>
+
+<%= form_with model: @category, url: admin_categories_path, local: true do |form| %>
+  <p>
+    <%= form.text_field :name %>
+  </p>
+
+  <p>
+    <%= form.label :subcategory_id, "Categoria pai" %>
+    <%= form.collection_select(:subcategory_id, @categories, :id, :name, {include_hidden: true, include_blank: true}, {multiple: false}) %>
+  </p>
+
+  <%= form.submit %>
+<% end %>
