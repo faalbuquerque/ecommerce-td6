@@ -1,15 +1,16 @@
 class User::AddressesController < ApplicationController
-  def index; end
+  def index
+    @addresses = Address.where(user: current_user)
+  end
 
   def new
     @address = Address.new
   end
 
   def create
-    @address = Address.create(address_params)
-    @address.user = current_user
+    @address = Address.create(address_params.merge(user: current_user))
+
     if @address.save
-      #byebug
       redirect_to [:user, @address], notice: 'Endereço adicionado com sucesso'
     else
       render :new

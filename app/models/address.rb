@@ -1,3 +1,4 @@
 class Address < ApplicationRecord
-  has_one :user
+  belongs_to :user
+  validates :state, :city, :cep, :neighborhood, :street, :number, presence: true
 end
