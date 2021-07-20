@@ -3,10 +3,6 @@ class Admin::CategoriesController < Admin::AdminController
     @categories = Category.all
   end
 
-  def show
-    @category = Category.find(params[:id])
-  end
-
   def new
     @categories = Category.all
     @category = Category.new
