@@ -10,3 +10,4 @@ pt-BR:
         statuses:
           enable: Ativo
           disable: Inativo
+        name: Nome

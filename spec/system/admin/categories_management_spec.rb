@@ -5,9 +5,9 @@ describe 'Categories management' do
     admin = create(:admin, email: 'admin@mercadores.com.br', password: '123456')
     login_as admin, scope: :admin
 
-    category = create(:category, name:'tv')
-    category = create(:category, name:'filmes')
-    category = create(:category, name:'games')
+    create(:category, name: 'tv')
+    create(:category, name: 'filmes')
+    create(:category, name: 'games')
 
     visit admin_root_path
     click_on 'Categorias'
@@ -48,6 +48,48 @@ describe 'Categories management' do
     select 'Inativo', from: 'Status'
     click_on 'Criar Categoria'
 
-    expect(page).to have_content('Já está em uso')
+    expect(page).to have_content('já está em uso')
+  end
+
+  it 'and name cannot be blank' do
+    admin = create(:admin, email: 'admin@mercadores.com.br', password: '123456')
+    login_as admin, scope: :admin
+
+    visit admin_root_path
+    click_on 'Categorias'
+
+    click_on 'Adicionar categoria'
+    fill_in 'Nome', with: ''
+    click_on 'Criar Categoria'
+
+    expect(page).to have_content('Nome não pode ficar em branco')
+  end
+
+  it 'edit category' do
+    admin = create(:admin, email: 'admin@mercadores.com.br', password: '123456')
+    create(:category, name: 'Informática')
+    login_as admin, scope: :admin
+
+    visit admin_categories_path
+
+    click_on 'Informática'
+
+    fill_in 'Nome', with: 'Informática e eletronica'
+    click_on 'Atualizar Categoria'
+
+    expect(page).to have_content('Informática e eletronica')
+  end
+
+  it 'category father cant be the same category' do
+    admin = create(:admin, email: 'admin@mercadores.com.br', password: '123456')
+    create(:category, name: 'Papelaria')
+    create(:category, name: 'Informática')
+    login_as admin, scope: :admin
+
+    visit admin_categories_path
+
+    click_on 'Informática'
+
+    expect(page).to_not have_select('Categoria pai', options: ['Informática'])
   end
 end
