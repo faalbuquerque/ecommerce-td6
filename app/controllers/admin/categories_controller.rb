@@ -13,21 +13,25 @@ class Admin::CategoriesController < Admin::AdminController
   end
 
   def create
-    @category = Category.new(category_params)
-
-    # father_category = Category.find_by(id: params[:category_id])
-    # @category.category = father_category if father_category and @category.valid?
-
+    @category = Category.new(category_params) 
+    @category.parent = set_father_category
     return redirect_to admin_categories_path if @category.save!
 
     @categories = Category.all
     render :new
   end
+ 
 
   private
 
+  def set_father_category
+    return nil if params[:category][:ancestry].blank?
+
+    Category.find(params[:category][:ancestry])
+  end
+
   def category_params
-    params.require(:category).permit(:name, :status, :subcategory)
+    params.require(:category).permit(:name, :status)
   end
 
 end

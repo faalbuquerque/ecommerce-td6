@@ -1,0 +1,12 @@
+---
+pt-BR:
+  activerecord:
+    models:
+      category: 
+        one: Categoria
+        other: Categorias
+    attributes:
+      category:
+        statuses:
+          enable: Ativo
+          disable: Inativo
