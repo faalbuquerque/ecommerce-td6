@@ -1,6 +1,6 @@
 class User::AddressesController < ApplicationController
   def index
-    @addresses = Address.where(user: current_user)
+    @addresses = current_user.addresses
   end
 
   def new
@@ -8,7 +8,7 @@ class User::AddressesController < ApplicationController
   end
 
   def create
-    @address = Address.create(address_params.merge(user: current_user))
+    @address = current_user.addresses.create(address_params)
 
     if @address.save
       redirect_to [:user, @address], notice: 'Endereço adicionado com sucesso'
@@ -18,7 +18,9 @@ class User::AddressesController < ApplicationController
   end
 
   def show
-    @address = Address.find(params[:id])
+    @address = current_user.addresses.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to user_addresses_path, notice: 'Endereço não encontrado'
   end
 
   private

@@ -27,9 +27,11 @@ describe 'manage addresses' do
 
   it 'view all addresses' do
     user = create(:user)
+    user2 = create(:user, email: 'janedoe@email.com')
     create(:address, street: 'Avenida Paulista', number: '1300', user: user)
+    create(:address, street: 'Avenida Brasil', number: '645', user: user)
     create(:address, cep: '08390-258', neighborhood: 'Jardim São Francisco',
-                     street: 'Travessa ACM', number: '1234', user: user)
+                     street: 'Travessa ACM', number: '1234', user: user2)
 
     login_as user, scope: :user
     visit root_path
@@ -38,9 +40,11 @@ describe 'manage addresses' do
 
     expect(page).to have_text('Avenida Paulista')
     expect(page).to have_text('1300')
-    expect(page).to have_text('Travessa ACM')
-    expect(page).to have_text('1234')
+    expect(page).to have_text('Avenida Brasil')
+    expect(page).to have_text('645')
     expect(page).to have_link('Ver Mais')
+    expect(page).to_not have_text('Travessa ACM')
+    expect(page).to_not have_text('1234')
   end
 
   it 'with parameters blank' do
@@ -55,5 +59,20 @@ describe 'manage addresses' do
 
     expect(page).to have_text('não pode ficar em branco', count: 6)
     expect(current_path).to eq(user_addresses_path)
+  end
+
+  it 'can not access other user address' do
+    user = create(:user, email: 'john@mail.com')
+    user2 = create(:user, email: 'janedoe@email.com')
+    create(:address, street: 'Avenida Paulista', number: '1300', user: user)
+    address = create(:address, cep: '08390-258', neighborhood: 'Jardim São Francisco',
+                               street: 'Travessa ACM', number: '1234', user: user2)
+
+    login_as user, scope: :user
+    visit user_address_path(address)
+
+    expect(page).to have_text('Endereço não encontrado')
+    expect(page).to_not have_text('Travessa ACM')
+    expect(page).to_not have_text('1234')
   end
 end
