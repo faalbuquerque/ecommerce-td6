@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(version: 2021_07_19_180612) do
     t.decimal "weight"
     t.integer "fragile", default: 0, null: false
     t.integer "status", default: 0, null: false
+    t.index ["sku"], name: "index_products_on_sku", unique: true
   end
 
   create_table "users", force: :cascade do |t|

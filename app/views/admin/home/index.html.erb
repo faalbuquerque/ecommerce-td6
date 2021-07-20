@@ -1,0 +1,8 @@
+<h1>Home Admin</h1>
+
+<% if admin_signed_in? %>
+  <p>
+    <%= current_admin.email %>
+  </p>
+<% end %>
+

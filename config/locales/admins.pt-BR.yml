@@ -1,0 +1,14 @@
+pt-BR:
+  admins:
+    sessions:
+      new:
+        login: Entrar
+        password: Senha
+        remember_me: Lembrar-me
+    passwords:
+      new:
+        title: Esqueceu sua senha?
+        send_reset_password: Me envie as instruções para resetar senha
+    shared:
+      links:
+        forgot_password: Esqueceu sua senha?
