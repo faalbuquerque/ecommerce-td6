@@ -8,8 +8,9 @@ class Stock
   end
 
   def self.to_product(params)
-    response = Faraday.get('http://whoknows2', params: {sku: params[:sku]})
+    response = Faraday.get('http://whoknows2', params: { sku: params[:sku] })
     return [] unless response.status == 200
+
     result = JSON.parse(response.body, symbolize_names: true)
     if result.is_a?(Array)
       from_json_array(result)

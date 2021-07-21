@@ -89,8 +89,8 @@ describe 'Admin manages products' do
       admin = create(:admin)
 
       product = create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1',
-                       description: 'Descrição sobre este produto', height: '2', width: '1',
-                       length: '3', weight: '4', sku: 'woeife3483ru')
+                                 description: 'Descrição sobre este produto', height: '2',
+                                 width: '1', length: '3', weight: '4', sku: 'woeife3483ru')
 
       login_as admin, scope: :admin
       visit admin_product_path(product)

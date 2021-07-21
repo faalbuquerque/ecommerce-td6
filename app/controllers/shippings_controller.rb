@@ -6,7 +6,6 @@ class ShippingsController < ApplicationController
     find_adresses
     @shippings = Shipping.to_product(params.permit(:cep, :city, :product_id,
                                                    :sku, :weight, :length, :width))
-    #byebug
     render 'products/show'
   end
 
@@ -33,8 +32,3 @@ class ShippingsController < ApplicationController
     end
   end
 end
-
-# @shipping = Shipping.all(
-#   params.permit(:cep, :city, :shipping_id,
-#                 :name, :distance, :price, 
-#                 :arrival_time).to_h   # colocar address

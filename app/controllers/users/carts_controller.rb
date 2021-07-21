@@ -12,7 +12,7 @@ class Users::CartsController < ApplicationController
 
   def create
     @product = Product.find(params[:product_id])
-    @cart = Cart.new()
+    @cart = Cart.new
     set_params
     if @cart.save!
       flash[:notice] = 'Produto adicionado ao carrrinho com sucesso!'

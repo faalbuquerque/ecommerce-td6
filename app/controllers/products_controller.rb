@@ -7,7 +7,7 @@ class ProductsController < ApplicationController
     if @stock.is_a?(Array) && @stock == []
       @stock = false
     end
-    @shipping = Shipping.new()
+    @shipping = Shipping.new
   end
 
   private

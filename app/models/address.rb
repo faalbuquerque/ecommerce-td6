@@ -5,5 +5,4 @@ class Address < ApplicationRecord
   def display_address
     'Cidade - Estado'
   end
-    # "#{city} - #{state}"
 end

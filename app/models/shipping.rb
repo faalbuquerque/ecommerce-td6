@@ -32,16 +32,17 @@ class Shipping
   end
 
   def self.find(params)
-    response = Faraday.get 'http://whoknows3', params: {shipping_id: params[:shipping_id]}
+    response = Faraday.get 'http://whoknows3', params: { shipping_id: params[:shipping_id] }
     shipping = JSON.parse(response.body, symbolize_names: true)
     new(**shipping.except(:created_at, :updated_at, :cep, :city))
   end
 
   def self.to_product(params)
-    response = Faraday.get('http://whoknows', params: {cep: params[:cep], city: params[:city],
-                                                       sku: params[:sku], weight: params[:weight],
-                                                       length: params[:length], width: params[:width]})
+    response = Faraday.get('http://whoknows', params: { cep: params[:cep], city: params[:city],
+                                                        sku: params[:sku], weight: params[:weight],
+                                                        length: params[:length], width: params[:width] })
     return [] unless response.status == 200
+
     result = JSON.parse(response.body, symbolize_names: true)
     if result.is_a?(Array)
       from_json_array(result)
