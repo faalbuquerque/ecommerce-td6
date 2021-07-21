@@ -9,7 +9,7 @@ class Admin::CategoriesController < Admin::AdminController
 
   def create
     @category = Category.new(category_params)
-    @category.parent = set_father_category
+    @category.parent = set_principal_category
     return redirect_to admin_categories_path if @category.save
 
     @categories = Category.all
@@ -23,7 +23,7 @@ class Admin::CategoriesController < Admin::AdminController
 
   def update
     @category = Category.find(params[:id])
-    @category.parent = set_father_category
+    @category.parent = set_principal_category
     return redirect_to admin_categories_path if @category.update(category_params)
 
     @categories = Category.all
@@ -36,7 +36,7 @@ class Admin::CategoriesController < Admin::AdminController
     @categories = Category.all
   end
 
-  def set_father_category
+  def set_principal_category
     return nil if params[:category][:ancestry].blank?
 
     Category.find(params[:category][:ancestry])

@@ -5,7 +5,7 @@
   </p>
 
   <p>
-    <%= form.label :ancestry, "Categoria pai" %>
+    <%= form.label :ancestry, "Categoria Principal" %>
     <%= form.collection_select(:ancestry, @categories, :id, :name, {include_hidden: true, prompt: 'Selecione'}, {multiple: false}) %>
   </p>
 

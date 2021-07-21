@@ -47,7 +47,7 @@ describe 'Categories management' do
 
     fill_in 'Nome',	with: 'Notebook'
     select 'Ativo',	from: 'Status'
-    select 'Informática',	from: 'Categoria pai'
+    select 'Informática',	from: 'Categoria Principal'
     click_on 'Criar Categoria'
 
     expect(page).to have_link('Notebook')
@@ -99,7 +99,7 @@ describe 'Categories management' do
     expect(page).to have_content('Informática e eletronica')
   end
 
-  it 'category father cant be the same category' do
+  it 'category principal cant be the same subcategory' do
     admin = create(:admin, email: 'admin@mercadores.com.br', password: '123456')
     create(:category, name: 'Papelaria')
     create(:category, name: 'Informática')
@@ -109,6 +109,6 @@ describe 'Categories management' do
 
     click_on 'Informática'
 
-    expect(page).to_not have_select('Categoria pai', options: ['Informática'])
+    expect(page).to_not have_select('Categoria Principal', options: ['Informática'])
   end
 end
