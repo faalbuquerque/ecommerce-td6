@@ -1,7 +1,14 @@
 class ProductsController < ApplicationController
   before_action :find_product, only: %i[show]
 
-  def show; end
+  def show
+    @cart = Cart.new
+    @stock = Stock.to_product(sku: @product.sku)
+    if @stock.is_a?(Array) && @stock == []
+      @stock = false
+    end
+    @shipping = Shipping.new()
+  end
 
   private
 

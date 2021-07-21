@@ -1,0 +1,8 @@
+{
+  "id": 3,
+  "shipping_id" : "3",
+  "name": "Frete 1",
+  "distance": "30",
+  "price": "15",
+  "arrival_time": "10"
+}

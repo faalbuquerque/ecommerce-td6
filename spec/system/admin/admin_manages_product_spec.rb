@@ -72,8 +72,8 @@ describe 'Admin manages products' do
     it 'index' do
       admin = create(:admin)
 
-      product1 = create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1')
-      product2 = create(:product, name: 'Nome do Produto 2', brand: 'Marca do Produto 2')
+      create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1')
+      create(:product, name: 'Nome do Produto 2', brand: 'Marca do Produto 2')
 
       login_as admin, scope: :admin
       visit root_path

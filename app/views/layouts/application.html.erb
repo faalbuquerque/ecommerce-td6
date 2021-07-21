@@ -20,6 +20,8 @@
       <% if notice || alert %>
         <%= render 'layouts/alerts' %>
       <% end %>
+        <%= flash[:message] unless flash[:message].blank? %>
+        <%# flash[:notice] unless flash[:notice].blank? %>
       <%= yield %>
     </div>
 

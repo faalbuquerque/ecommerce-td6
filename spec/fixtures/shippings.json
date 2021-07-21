@@ -1,0 +1,18 @@
+[
+  {
+    "id": 3,
+    "shipping_id" : "3",
+    "name": "Frete 1",
+    "distance": "30",
+    "price": "15",
+    "arrival_time": "10"
+  },
+  {
+    "id": 4,
+    "shipping_id" : "4",
+    "name": "Frete 2",
+    "distance": "40",
+    "price": "12",
+    "arrival_time": "15"
+  }
+]

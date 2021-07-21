@@ -1,11 +1,40 @@
-<h2><%= @product.name%></h2>
+<h2><%= @product.name %></h2>
 <div>
-  <li><%= @product.brand%></li>
-  <li><%= number_to_currency @product.price%></li>
-  <li><%= @product.description%></li>
-  <li>Altura: <%= @product.height%> m</li>
-  <li>Largura: <%= @product.width%> m</li>
-  <li>Comprimento: <%= @product.length%> m</li>
+  <li><%= @product.brand %></li>
+  <li><%= number_to_currency @product.price %></li>
+  <li><%= @product.description %></li>
+  <li>Altura: <%= @product.height %> m</li>
+  <li>Largura: <%= @product.width %> m</li>
+  <li>Comprimento: <%= @product.length %> m</li>
   <li>Peso: <%= @product.weight %> kg</li>
-  <%= link_to 'Adicionas ao carrinho', '#' %>
+  <% if @stock && @stock.quantity.to_i > 0 %>
+    <p>Calcular frete por CEP</p>
+    <%= form_with url: shippings_path, method: 'get' do |f| %>
+      <div class="field form-group">
+        <%= f.label :cep, 'CEP' %>
+        <%= f.text_field :cep, class:"form-control" %>
+      </div>
+      <%= hidden_field_tag 'product_id', "#{@product.id}" %>
+      <%= f.submit 'Calcular por CEP', class:"btn btn-success mb-1 mt-1" %>
+    <% end %>
+    <p>Calcular frete por Cidade</p>
+    <%= form_with url: shippings_path, method: :get do |f| %>
+      <div class="field form-group">
+        <%= f.label :city, 'Cidade' %>
+        <%= f.text_field :city, class:"form-control" %>
+      </div>
+      <%= f.submit 'Calcular pela cidade', class:"btn btn-success mb-1 mt-1" %>
+    <% end %>
+  <% else %>
+    <h4>Produto fora de estoque</h4>
+  <% end %>
+
+  <% if @shippings %>
+   <%= form_with url: users_carts_path(product_id: @product), model: @cart do |f| %>
+      <%= f.collection_radio_buttons :shipping_id, @shippings, :shipping_id, :display_name %>
+      <% if current_user %>
+        <%= f.submit 'Adicionar ao carrinho', class:"btn btn-success btn-sm mb-1 mt-1" %>
+      <% end %>
+    <% end %>
+  <% end %>
 </div>
