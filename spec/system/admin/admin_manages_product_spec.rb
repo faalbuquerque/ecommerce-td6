@@ -6,7 +6,7 @@ describe 'Admin manages products' do
       admin = create(:admin)
 
       login_as admin, scope: :admin
-      visit root_path
+      visit admin_root_path
       click_on 'Produtos'
       click_on 'Adicionar Produto'
       fill_in 'Nome', with: 'Produto 1'
@@ -76,7 +76,7 @@ describe 'Admin manages products' do
       create(:product, name: 'Nome do Produto 2', brand: 'Marca do Produto 2')
 
       login_as admin, scope: :admin
-      visit root_path
+      visit admin_root_path
       click_on 'Produtos'
 
       expect(page).to have_content('Nome do Produto 1')
@@ -114,7 +114,7 @@ describe 'Admin manages products' do
       create(:product, name: 'Produto novo')
 
       login_as admin, scope: :admin
-      visit root_path
+      visit admin_root_path
       click_on 'Produtos'
       click_on 'Produto novo'
       click_on 'Editar'
@@ -147,7 +147,7 @@ describe 'Admin manages products' do
       product = create(:product, name: 'Produto teste 1')
 
       login_as admin, scope: :admin
-      visit root_path
+      visit admin_root_path
       click_on 'Produtos'
       click_on product.name
       click_on 'Editar'

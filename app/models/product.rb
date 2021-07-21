@@ -6,5 +6,6 @@ class Product < ApplicationRecord
 
   validates :name, :brand, :price, :length, :width, :height, :weight,
             :description, :sku, :product_picture, :fragile, presence: true
+
   validates :sku, uniqueness: true
 end

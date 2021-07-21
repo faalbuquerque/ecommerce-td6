@@ -11,7 +11,12 @@
   </head>
 
   <body>
-   <%= render 'home/header' %>
+    <% if request.path.include?('admin') %>
+     <%= render 'shared/header_admin' %>
+    <% else %>
+     <%= render 'shared/header_user' %>
+    <% end %>
+    
     <div class="container">
       <br>
       <% if user_signed_in? %>

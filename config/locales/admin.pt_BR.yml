@@ -1,0 +1,10 @@
+pt-BR:
+  admin:
+    registration_admins:
+      create:
+        success: Novo administrador cadastrado!
+      index:
+        title: Administradores
+        new_admin: Cadastrar novo administrador
+      new:
+        title: Cadastrar Administrador
