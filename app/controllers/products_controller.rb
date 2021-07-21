@@ -4,9 +4,6 @@ class ProductsController < ApplicationController
   def show
     @cart = Cart.new
     @stock = Stock.to_product(sku: @product.sku)
-    if @stock.is_a?(Array) && @stock == []
-      @stock = false
-    end
     @shipping = Shipping.new
   end
 

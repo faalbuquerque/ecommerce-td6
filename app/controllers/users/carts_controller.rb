@@ -11,26 +11,13 @@ class Users::CartsController < ApplicationController
   end
 
   def create
-    @product = Product.find(params[:product_id])
-    @cart = Cart.new
-    set_params
-    if @cart.save!
-      flash[:notice] = 'Produto adicionado ao carrrinho com sucesso!'
-      redirect_to users_cart_path(@cart), notice: 'Produto adicionado ao carrrinho com sucesso!'
-    end
+    @cart = Cart.new(carts_params)
+    redirect_to users_carts_path, notice: 'Produto adicionado ao carrrinho com sucesso!' if @cart.save!
   end
 
   private
 
-  def set_params
-    if params[:address_id]
-      @address = Address.find(params[:address_id])
-      @cart.address = @address
-    end
-    @user = current_user
-    @cart.user = @user
-    @cart.quantity = 1
-    @cart.product = @product
-    @cart.shipping_id = params[:shipping_id]
+  def carts_params
+    params.permit(:address_id, :quantity, :product_id, :shipping_id).merge(user_id: current_user.id)
   end
 end

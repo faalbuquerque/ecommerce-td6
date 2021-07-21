@@ -17,11 +17,9 @@
       <% if user_signed_in? %>
         <p><%= current_user.email %></p>
       <% end %>
-      <% if notice || alert %>
+      <% if notice || alert || flash[:message] %>
         <%= render 'layouts/alerts' %>
       <% end %>
-        <%= flash[:message] unless flash[:message].blank? %>
-        <%# flash[:notice] unless flash[:notice].blank? %>
       <%= yield %>
     </div>
 
