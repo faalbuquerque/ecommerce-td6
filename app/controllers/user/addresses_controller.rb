@@ -11,16 +11,10 @@ class User::AddressesController < ApplicationController
     @address = current_user.addresses.create(address_params)
 
     if @address.save
-      redirect_to [:user, @address], notice: 'Endereço adicionado com sucesso'
+      redirect_to user_addresses_path, notice: 'Endereço adicionado com sucesso'
     else
       render :new
     end
-  end
-
-  def show
-    @address = current_user.addresses.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to user_addresses_path, notice: 'Endereço não encontrado'
   end
 
   private

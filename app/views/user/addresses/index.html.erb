@@ -2,6 +2,9 @@
 <% @addresses.each do |address| %>
   <p><%= address.street %></p>
   <p><%= address.number %></p>
-  <%= link_to 'Ver Mais', user_address_path(address) %>
+  <p><%= address.details %></p>
+  <p><%= address.cep %></p>
+  <p><%= address.city %></p>
+  <p><%= address.state %></p>
 <% end %>
 <%= link_to 'Adicionar Endereço', new_user_address_path %>

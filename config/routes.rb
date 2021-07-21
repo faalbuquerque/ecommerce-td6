@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   namespace :user do
     get '/profile', to: 'profile#index'
-    resources :addresses, only: %i[index new create show edit update]
+    resources :addresses, only: %i[index new create]
   end
 
   #root 'admin/home#index'

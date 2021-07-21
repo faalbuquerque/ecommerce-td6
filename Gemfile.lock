@@ -67,7 +67,6 @@ GEM
     bindex (0.8.1)
     bootsnap (1.7.5)
       msgpack (~> 1.0)
-    brasil-estados (0.3.0)
     builder (3.2.4)
     byebug (11.1.3)
     capybara (3.35.3)
@@ -268,7 +267,6 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap (>= 1.4.4)
-  brasil-estados
   capybara
   devise
   factory_bot_rails

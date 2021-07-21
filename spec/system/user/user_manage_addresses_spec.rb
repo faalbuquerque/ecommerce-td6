@@ -23,12 +23,14 @@ describe 'manage addresses' do
     expect(page).to have_text('Proximo ao McDonalds')
     expect(page).to have_text('15370-496')
     expect(page).to have_text('São Paulo')
+    expect(page).to have_text('SP')
   end
 
   it 'view all addresses' do
     user = create(:user)
     user2 = create(:user, email: 'janedoe@email.com')
-    create(:address, street: 'Avenida Paulista', number: '1300', user: user)
+    create(:address, street: 'Avenida Paulista', number: '1300', neighborhood: 'Sede',
+                     cep: '15370-496', state: 'SP', city: 'São Paulo', user: user)
     create(:address, street: 'Avenida Brasil', number: '645', user: user)
     create(:address, cep: '08390-258', neighborhood: 'Jardim São Francisco',
                      street: 'Travessa ACM', number: '1234', user: user2)
@@ -40,9 +42,12 @@ describe 'manage addresses' do
 
     expect(page).to have_text('Avenida Paulista')
     expect(page).to have_text('1300')
+    expect(page).to have_text('Proximo ao McDonalds')
+    expect(page).to have_text('15370-496')
+    expect(page).to have_text('São Paulo')
+    expect(page).to have_text('SP')
     expect(page).to have_text('Avenida Brasil')
     expect(page).to have_text('645')
-    expect(page).to have_link('Ver Mais')
     expect(page).to_not have_text('Travessa ACM')
     expect(page).to_not have_text('1234')
   end
@@ -65,13 +70,12 @@ describe 'manage addresses' do
     user = create(:user, email: 'john@mail.com')
     user2 = create(:user, email: 'janedoe@email.com')
     create(:address, street: 'Avenida Paulista', number: '1300', user: user)
-    address = create(:address, cep: '08390-258', neighborhood: 'Jardim São Francisco',
-                               street: 'Travessa ACM', number: '1234', user: user2)
+    create(:address, cep: '08390-258', neighborhood: 'Jardim São Francisco',
+                     street: 'Travessa ACM', number: '1234', user: user2)
 
     login_as user, scope: :user
-    visit user_address_path(address)
+    visit user_addresses_path
 
-    expect(page).to have_text('Endereço não encontrado')
     expect(page).to_not have_text('Travessa ACM')
     expect(page).to_not have_text('1234')
   end
