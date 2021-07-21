@@ -1,5 +1,16 @@
 require 'rails_helper'
 
-RSpec.describe Category, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Category do
+  context 'validation' do
+    it { should validate_presence_of(:name).with_message('não pode ficar em branco') }
+
+    it 'name must to be uniq' do
+      create(:category, name: 'Informática')
+      category = Category.new(name: 'Informática')
+
+      category.valid?
+
+      expect(category.errors[:name]).to include('já está em uso')
+    end
+  end
 end

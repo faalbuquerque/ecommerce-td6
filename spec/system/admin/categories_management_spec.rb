@@ -35,6 +35,25 @@ describe 'Categories management' do
     expect(current_path).to eq(admin_categories_path)
   end
 
+  it 'create with parent category' do
+    admin = create(:admin, email: 'admin@mercadores.com.br', password: '123456')
+    create(:category, name: 'Informática')
+    login_as admin, scope: :admin
+
+    visit admin_root_path
+    click_on 'Categorias'
+
+    click_on 'Adicionar categoria'
+
+    fill_in 'Nome',	with: 'Notebook'
+    select 'Ativo',	from: 'Status'
+    select 'Informática',	from: 'Categoria pai'
+    click_on 'Criar Categoria'
+
+    expect(page).to have_link('Notebook')
+    expect(current_path).to eq(admin_categories_path)
+  end
+
   it 'and name must be uniq' do
     admin = create(:admin, email: 'admin@mercadores.com.br', password: '123456')
     create(:category, name: 'Informática')

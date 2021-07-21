@@ -1,10 +1,9 @@
 class Admin::CategoriesController < Admin::AdminController
-  def index
-    @categories = Category.all
-  end
+  before_action :set_categories, only: %i[index new]
+
+  def index; end
 
   def new
-    @categories = Category.all
     @category = Category.new
   end
 
@@ -19,7 +18,7 @@ class Admin::CategoriesController < Admin::AdminController
 
   def edit
     @category = Category.find(params[:id])
-    @categories = Category.all.without(@category)
+    @categories = Category.where.not(id: @category)
   end
 
   def update
@@ -32,6 +31,10 @@ class Admin::CategoriesController < Admin::AdminController
   end
 
   private
+
+  def set_categories
+    @categories = Category.all
+  end
 
   def set_father_category
     return nil if params[:category][:ancestry].blank?

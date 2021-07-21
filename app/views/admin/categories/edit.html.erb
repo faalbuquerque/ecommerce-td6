@@ -2,10 +2,8 @@
 
 <h2>Editar Categoria</h2>
 
-<% if  @category.name %>
-  <%#= link_to "categoria pai: #{ @category.parent.first }", category_path(@category.category) %>
-<% else %>
-  <%#= link_to "categorias", admin_categories_path %>
+<% if @category.parent.present? %>
+  <%= link_to "categoria pai: #{ @category.parent.name }", edit_admin_category_path(@category.parent) %>
 <% end %>
 
 <%= render 'form', url: admin_category_path %>
