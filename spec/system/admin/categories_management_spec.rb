@@ -99,6 +99,21 @@ describe 'Categories management' do
     expect(page).to have_content('Informática e eletronica')
   end
 
+  it 'name cannot be blank in edit' do
+    admin = create(:admin, email: 'admin@mercadores.com.br', password: '123456')
+    create(:category, name: 'Informática')
+    login_as admin, scope: :admin
+
+    visit admin_categories_path
+
+    click_on 'Informática'
+
+    fill_in 'Nome', with: ''
+    click_on 'Atualizar Categoria'
+
+    expect(page).to have_content('Nome não pode ficar em branco')
+  end
+
   it 'category principal cant be the same subcategory' do
     admin = create(:admin, email: 'admin@mercadores.com.br', password: '123456')
     create(:category, name: 'Papelaria')
