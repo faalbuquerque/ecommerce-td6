@@ -6,4 +6,5 @@
   <ul>
     <li><%= link_to cart.product.name, users_cart_path(cart), class:"btn btn-success btn-sm mb-1 mt-1" %></li>
   </ul>
+  <%= link_to 'Finalizar Compra', users_order_path(cart) %>
 <% end %>
