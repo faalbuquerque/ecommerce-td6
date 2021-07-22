@@ -4,26 +4,25 @@ class ShippingsController < ApplicationController
   def index
     find_params
     find_adresses
-    @shippings = Shipping.to_product(params.permit(:cep, :product_id,
-                                                   :sku, :weight, :length, :width))
+    @shippings = Shipping.to_product(@product, shipping_params[:cep])
     render 'products/show'
   end
 
   private
+
+  def shipping_params
+    params.permit(:cep)
+  end
 
   def find_product
     @product = Product.find(params[:product_id])
   end
 
   def find_params
-    sku = @product.sku
-    weight = @product.weight
-    length = @product.length
-    width = @product.width
-    params[:sku] = sku
-    params[:weight] = weight
-    params[:length] = length
-    params[:width] = width
+    params[:sku] = @product.sku
+    params[:weight] = @product.weight
+    params[:length] = @product.length
+    params[:width] = @product.width
   end
 
   def find_adresses

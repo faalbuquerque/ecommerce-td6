@@ -41,19 +41,17 @@ describe 'add products to cart' do
                                  description: 'Descrição sobre este produto',
                                  price: 30, height: '2', width: '1',
                                  length: '3', weight: '4', sku: 'woeife3483ru')
+      attributes = product.as_json(only: %i[sku weight length width])
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-      allow(Faraday).to receive(:get)
-        .with('http://whoknows', params: { cep: '13015301',
-                                           sku: 'woeife3483ru', weight: product.weight,
-                                           length: product.length, width: product.width })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: shippings_json))
       allow(Faraday).to receive(:get)
         .with('http://whoknows2', params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
-
+      allow(Faraday).to receive(:get)
+        .with('http://whoknows', params: { **attributes, cep: '13015301' })
+        .and_return(instance_double(Faraday::Response, status: 200,
+                                                       body: shippings_json))
       visit root_path
       click_on 'Nome do Produto 1'
       fill_in 'CEP', with: '13015301'
@@ -73,16 +71,15 @@ describe 'add products to cart' do
                                  length: '3', weight: '4', sku: 'woeife3483ru')
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       no_stock_json = File.read(Rails.root.join('spec/fixtures/no_product_stock.json'))
-      allow(Faraday).to receive(:get)
-        .with('http://whoknows', params: { cep: '13015301',
-                                           sku: 'woeife3483ru', weight: product.weight,
-                                           length: product.length, width: product.width })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: shippings_json))
+      attributes = product.as_json(only: %i[sku weight length width])
       allow(Faraday).to receive(:get)
         .with('http://whoknows2', params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: no_stock_json))
+      allow(Faraday).to receive(:get)
+        .with('http://whoknows', params: { **attributes, cep: '13015301' })
+        .and_return(instance_double(Faraday::Response, status: 200,
+                                                       body: shippings_json))
 
       visit root_path
       click_on 'Nome do Produto 1'
@@ -97,19 +94,18 @@ describe 'add products to cart' do
                                  description: 'Descrição sobre este produto',
                                  price: 30, height: '2', width: '1',
                                  length: '3', weight: '4', sku: 'woeife3483ru')
+      attributes = product.as_json(only: %i[sku weight length width])
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
       one_shipping_json = File.read(Rails.root.join('spec/fixtures/one_shipping.json'))
       allow(Faraday).to receive(:get)
-        .with('http://whoknows', params: { cep: '13015301',
-                                           sku: 'woeife3483ru', weight: product.weight,
-                                           length: product.length, width: product.width })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: shippings_json))
-      allow(Faraday).to receive(:get)
         .with('http://whoknows2', params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
+      allow(Faraday).to receive(:get)
+        .with('http://whoknows', params: { **attributes, cep: '13015301' })
+        .and_return(instance_double(Faraday::Response, status: 200,
+                                                       body: shippings_json))
       allow(Faraday).to receive(:get)
         .with('http://whoknows3', params: { shipping_id: '3' })
         .and_return(instance_double(Faraday::Response, status: 200,
@@ -141,19 +137,18 @@ describe 'add products to cart' do
                                  description: 'Descrição sobre este produto',
                                  price: 30, height: '2', width: '1',
                                  length: '3', weight: '4', sku: 'woeife3483ru')
+      attributes = product.as_json(only: %i[sku weight length width])
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
       one_shipping_json = File.read(Rails.root.join('spec/fixtures/one_shipping.json'))
       allow(Faraday).to receive(:get)
-        .with('http://whoknows', params: { cep: '13015301',
-                                           sku: 'woeife3483ru', weight: product.weight,
-                                           length: product.length, width: product.width })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: shippings_json))
-      allow(Faraday).to receive(:get)
         .with('http://whoknows2', params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
+      allow(Faraday).to receive(:get)
+        .with('http://whoknows', params: { **attributes, cep: '13015301' })
+        .and_return(instance_double(Faraday::Response, status: 200,
+                                                       body: shippings_json))
       allow(Faraday).to receive(:get)
         .with('http://whoknows3', params: { shipping_id: '3' })
         .and_return(instance_double(Faraday::Response, status: 200,
@@ -173,19 +168,18 @@ describe 'add products to cart' do
                                  description: 'Descrição sobre este produto',
                                  price: 30, height: '2', width: '1',
                                  length: '3', weight: '4', sku: 'woeife3483ru')
+      attributes = product.as_json(only: %i[sku weight length width])
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
       one_shipping_json = File.read(Rails.root.join('spec/fixtures/one_shipping.json'))
       allow(Faraday).to receive(:get)
-        .with('http://whoknows', params: { cep: '13015301',
-                                           sku: 'woeife3483ru', weight: product.weight,
-                                           length: product.length, width: product.width })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: shippings_json))
-      allow(Faraday).to receive(:get)
         .with('http://whoknows2', params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
+      allow(Faraday).to receive(:get)
+        .with('http://whoknows', params: { **attributes, cep: '13015301' })
+        .and_return(instance_double(Faraday::Response, status: 200,
+                                                       body: shippings_json))
       allow(Faraday).to receive(:get)
         .with('http://whoknows3', params: { shipping_id: '3' })
         .and_return(instance_double(Faraday::Response, status: 200,

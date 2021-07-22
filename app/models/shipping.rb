@@ -14,10 +14,9 @@ class Shipping
     new(**shipping.except(:created_at, :updated_at, :cep, :city))
   end
 
-  def self.to_product(params)
-    response = Faraday.get('http://whoknows', params: { cep: params[:cep], sku: params[:sku],
-                                                        weight: params[:weight], length: params[:length],
-                                                        width: params[:width] })
+  def self.to_product(product, zip)
+    attributes = product.as_json(only: %i[sku weight length width])
+    response = Faraday.get('http://whoknows', params: { cep: zip, **attributes })
     return [] unless response.status == 200
 
     result = JSON.parse(response.body, symbolize_names: true)
