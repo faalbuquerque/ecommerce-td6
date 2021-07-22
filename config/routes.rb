@@ -16,4 +16,10 @@ Rails.application.routes.draw do
     resources :products, only: %i[index new create show edit update]
     resources :categories, only: %i[index new create show edit update]
   end
+
+  namespace :user do
+    get '/profile', to: 'profile#index'
+    resources :addresses, only: %i[index new create]
+  end
+
 end
