@@ -1,0 +1,2 @@
+class Return < ApplicationRecord
+end

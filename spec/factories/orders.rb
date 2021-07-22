@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :order do
-    cart { nil }
-    user { nil }
+    cart
+    user
+    created_at
   end
 end
