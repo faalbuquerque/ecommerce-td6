@@ -22,6 +22,4 @@ Rails.application.routes.draw do
     resources :addresses, only: %i[index new create]
   end
 
-  #root 'admin/home#index'
-  root 'home#index'
 end
