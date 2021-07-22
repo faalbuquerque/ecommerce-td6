@@ -1,0 +1,7 @@
+<h2>Meus Pedidos</h2>
+<% @orders.each do |order| %>
+    <div>
+        <p><%= order.product.name %></p>
+        <%= link_to 'Solicitar Devolução', '#' %>
+    </div>
+<% end %>

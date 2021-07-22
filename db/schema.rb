@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_20_231942) do
+ActiveRecord::Schema.define(version: 2021_07_22_183243) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -38,6 +38,20 @@ ActiveRecord::Schema.define(version: 2021_07_20_231942) do
     t.integer "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "state"
+    t.string "city"
+    t.string "cep"
+    t.string "neighborhood"
+    t.string "street"
+    t.string "number"
+    t.string "details"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
   create_table "admins", force: :cascade do |t|
@@ -105,6 +119,16 @@ ActiveRecord::Schema.define(version: 2021_07_20_231942) do
     t.index ["sku"], name: "index_products_on_sku", unique: true
   end
 
+  create_table "returns", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.integer "order_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_id"], name: "index_returns_on_order_id"
+    t.index ["user_id"], name: "index_returns_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -119,9 +143,12 @@ ActiveRecord::Schema.define(version: 2021_07_20_231942) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "addresses", "users"
   add_foreign_key "carts", "products"
   add_foreign_key "orders", "carts"
   add_foreign_key "orders", "users"
   add_foreign_key "product_categories", "categories", column: "subcategory_id"
   add_foreign_key "product_categories", "products"
+  add_foreign_key "returns", "orders"
+  add_foreign_key "returns", "users"
 end

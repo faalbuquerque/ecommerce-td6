@@ -4,11 +4,11 @@ describe 'user management returns product' do
   it 'succesfully' do
     user = create(:user)
     create(:order, user: user)
-
     login_as user, scope: :user
     visit root_path
     click_on 'Meus Pedidos'
     # click_on 'Solicitar Devolucao'
+    byebug
     first(:link, 'Solicitar Devolução')
 
     expect(page).to have_text('Devolução Aberta com Sucesso')
