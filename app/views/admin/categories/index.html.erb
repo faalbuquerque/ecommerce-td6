@@ -1,0 +1,13 @@
+
+<% @categories.each do |category| %>
+  <p>
+    <%= link_to category.name, edit_admin_category_path(category) %>
+  </p>
+  <p>
+    <%= category.status %>
+  </p>
+<% end %>
+
+<p>
+  <%= link_to 'Adicionar categoria', new_admin_category_path %>
+</p>

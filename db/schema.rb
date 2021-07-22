@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2021_07_19_180612) do
+=======
+ActiveRecord::Schema.define(version: 2021_07_20_231942) do
+>>>>>>> main
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -51,6 +55,9 @@ ActiveRecord::Schema.define(version: 2021_07_19_180612) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
@@ -71,7 +78,28 @@ ActiveRecord::Schema.define(version: 2021_07_19_180612) do
     t.integer "product_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
+    t.integer "address_id"
+    t.string "shipping_id"
+    t.string "shipping_name"
+    t.decimal "shipping_price"
+    t.decimal "shipping_distance"
+    t.date "shipping_time"
+    t.string "latitude"
+    t.string "longitude"
+    t.index ["address_id"], name: "index_carts_on_address_id"
     t.index ["product_id"], name: "index_carts_on_product_id"
+    t.index ["user_id"], name: "index_carts_on_user_id"
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.integer "status", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "ancestry"
+    t.index ["ancestry"], name: "index_categories_on_ancestry"
+    t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
   create_table "orders", force: :cascade do |t|
@@ -81,6 +109,15 @@ ActiveRecord::Schema.define(version: 2021_07_19_180612) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["cart_id"], name: "index_orders_on_cart_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "product_categories", force: :cascade do |t|
+    t.integer "product_id", null: false
+    t.integer "subcategory_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_product_categories_on_product_id"
+    t.index ["subcategory_id"], name: "index_product_categories_on_subcategory_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -115,7 +152,14 @@ ActiveRecord::Schema.define(version: 2021_07_19_180612) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "addresses", "users"
+<<<<<<< HEAD
+=======
+  add_foreign_key "carts", "addresses"
+>>>>>>> main
   add_foreign_key "carts", "products"
+  add_foreign_key "carts", "users"
   add_foreign_key "orders", "carts"
   add_foreign_key "orders", "users"
+  add_foreign_key "product_categories", "categories", column: "subcategory_id"
+  add_foreign_key "product_categories", "products"
 end
