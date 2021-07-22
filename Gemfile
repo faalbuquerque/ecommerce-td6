@@ -5,6 +5,7 @@ ruby '3.0.1'
 
 gem 'rails', '~> 6.1.4'
 
+gem 'ancestry'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'devise'
 gem 'jbuilder', '~> 2.7'

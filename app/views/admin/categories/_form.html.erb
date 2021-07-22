@@ -1,0 +1,20 @@
+<%= form_with model: @category, url: url, local: true do |form| %>
+  <p>
+    <%= form.label :name, 'Nome' %>
+    <%= form.text_field :name %>
+  </p>
+
+  <p>
+    <%= form.label :ancestry, "Categoria Principal" %>
+    <%= form.collection_select(:ancestry, @categories, :id, :name, {include_hidden: true, prompt: 'Selecione'}, {multiple: false}) %>
+  </p>
+
+  <p>
+    <%= form.label :status, 'Status' %>
+    <%= form.select :status, Category.statuses.keys.collect { |status| [Category.human_enum_name(:status, status), status] } %>
+  </p>
+
+  <%= form.submit %>
+<% end %>
+
+<%= link_to "Categorias", admin_categories_path %>
