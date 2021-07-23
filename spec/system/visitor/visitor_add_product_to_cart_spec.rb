@@ -35,6 +35,7 @@ describe 'add products to cart' do
       expect(page).to have_content('1.0 m')
       expect(page).to have_content('3.0 m')
       expect(page).to have_content('4.0 kg')
+      expect(page).to have_css('img[src*="product.jpg"]')
     end
     it 'successfully see shippings options' do
       product = create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1',
@@ -194,6 +195,35 @@ describe 'add products to cart' do
       choose('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
 
       expect(page).to_not have_button('Adicionar ao Carrinho')
+    end
+    it 'failure to add product to cart' do
+      user = create(:user)
+      create(:address, user: user)
+      product = create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1',
+                                 description: 'Descrição sobre este produto',
+                                 price: 30, height: '2', width: '1',
+                                 length: '3', weight: '4', sku: 'woeife3483ru')
+      attributes = product.as_json(only: %i[sku weight length width height])
+      shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
+      stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
+      allow(Faraday).to receive(:get)
+        .with('http://stock', params: { sku: 'woeife3483ru' })
+        .and_return(instance_double(Faraday::Response, status: 200,
+                                                       body: stock_json))
+      allow(Faraday).to receive(:get)
+        .with('http://shipping', params: { **attributes, cep: '13015301' })
+        .and_return(instance_double(Faraday::Response, status: 200,
+                                                       body: shippings_json))
+
+      login_as user, scope: :user
+      visit root_path
+      click_on 'Nome do Produto 1'
+      fill_in 'CEP', with: '13015301'
+      click_on 'Calcular por CEP'
+
+      click_on 'Adicionar ao carrinho'
+
+      expect(page).to have_content('Obrigatório escolher o frete para adicionar ao carrinho')
     end
   end
   context 'stock' do

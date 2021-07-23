@@ -7,6 +7,9 @@
   <li>Largura: <%= @product.width %> m</li>
   <li>Comprimento: <%= @product.length %> m</li>
   <li>Peso: <%= @product.weight %> kg</li>
+    <% if @product.product_picture.persisted? %>
+      <p><%= image_tag @product.product_picture %></p>
+    <% end %>
   <% if @stock&.quantity.to_i > 0 %>
     <p>Calcular frete por CEP</p>
     <%= form_with url: product_shippings_path(product_id: @product), method: :get do |f| %>
@@ -18,14 +21,14 @@
     <% end %>
   <% else %>
     <div class="alert alert-secondary" role="alert">
-      <p>Produto fora de estoque</p>
+      <h4>Produto fora de estoque</h4>
     </div>
   <% end %>
   <% if @shippings %>
     <%= form_with url: users_carts_path(product_id: @product), model: @cart do |f| %>
       <% if @shippings.empty? %>
         <div class="alert alert-secondary" role="alert">
-          <p>Não foi possível calcular o frete</p>
+          <h4>Não foi possível calcular o frete</h4>
         </div>
       <% else %>
         <%= f.collection_radio_buttons :shipping_id, @shippings, :shipping_id, :display_name %>
