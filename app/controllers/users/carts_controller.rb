@@ -18,8 +18,7 @@ class Users::CartsController < ApplicationController
       @cart.save!
       redirect_to users_carts_path, notice: t('.success')
     else
-      @stock = Stock.to_product(sku: @product.sku)
-      flash.now[:notice] = t('.failure')
+      to_show_product
       render 'products/show'
     end
   end
@@ -32,5 +31,10 @@ class Users::CartsController < ApplicationController
 
   def find_product
     @product = Product.find(params[:product_id])
+  end
+
+  def to_show_product
+    @stock = Stock.to_product(sku: @product.sku)
+    flash.now[:notice] = t('.failure')
   end
 end
