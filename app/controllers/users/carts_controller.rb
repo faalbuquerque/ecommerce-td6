@@ -16,10 +16,10 @@ class Users::CartsController < ApplicationController
     @cart.quantity = 1
     if params[:shipping_id].size.positive?
       @cart.save!
-      redirect_to users_carts_path, notice: 'Produto adicionado ao carrrinho com sucesso!'
+      redirect_to users_carts_path, notice: t('.success')
     else
       @stock = Stock.to_product(sku: @product.sku)
-      flash[:message] = 'Obrigatório escolher o frete para adicionar ao carrinho'
+      flash.now[:notice] = t('.failure')
       render 'products/show'
     end
   end

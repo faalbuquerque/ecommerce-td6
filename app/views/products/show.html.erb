@@ -7,7 +7,7 @@
   <li>Largura: <%= @product.width %> m</li>
   <li>Comprimento: <%= @product.length %> m</li>
   <li>Peso: <%= @product.weight %> kg</li>
-    <% if @product.product_picture.persisted? %>
+    <% if @product.product_picture.attached? %>
       <p><%= image_tag @product.product_picture %></p>
     <% end %>
   <% if @stock&.quantity.to_i > 0 %>
