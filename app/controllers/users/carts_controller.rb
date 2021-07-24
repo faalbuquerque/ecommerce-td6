@@ -2,7 +2,7 @@ class Users::CartsController < ApplicationController
   before_action :authenticate_user!, only: %i[index]
 
   def index
-    @carts = current_user.carts
+    @carts = current_user.carts.where(status: 'pending')
   end
 
   def show
@@ -11,8 +11,25 @@ class Users::CartsController < ApplicationController
   end
 
   def create
+    #address = Address.find(params[:cart][:address_id])
+    product = Product.find(params[:product_id])
+   # @shippings = Shipping.to_product(product, address.cep)
     @cart = Cart.new(carts_params)
+    #@cart.address = address
+    #@cart.shipping_id = @shippings.first.id
     redirect_to users_carts_path, notice: 'Produto adicionado ao carrrinho com sucesso!' if @cart.save!
+  end
+
+  def update
+    raise StandardError if params[:cart][:address_id].blank?
+
+    @cart = current_user.carts.find(params[:id])
+    if @cart.update!(address_id: params[:cart][:address_id], status: 'success')
+      redirect_to users_cart_path(@cart), notice: 'Pedido realizado com sucesso!'
+  end 
+  rescue
+    flash[:alert] = 'Endereço obrigatório'
+    redirect_to users_carts_path
   end
 
   private

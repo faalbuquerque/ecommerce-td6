@@ -6,5 +6,12 @@
   <ul>
     <li><%= link_to cart.product.name, users_cart_path(cart), class:"btn btn-success btn-sm mb-1 mt-1" %></li>
   </ul>
-  <%= link_to 'Finalizar Compra', users_order_path(cart) %>
+  <%= form_with url: users_cart_path(cart), model: cart do |f| %>
+
+  <%= f.collection_radio_buttons :address_id, current_user.addresses, :id, :display_address %>
+    <%= link_to 'Cadastrar Endereço', new_user_address_path %>
+  <% if current_user.addresses.any? %>
+    <%= f.submit 'Finalizar Compra' %>
+  <% end %>
+  <% end %>
 <% end %>

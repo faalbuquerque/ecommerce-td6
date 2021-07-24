@@ -4,9 +4,4 @@ class Users::OrdersController < ApplicationController
   def index
     @orders = current_user.carts
   end
-
-  def show
-    @order = current_user.carts.find(params[:id])
-    flash[:notice] = 'Pedido realizado com sucesso!'
-  end
 end

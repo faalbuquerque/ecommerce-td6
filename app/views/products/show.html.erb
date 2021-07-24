@@ -15,6 +15,8 @@
         <%= f.text_field :cep, class:"form-control" %>
       </div>
       <%= f.submit 'Calcular por CEP', class:"btn btn-success mb-1 mt-1" %>
+      <div id="data_return">
+      </div>
     <% end %>
   <% else %>
     <div class="alert alert-secondary" role="alert">
@@ -23,10 +25,15 @@
   <% end %>
   <% if @shippings %>
    <%= form_with url: users_carts_path(product_id: @product), model: @cart do |f| %>
-      <%= f.collection_radio_buttons :shipping_id, @shippings, :shipping_id, :display_name %>
+      <% @shippings.each do |shipping| %>
+        <p><%= shipping.display_name %></p>
+      <% end %>
       <% if user_signed_in? %>
+        <% if current_user.addresses.any? %>
+          <%= f.collection_radio_buttons :address_id , current_user.addresses, :id, :display_address %>
+        <% end %>
         <%= f.submit 'Adicionar ao carrinho', class:"btn btn-success btn-sm mb-1 mt-1" %>
       <% end %>
     <% end %>
-  <% end %>
+   <% end %>
 </div>

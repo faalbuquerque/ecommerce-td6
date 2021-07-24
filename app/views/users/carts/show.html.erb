@@ -1,4 +1,8 @@
-<h1>Seu Carrinho</h1>
+<% if @cart.pending? %>
+  <h1>Seu Carrinho</h1>
+<% else%>
+  <h1>Meu Pedido</h1>
+<% end %>
 <ul>
   <li><%= @cart.product.name %></li>
   <li><%= @cart.product.brand %></li>

@@ -3,6 +3,7 @@ class ShippingsController < ApplicationController
   before_action :find_address, only: %i[index]
 
   def index
+    session[:cep] = shipping_params[:cep]
     @shippings = Shipping.to_product(@product, shipping_params[:cep])
     render 'products/show'
   end
@@ -18,6 +19,6 @@ class ShippingsController < ApplicationController
   end
 
   def find_address
-    @addresses = current_user.addresses if current_user
+    #@addresses = current_user.addresses if current_user
   end
 end

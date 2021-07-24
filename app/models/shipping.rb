@@ -9,12 +9,21 @@ class Shipping
   end
 
   def self.find(params)
+    # one_shipping_json = File.read(Rails.root.join('spec/fixtures/one_shipping.json'))
+    # shipping = JSON.parse(one_shipping_json, symbolize_names: true)
+    # return new(**shipping.except(:created_at, :updated_at, :city))
+    return new() if params[:shipping_id].blank?
+
     response = Faraday.get 'http://whoknows3', params: { shipping_id: params[:shipping_id] }
     shipping = JSON.parse(response.body, symbolize_names: true)
-    new(**shipping.except(:created_at, :updated_at, :cep, :city))
+    new(**shipping.except(:created_at, :updated_at, :city))
   end
 
   def self.to_product(product, zip)
+    # shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
+    # result = JSON.parse(shippings_json, symbolize_names: true)
+    # return from_json_array(result)
+
     attributes = product.as_json(only: %i[sku weight length width])
     response = Faraday.get('http://whoknows', params: { cep: zip, **attributes })
     return [] unless response.status == 200
