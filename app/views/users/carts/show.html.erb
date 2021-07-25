@@ -4,7 +4,6 @@
   <li><%= @cart.product.brand %></li>
   <li><%= number_to_currency(@cart.product.price) %></li>
   <li>Unidade(s): 1</li>
-  <li><%= number_to_currency(@cart.product.price) %></li>
   <% if @shipping.name %>
     <li>Frete: <%= @shipping.name %> - <%= number_to_currency(@shipping.price) %> - <%= @shipping.arrival_time %> dias úteis</li>
   <% else %>
