@@ -13,7 +13,6 @@ class Users::CartsController < ApplicationController
 
   def create
     @cart = Cart.new(carts_params)
-    @cart.quantity = 1
     if params[:shipping_id].size.positive?
       @cart.save!
       redirect_to users_carts_path, notice: t('.success')
@@ -26,7 +25,7 @@ class Users::CartsController < ApplicationController
   private
 
   def carts_params
-    params.permit(:address_id, :quantity, :product_id, :shipping_id).merge(user_id: current_user.id)
+    params.permit(:address_id, :product_id, :shipping_id).merge(user_id: current_user.id)
   end
 
   def find_product
