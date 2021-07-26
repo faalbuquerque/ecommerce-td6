@@ -1,0 +1,10 @@
+<h2>Meus Endereços</h2>
+<% @addresses.each do |address| %>
+  <p><%= address.street %></p>
+  <p><%= address.number %></p>
+  <p><%= address.details %></p>
+  <p><%= address.cep %></p>
+  <p><%= address.city %></p>
+  <p><%= address.state %></p>
+<% end %>
+<%= link_to 'Adicionar Endereço', new_user_address_path %>

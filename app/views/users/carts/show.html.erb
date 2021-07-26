@@ -1,0 +1,9 @@
+<h1>Seu Carrinho</h1>
+<ul>
+  <li><%= @cart.product.name %></li>
+  <li><%= @cart.product.brand %></li>
+  <li><%= number_to_currency(@cart.product.price) %></li>
+  <li>Unidade(s): <%= @cart.quantity %></li>
+  <li><%= number_to_currency(@cart.product.price) %></li>
+  <li>Frete: <%= @shipping.name %> - <%= number_to_currency(@shipping.price) %> - <%= @shipping.arrival_time %> dias úteis</li>
+</ul>

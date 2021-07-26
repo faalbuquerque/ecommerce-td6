@@ -6,14 +6,16 @@ describe 'user management returns product' do
     create(:order, user: user)
     login_as user, scope: :user
     visit root_path
+    
     click_on 'Meus Pedidos'
-    # click_on 'Solicitar Devolucao'
-    byebug
-    first(:link, 'Solicitar Devolução')
-
+    save_page
+    click_on 'Solicitar Devolução'
+    
+    #first(:link, 'Solicitar Devolução')
+    
     expect(page).to have_text('Devolução Aberta com Sucesso')
     expect(page).to have_text('Aguardando coleta da Transportadora')
-    # expect(pagina_de_pedidos_do_usuario).to_not have_link('Solicitar Devolucao')
+    
   end
 
   it 'not available if 7 days passed' do

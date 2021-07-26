@@ -71,7 +71,18 @@ ActiveRecord::Schema.define(version: 2021_07_22_183243) do
     t.integer "product_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
+    t.integer "address_id"
+    t.string "shipping_id"
+    t.string "shipping_name"
+    t.decimal "shipping_price"
+    t.decimal "shipping_distance"
+    t.date "shipping_time"
+    t.string "latitude"
+    t.string "longitude"
+    t.index ["address_id"], name: "index_carts_on_address_id"
     t.index ["product_id"], name: "index_carts_on_product_id"
+    t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -144,7 +155,9 @@ ActiveRecord::Schema.define(version: 2021_07_22_183243) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "addresses", "users"
+  add_foreign_key "carts", "addresses"
   add_foreign_key "carts", "products"
+  add_foreign_key "carts", "users"
   add_foreign_key "orders", "carts"
   add_foreign_key "orders", "users"
   add_foreign_key "product_categories", "categories", column: "subcategory_id"

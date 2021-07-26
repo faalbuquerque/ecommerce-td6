@@ -9,9 +9,8 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <%= link_to '', '#', class:"nav-link" %>
+        <%= link_to 'Carrinho', users_carts_path, class:"nav-link" %>
       </li>
-  
 
       <% if !user_signed_in? %>
          <li class="nav-item active">
@@ -26,6 +25,7 @@
         <li class="nav-item active">
           <%= link_to 'Sair', destroy_user_session_path, method: :delete, class:"nav-link" %>
           <%= link_to 'Meus Pedidos', user_orders_path , class:"nav-link" %>
+          <%= link_to 'Meu Perfil', user_profile_path, class:"nav-link" %>
         </li>
       <% end %>
     </ul>
