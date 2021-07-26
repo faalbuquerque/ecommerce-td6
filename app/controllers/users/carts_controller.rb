@@ -13,8 +13,7 @@ class Users::CartsController < ApplicationController
 
   def create
     @cart = Cart.new(carts_params)
-    if params[:shipping_id].size.positive?
-      @cart.save!
+    if @cart.save
       redirect_to users_carts_path, notice: t('.success')
     else
       to_show_product
