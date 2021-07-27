@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   devise_for :admins
   root 'home#index'
   resources :products, only: %i[show] do
-    resources :shippings, only: %i[index]
+    resources :shippings, only: %i[index] 
+    get '/shippings_options', to: 'shippings#shippings_options'
   end
   namespace :users do
     resources :carts, only: %i[index show create update] 

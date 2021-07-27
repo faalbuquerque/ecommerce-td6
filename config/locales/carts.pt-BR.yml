@@ -1,0 +1,18 @@
+---
+pt-BR:
+  users:
+    carts:
+      create:
+        success: Produto adicionado ao carrrinho com sucesso!
+        failure: Obrigatório escolher o frete para adicionar ao carrinho
+      update:
+        success: Pedido realizado com sucesso!
+      index:
+        title: Seu Carrinho
+        calculate_frete: Calcular frete por CEP
+        calculate_shipping: Calcular valor de entrega
+        new_address: Cadastrar Endereço
+        update_order: Finalizar Compra
+      show:
+        title: Seu Carrinho
+        my_order: Meu Pedido

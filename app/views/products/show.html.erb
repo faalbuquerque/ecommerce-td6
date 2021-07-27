@@ -15,8 +15,6 @@
         <%= f.text_field :cep, class:"form-control" %>
       </div>
       <%= f.submit 'Calcular por CEP', class:"btn btn-success mb-1 mt-1" %>
-      <div id="data_return">
-      </div>
     <% end %>
   <% else %>
     <div class="alert alert-secondary" role="alert">
@@ -24,7 +22,7 @@
     </div>
   <% end %>
   <% if @shippings %>
-   <%= form_with url: users_carts_path(product_id: @product), model: @cart do |f| %>
+   <%= form_with url: users_carts_path(product_id: @product), model: @cart, scope: 'cart' do |f| %>
       <% @shippings.each do |shipping| %>
         <p><%= shipping.display_name %></p>
       <% end %>

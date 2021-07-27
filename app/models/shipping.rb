@@ -12,7 +12,7 @@ class Shipping
     # one_shipping_json = File.read(Rails.root.join('spec/fixtures/one_shipping.json'))
     # shipping = JSON.parse(one_shipping_json, symbolize_names: true)
     # return new(**shipping.except(:created_at, :updated_at, :city))
-    return new() if params[:shipping_id].blank?
+    return new if params[:shipping_id].blank?
 
     response = Faraday.get 'http://whoknows3', params: { shipping_id: params[:shipping_id] }
     shipping = JSON.parse(response.body, symbolize_names: true)
