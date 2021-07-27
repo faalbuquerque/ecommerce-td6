@@ -1,7 +1,0 @@
-<h2>Meus Pedidos</h2>
-<% @orders.each do |order| %>
-    <div>
-        <p><%= order.cart.product.name %></p>
-        <%= link_to 'Solicitar Devolução', return_product_user_order_returns_path(order), method: :post %>
-    </div>
-<% end %>

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :return do
-    order
+    cart
     user
     status { 0 }
   end

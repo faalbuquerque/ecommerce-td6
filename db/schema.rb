@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_22_183243) do
+ActiveRecord::Schema.define(version: 2021_07_27_191648) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 2021_07_22_183243) do
     t.date "shipping_time"
     t.string "latitude"
     t.string "longitude"
+    t.datetime "delivery_date"
     t.index ["address_id"], name: "index_carts_on_address_id"
     t.index ["product_id"], name: "index_carts_on_product_id"
     t.index ["user_id"], name: "index_carts_on_user_id"
@@ -93,15 +94,6 @@ ActiveRecord::Schema.define(version: 2021_07_22_183243) do
     t.string "ancestry"
     t.index ["ancestry"], name: "index_categories_on_ancestry"
     t.index ["name"], name: "index_categories_on_name", unique: true
-  end
-
-  create_table "orders", force: :cascade do |t|
-    t.integer "cart_id", null: false
-    t.integer "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["cart_id"], name: "index_orders_on_cart_id"
-    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "product_categories", force: :cascade do |t|
@@ -132,11 +124,11 @@ ActiveRecord::Schema.define(version: 2021_07_22_183243) do
 
   create_table "returns", force: :cascade do |t|
     t.integer "status", default: 0, null: false
-    t.integer "order_id", null: false
+    t.integer "cart_id", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["order_id"], name: "index_returns_on_order_id"
+    t.index ["cart_id"], name: "index_returns_on_cart_id"
     t.index ["user_id"], name: "index_returns_on_user_id"
   end
 
@@ -158,10 +150,8 @@ ActiveRecord::Schema.define(version: 2021_07_22_183243) do
   add_foreign_key "carts", "addresses"
   add_foreign_key "carts", "products"
   add_foreign_key "carts", "users"
-  add_foreign_key "orders", "carts"
-  add_foreign_key "orders", "users"
   add_foreign_key "product_categories", "categories", column: "subcategory_id"
   add_foreign_key "product_categories", "products"
-  add_foreign_key "returns", "orders"
+  add_foreign_key "returns", "carts"
   add_foreign_key "returns", "users"
 end

@@ -17,10 +17,9 @@ Rails.application.routes.draw do
   end
   namespace :user do
     get '/profile', to: 'profile#index'
-    resources :orders, only: %i[index show] do
-      resources :returns, only: %i[index] do
-        post 'return_product', on: :collection
-      end
+    resources :returns, only: %i[index]
+    resources :carts, only: %i[index show] do
+      post 'return_product', to: 'returns#return_product' , on: :member
     end
     resources :addresses, only: %i[index new create]
   end

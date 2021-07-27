@@ -1,0 +1,10 @@
+<h2>Meus Pedidos</h2>
+<%= link_to 'Minhas Devoluções', user_returns_path %>
+<% @carts.each do |cart| %>
+    <div>
+      <p><%= cart.product.name %></p>
+      <% if cart.delivery_date && cart.delivery_date > 8.days.ago %>
+        <%= link_to 'Solicitar Devolução', return_product_user_cart_path(cart), method: :post %>
+	  <%end%>
+    </div>
+<% end %>

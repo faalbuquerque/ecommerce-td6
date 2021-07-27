@@ -4,16 +4,10 @@ class User::ReturnsController < ApplicationController
   end
 
   def return_product
-    #byebug
-    @return_product = Return.new()
-    @return_product.order = Order.find(params[:order_id])
+    @return_product = Return.new
+    @return_product.cart = Cart.find(params[:id])
     @return_product.user = current_user
     @return_product.status = 0
-    if @return_product.save
-      byebug
-      redirect_to user_order_returns_path, notice: 'Devolução Aberta com Sucesso'
-    else
-      redirect_to user_orders_path, alert: 'Devolução não foi aberta com sucesso'
-    end
+    redirect_to user_returns_path, notice: 'Devolução Aberta com Sucesso' if @return_product.save!
   end
 end
