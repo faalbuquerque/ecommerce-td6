@@ -19,9 +19,6 @@
 
     <div class="container">
       <br>
-      <% if user_signed_in? %>
-        <p><%= current_user.email %></p>
-      <% end %>
       <% if notice || alert || flash[:message] %>
         <%= render 'layouts/alerts' %>
       <% end %>
