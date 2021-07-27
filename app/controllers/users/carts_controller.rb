@@ -12,11 +12,12 @@ class Users::CartsController < ApplicationController
   end
 
   def create
-    @cart = Cart.new(carts_params)
+    @cart = current_user.carts.new(carts_params)
     if @cart.save
       redirect_to users_carts_path, notice: t('.success')
     else
-      to_show_product
+      @stock = Stock.to_product(sku: @product.sku)
+      flash.now[:notice] = t('.failure')
       render 'products/show'
     end
   end
@@ -24,15 +25,10 @@ class Users::CartsController < ApplicationController
   private
 
   def carts_params
-    params.permit(:address_id, :product_id, :shipping_id).merge(user_id: current_user.id)
+    params.permit(:address_id, :product_id, :shipping_id)
   end
 
   def find_product
     @product = Product.find(params[:product_id])
-  end
-
-  def to_show_product
-    @stock = Stock.to_product(sku: @product.sku)
-    flash.now[:notice] = t('.failure')
   end
 end
