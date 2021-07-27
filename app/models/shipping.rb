@@ -20,18 +20,24 @@ class Shipping
   end
 
   def self.find(params)
-    response = Faraday.get 'http://whoknows3', params: { shipping_id: params[:shipping_id] }
+    response = Faraday.get 'http://shippingfind', params: { shipping_id: params[:shipping_id] }
+    return new unless response.status == 200
+
     shipping = JSON.parse(response.body, symbolize_names: true)
     new(**shipping.except(:created_at, :updated_at, :cep, :city))
+  rescue Faraday::ConnectionFailed
+    new
   end
 
   def self.to_product(product, zip)
-    attributes = product.as_json(only: %i[sku weight length width])
-    response = Faraday.get('http://whoknows', params: { cep: zip, **attributes })
+    attributes = product.as_json(only: %i[sku weight length width height])
+    response = Faraday.get('http://shipping', params: { cep: zip, **attributes })
     return [] unless response.status == 200
 
     result = JSON.parse(response.body, symbolize_names: true)
     from_json_array(result)
+  rescue Faraday::ConnectionFailed
+    []
   end
 
   def self.from_json_array(array)

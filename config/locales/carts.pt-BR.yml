@@ -1,5 +1,10 @@
 ---
 pt-BR:
+  users:
+    carts:
+      create:
+        success: Produto adicionado ao carrrinho com sucesso!
+        failure: Obrigatório escolher o frete para adicionar ao carrinho
   activerecord:
     attributes:
       cart:

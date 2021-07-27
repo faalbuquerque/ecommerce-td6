@@ -1,5 +1,6 @@
 class Users::CartsController < ApplicationController
   before_action :authenticate_user!, only: %i[index]
+  before_action :find_product, only: %i[create]
 
   def index
     @carts = current_user.carts
@@ -11,8 +12,14 @@ class Users::CartsController < ApplicationController
   end
 
   def create
-    @cart = Cart.new(carts_params)
-    redirect_to users_carts_path, notice: 'Produto adicionado ao carrrinho com sucesso!' if @cart.save!
+    @cart = current_user.carts.new(carts_params)
+    if @cart.save
+      redirect_to users_carts_path, notice: t('.success')
+    else
+      @stock = Stock.to_product(sku: @product.sku)
+      flash.now[:notice] = t('.failure')
+      render 'products/show'
+    end
   end
 
   def my_orders
@@ -30,7 +37,11 @@ class Users::CartsController < ApplicationController
   private
 
   def carts_params
-    params.permit(:address_id, :quantity, :product_id, :shipping_id).merge(user_id: current_user.id)
+    params.permit(:address_id, :product_id, :shipping_id)
+  end
+
+  def find_product
+    @product = Product.find(params[:product_id])
   end
 
   def find_status(shipping)

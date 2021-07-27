@@ -1,7 +1,21 @@
 <h1>Home Visitante</h1>
-<%# link_to "Produtos", , class:"btn btn-primary btn-sm" %> 
-<% @products.each do |product|%>
-  <%= link_to product.name, product_path(product), class:"btn btn-primary btn-sm" %>
-  <%= product.brand %>
-  <%= number_to_currency product.price %>
-<% end %>
+<div class="row">
+  <% @products.each do |product|%>
+    <div class="col-lg-3 col-sm-6">
+      <div class="product-item">
+        <div class="pi-pic">
+          <%= image_tag(product.product_picture.variant(resize_to_fill: [250, 300, gravity: 'north'])) %>
+          <div class="pi-text">
+            <div class="brand-name">
+              <%= product.brand %>
+            </div>
+            <%= link_to product.name, product_path(product), class:"btn btn-primary btn-sm" %>
+            <div class="product-price">
+              <%= number_to_currency product.price %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
