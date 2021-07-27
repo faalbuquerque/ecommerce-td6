@@ -6,7 +6,10 @@ Rails.application.routes.draw do
     resources :shippings, only: %i[index]
   end
   namespace :users do
-    resources :carts, only: %i[index show create]
+    resources :carts, only: %i[index show create] do
+      get 'my_orders', on: :collection
+      get 'order', on: :member
+    end
   end
 
   get '/admin', to: 'admin/home#index', as: 'admin_root'

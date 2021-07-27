@@ -1,0 +1,8 @@
+---
+pt-BR:
+  activerecord:
+    attributes:
+      cart:
+        statuses:
+          delivered: Pedido Entregue
+          approved: Pedido Realizado
