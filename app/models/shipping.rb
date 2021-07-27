@@ -10,9 +10,13 @@ class Shipping
   end
 
   def self.find_status(params)
-    response = Faraday.get 'http://shippingstatus', params: {service_order: params }
+    response = Faraday.get 'http://shippingstatus', params: { service_order: params }
+    return new unless response.status == 200
+
     status = JSON.parse(response.body, symbolize_names: true)
     new(**status)
+  rescue Faraday::ConnectionFailed
+    new
   end
 
   def self.find(params)

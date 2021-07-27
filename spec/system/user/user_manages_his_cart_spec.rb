@@ -60,7 +60,7 @@ describe 'user manages his carts' do
                                  price: 30, height: '2', width: '1',
                                  length: '3', weight: '4', sku: 'woeife3483ru')
       order_status = File.read(Rails.root.join('spec/fixtures/order_status.json'))
-      shipping = Shipping.new(name: 'Frete 1', shipping_id: '1', service_order: 'SO10000001' )
+      shipping = Shipping.new(name: 'Frete 1', shipping_id: '1', service_order: 'SO10000001')
       create(:cart, product: product, user: user, shipping_id: shipping.shipping_id,
                     address: address, status: 0, service_order: shipping.service_order)
       allow(Faraday).to receive(:get)
@@ -77,15 +77,11 @@ describe 'user manages his carts' do
       expect(page).to have_content(Time.zone.today.strftime('%d/%m/%Y'))
       expect(page).to have_content('Pedido Entregue')
     end
-    xit 'find_status not status 200' do
+    it 'find_status not status 200' do
       user = create(:user)
       address = create(:address, user: user)
-      product = create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1',
-                                 description: 'Descrição sobre este produto',
-                                 price: 30, height: '2', width: '1',
-                                 length: '3', weight: '4', sku: 'woeife3483ru')
-      order_status = File.read(Rails.root.join('spec/fixtures/order_status.json'))
-      shipping = Shipping.new(name: 'Frete 1', shipping_id: '1', service_order: 'SO10000001' )
+      product = create(:product, name: 'Nome do Produto 1')
+      shipping = Shipping.new(name: 'Frete 1', shipping_id: '1', service_order: 'SO10000001')
       create(:cart, product: product, user: user, shipping_id: shipping.shipping_id,
                     address: address, status: 0, service_order: shipping.service_order)
       allow(Faraday).to receive(:get)
@@ -98,28 +94,25 @@ describe 'user manages his carts' do
       click_on 'Meus Pedidos'
       click_on 'Nome do Produto 1'
 
-      expect(page).to have_content('Status temporariamente indisponível')
+      expect(page).to have_content('Atualização de status temporariamente indisponível')
     end
-    xit 'find_status Connection failure in shipping api' do
-      product = create(:product, name: 'Nome do Produto 1', sku: 'woeife3483ru')
-      stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-      attributes = product.as_json(only: %i[sku weight length width height])
-
+    it 'find_status Connection failure in shipping api' do
+      user = create(:user)
+      address = create(:address, user: user)
+      product = create(:product, name: 'Nome do Produto 1')
+      shipping = Shipping.new(name: 'Frete 1', shipping_id: '1', service_order: 'SO10000001')
+      create(:cart, product: product, user: user, shipping_id: shipping.shipping_id,
+                    address: address, status: 0, service_order: shipping.service_order)
       allow(Faraday).to receive(:get)
-        .with('http://stock', params: { sku: 'woeife3483ru' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: stock_json))
-      allow(Faraday).to receive(:get)
-        .with('http://shipping', params: { **attributes, cep: '13015301' })
+        .with('http://shippingstatus', params: { service_order: shipping.service_order })
         .and_raise(Faraday::ConnectionFailed, nil)
 
-      visit product_path(product)
+      login_as user, scope: :user
+      visit root_path
+      click_on 'Meus Pedidos'
+      click_on 'Nome do Produto 1'
 
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
-
-      expect(page).to_not have_button('Adicionar ao Carrinho')
-      expect(page).to have_text('Não foi possível calcular o frete')
+      expect(page).to have_content('Atualização de status temporariamente indisponível')
     end
   end
 end

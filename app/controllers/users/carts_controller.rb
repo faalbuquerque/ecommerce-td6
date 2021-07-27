@@ -36,6 +36,10 @@ class Users::CartsController < ApplicationController
   def find_status(shipping)
     status_hash = { 'Pedido Realizado': 0, 'Pedido Entregue': 1 }
     status = status_hash[:"#{shipping.status}"]
-    @cart.update(status: status)
+    if status
+      @cart.update(status: status)
+    else
+      flash.now[:notice] = 'Atualização de status temporariamente indisponível'
+    end
   end
 end
