@@ -118,7 +118,7 @@ describe 'add products to cart' do
       click_on 'Calcular por CEP'
       choose('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
       click_on 'Adicionar ao carrinho'
-      click_on 'Carrinho'
+      click_on class: 'cart'
       click_on 'Nome do Produto 1'
 
       expect(current_path).to eq(users_cart_path(Cart.last.id))
