@@ -23,7 +23,7 @@
     <div class="alert alert-secondary" role="alert">
       <h4>Produto fora de estoque</h4>
     </div>
-  <% end %>
+  <% end %> <br>
   <% if @shippings %>
     <%= form_with url: users_carts_path(product_id: @product), model: @cart do |f| %>
       <% if @shippings.empty? %>
@@ -31,7 +31,7 @@
           <h4>Não foi possível calcular o frete</h4>
         </div>
       <% else %>
-        <%= f.collection_radio_buttons :shipping_id, @shippings, :shipping_id, :display_name %>
+        <%= f.collection_radio_buttons :shipping_id, @shippings, :to_json, :display_name %>
       <% end %>
       <% if user_signed_in? %>
         <%= f.submit 'Adicionar ao carrinho', class:"btn btn-success btn-sm mb-1 mt-1" %>
