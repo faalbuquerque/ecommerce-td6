@@ -11,8 +11,6 @@ describe 'user management returns product' do
     save_page
     click_on 'Solicitar Devolução'
 
-    # first(:link, 'Solicitar Devolucao')
-
     expect(page).to have_text('Devolução Aberta com Sucesso')
     expect(page).to have_text('Aguardando coleta da Transportadora')
   end

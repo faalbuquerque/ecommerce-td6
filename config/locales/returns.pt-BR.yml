@@ -1,0 +1,16 @@
+---
+pt-BR:
+  user:
+    returns:
+      return_product:
+        success: Devolução Aberta com Sucesso
+  activerecord:
+    models:
+      return:
+        one: Devolução
+        other: Devoluções
+    attributes:
+      return/status:
+        waiting: Aguardando coleta da Transportadora
+        delivering: Produto a Caminho
+        delivered: Produto Devolvido com Sucesso 

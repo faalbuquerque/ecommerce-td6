@@ -3,7 +3,7 @@
 <% @carts.each do |cart| %>
     <div>
       <p><%= cart.product.name %></p>
-      <% if cart.delivery_date && cart.delivery_date > 8.days.ago %>
+      <% if cart.elegible_for_return %>
         <%= link_to 'Solicitar Devolução', return_product_user_cart_path(cart), method: :post %>
 	  <%end%>
     </div>

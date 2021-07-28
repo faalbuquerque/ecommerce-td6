@@ -4,10 +4,10 @@ class User::ReturnsController < ApplicationController
   end
 
   def return_product
-    @return_product = Return.new
-    @return_product.cart = Cart.find(params[:id])
-    @return_product.user = current_user
-    @return_product.status = 0
-    redirect_to user_returns_path, notice: 'Devolução Aberta com Sucesso' if @return_product.save!
+    cart = Cart.find(params[:id])
+    if cart.elegible_for_return
+      @return_product = current_user.returns.new(cart: cart)
+      redirect_to user_returns_path, notice: t('.success') if @return_product.save!
+    end
   end
 end
