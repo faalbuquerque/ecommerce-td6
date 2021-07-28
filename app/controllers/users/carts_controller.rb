@@ -32,7 +32,6 @@ class Users::CartsController < ApplicationController
   def check_shipping
     raise ActiveRecord::RecordNotFound if params[:cart][:shipping_id].blank?
   rescue ActiveRecord::RecordNotFound
-    flash[:alert] = 'Selecione o frete'
-    redirect_to users_carts_path
+    redirect_to users_carts_path, alert: t('.required_shipping')
   end
 end

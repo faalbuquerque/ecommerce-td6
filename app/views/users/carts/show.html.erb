@@ -1,7 +1,7 @@
 <% if @cart.pending? %>
-  <h1>t('.title')</h1>
+  <h1><%= t('.title') %></h1>
 <% else%>
-  <h1>t('.my_order')</h1>
+  <h1><%= t('.my_order') %></h1>
 <% end %>
 <ul>
   <li><%= @cart.product.name %></li>

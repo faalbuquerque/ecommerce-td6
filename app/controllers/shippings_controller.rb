@@ -27,7 +27,6 @@ class ShippingsController < ApplicationController
   def find_address
     @address = current_user.addresses.find(params[:address_id])
   rescue ActiveRecord::RecordNotFound
-    flash[:alert] = 'Selecione um endereço'
-    redirect_to users_carts_path
+    redirect_to users_carts_path, alert: t('.required_address')
   end
 end

@@ -7,6 +7,7 @@ pt-BR:
         failure: Obrigatório escolher o frete para adicionar ao carrinho
       update:
         success: Pedido realizado com sucesso!
+        required_shipping: Selecione o frete
       index:
         title: Seu Carrinho
         calculate_frete: Calcular frete por CEP
@@ -15,4 +16,4 @@ pt-BR:
         update_order: Finalizar Compra
       show:
         title: Seu Carrinho
-        my_order: Meu Pedido
+        my_order: Meu Pedido  

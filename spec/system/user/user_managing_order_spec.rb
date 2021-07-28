@@ -28,18 +28,9 @@ describe 'User view order' do
     stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
     one_shipping_json = File.read(Rails.root.join('spec/fixtures/one_shipping.json'))
 
-    allow(Faraday).to receive(:get)
-      .with('http://whoknows2', params: { sku: product.sku })
-      .and_return(instance_double(Faraday::Response, status: 200,
-                                                     body: stock_json))
-    allow(Faraday).to receive(:get)
-      .with('http://whoknows', params: { **attributes, cep: '15370496' })
-      .and_return(instance_double(Faraday::Response, status: 200,
-                                                     body: shippings_json))
-    allow(Faraday).to receive(:get)
-      .with('http://whoknows3', params: { shipping_id: '3' })
-      .and_return(instance_double(Faraday::Response, status: 200,
-                                                     body: one_shipping_json))
+    find_stock_product(product.sku, stock_json)
+    find_shippings(attributes, shippings_json, user.addresses.first.cep)
+    find_shipping(one_shipping_json)
 
     login_as user, scope: :user
     visit root_path
@@ -73,18 +64,9 @@ describe 'User view order' do
     stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
     one_shipping_json = File.read(Rails.root.join('spec/fixtures/one_shipping.json'))
 
-    allow(Faraday).to receive(:get)
-      .with('http://whoknows2', params: { sku: product.sku })
-      .and_return(instance_double(Faraday::Response, status: 200,
-                                                     body: stock_json))
-    allow(Faraday).to receive(:get)
-      .with('http://whoknows', params: { **attributes, cep: '15370496' })
-      .and_return(instance_double(Faraday::Response, status: 200,
-                                                     body: shippings_json))
-    allow(Faraday).to receive(:get)
-      .with('http://whoknows3', params: { shipping_id: '3' })
-      .and_return(instance_double(Faraday::Response, status: 200,
-                                                     body: one_shipping_json))
+    find_stock_product(product.sku, stock_json)
+    find_shippings(attributes, shippings_json, user.addresses.first.cep)
+    find_shipping(one_shipping_json)
 
     login_as user, scope: :user
     visit root_path
@@ -110,18 +92,9 @@ describe 'User view order' do
     stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
     one_shipping_json = File.read(Rails.root.join('spec/fixtures/one_shipping.json'))
 
-    allow(Faraday).to receive(:get)
-      .with('http://whoknows2', params: { sku: product.sku })
-      .and_return(instance_double(Faraday::Response, status: 200,
-                                                     body: stock_json))
-    allow(Faraday).to receive(:get)
-      .with('http://whoknows', params: { **attributes, cep: '15370496' })
-      .and_return(instance_double(Faraday::Response, status: 200,
-                                                     body: shippings_json))
-    allow(Faraday).to receive(:get)
-      .with('http://whoknows3', params: { shipping_id: '3' })
-      .and_return(instance_double(Faraday::Response, status: 200,
-                                                     body: one_shipping_json))
+    find_stock_product(product.sku, stock_json)
+    find_shippings(attributes, shippings_json, user.addresses.first.cep)
+    find_shipping(one_shipping_json)
 
     login_as user, scope: :user
     visit root_path
