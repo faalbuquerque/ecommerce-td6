@@ -8,7 +8,8 @@ class Stock
   end
 
   def self.to_product(params)
-    response = Faraday.get('http://stock', params: { sku: params[:sku] })
+    response = Faraday.get("#{Rails.configuration.external_apis[:stock_api]}/stock",
+                           params: { sku: params[:sku] })
     return new(quantity: 0) unless response.status == 200
 
     result = JSON.parse(response.body, symbolize_names: true)

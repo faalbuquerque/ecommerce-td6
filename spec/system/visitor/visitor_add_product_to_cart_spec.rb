@@ -20,7 +20,7 @@ describe 'add products to cart' do
                        length: '3', weight: '4', sku: 'woeife3483ru')
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
       allow(Faraday).to receive(:get)
-        .with('http://stock', params: { sku: 'woeife3483ru' })
+        .with("#{Rails.configuration.external_apis[:stock_api]}/stock", params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
 
@@ -46,11 +46,11 @@ describe 'add products to cart' do
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
       allow(Faraday).to receive(:get)
-        .with('http://stock', params: { sku: 'woeife3483ru' })
+        .with("#{Rails.configuration.external_apis[:stock_api]}/stock", params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
-        .with('http://shipping', params: { **attributes, cep: '13015301' })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/shipping", params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
       visit root_path
@@ -74,11 +74,11 @@ describe 'add products to cart' do
       no_stock_json = File.read(Rails.root.join('spec/fixtures/no_product_stock.json'))
       attributes = product.as_json(only: %i[sku weight length width height])
       allow(Faraday).to receive(:get)
-        .with('http://stock', params: { sku: 'woeife3483ru' })
+        .with("#{Rails.configuration.external_apis[:stock_api]}/stock", params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: no_stock_json))
       allow(Faraday).to receive(:get)
-        .with('http://shipping', params: { **attributes, cep: '13015301' })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/shipping", params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
 
@@ -101,11 +101,11 @@ describe 'add products to cart' do
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
       allow(Faraday).to receive(:get)
-        .with('http://stock', params: { sku: 'woeife3483ru' })
+        .with("#{Rails.configuration.external_apis[:stock_api]}/stock", params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
-        .with('http://shipping', params: { **attributes, cep: '13015301' })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/shipping", params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
 
@@ -136,11 +136,11 @@ describe 'add products to cart' do
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
       allow(Faraday).to receive(:get)
-        .with('http://stock', params: { sku: 'woeife3483ru' })
+        .with("#{Rails.configuration.external_apis[:stock_api]}/stock", params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
-        .with('http://shipping', params: { **attributes, cep: '13015301' })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/shipping", params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
 
@@ -163,11 +163,11 @@ describe 'add products to cart' do
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
       allow(Faraday).to receive(:get)
-        .with('http://stock', params: { sku: 'woeife3483ru' })
+        .with("#{Rails.configuration.external_apis[:stock_api]}/stock", params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
-        .with('http://shipping', params: { **attributes, cep: '13015301' })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/shipping", params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
 
@@ -190,11 +190,11 @@ describe 'add products to cart' do
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
       allow(Faraday).to receive(:get)
-        .with('http://stock', params: { sku: 'woeife3483ru' })
+        .with("#{Rails.configuration.external_apis[:stock_api]}/stock", params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
-        .with('http://shipping', params: { **attributes, cep: '13015301' })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/shipping", params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
 
@@ -213,7 +213,7 @@ describe 'add products to cart' do
     it 'to_product status different from 200 stock' do
       product = create(:product, name: 'Nome do Produto 1', sku: 'woeife3483ru')
       allow(Faraday).to receive(:get)
-        .with('http://stock', params: { sku: 'woeife3483ru' })
+        .with("#{Rails.configuration.external_apis[:stock_api]}/stock", params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 500, body: ''))
 
       visit root_path
@@ -225,7 +225,7 @@ describe 'add products to cart' do
     it 'Connection failure in stock api' do
       create(:product, name: 'Nome do Produto 1', sku: 'woeife3483ru')
       allow(Faraday).to receive(:get)
-        .with('http://stock', params: { sku: 'woeife3483ru' })
+        .with("#{Rails.configuration.external_apis[:stock_api]}/stock", params: { sku: 'woeife3483ru' })
         .and_raise(Faraday::ConnectionFailed, nil)
 
       visit root_path
@@ -241,11 +241,11 @@ describe 'add products to cart' do
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
 
       allow(Faraday).to receive(:get)
-        .with('http://stock', params: { sku: 'woeife3483ru' })
+        .with("#{Rails.configuration.external_apis[:stock_api]}/stock", params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
-        .with('http://shipping', params: { **attributes, cep: '13015301' })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/shipping", params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 500, body: ''))
 
       visit root_path
@@ -262,11 +262,11 @@ describe 'add products to cart' do
       attributes = product.as_json(only: %i[sku weight length width height])
 
       allow(Faraday).to receive(:get)
-        .with('http://stock', params: { sku: 'woeife3483ru' })
+        .with("#{Rails.configuration.external_apis[:stock_api]}/stock", params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
-        .with('http://shipping', params: { **attributes, cep: '13015301' })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/shipping", params: { **attributes, cep: '13015301' })
         .and_raise(Faraday::ConnectionFailed, nil)
 
       visit product_path(product)
