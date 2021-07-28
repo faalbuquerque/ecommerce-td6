@@ -9,7 +9,7 @@ class Shipping
   end
 
   def self.chosen(shipping)
-    return new if shipping.empty?
+    return nil if shipping.empty?
 
     result = JSON.parse(shipping, symbolize_names: true)
     new(**result)
