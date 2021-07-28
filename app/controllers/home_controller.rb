@@ -5,7 +5,7 @@ class HomeController < ApplicationController
   end
 
   def search
-    @products = Product.where('lower(name) LIKE lower(?) OR lower(brand) LIKE lower(?)',
-                              "%#{params[:query]}%", "%#{params[:query]}%").where(status: 'active')
+    @products = Product.where('lower(name) LIKE lower(:term) OR lower(brand) LIKE lower(:term)',
+                              term: "%#{params[:query]}%").where(status: 'active')
   end
 end
