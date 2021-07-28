@@ -1,6 +1,7 @@
 {
   "id": 3,
   "shipping_id" : "3",
+  "service_order" : "SO10000001",
   "name": "Frete 1",
   "distance": "30",
   "price": "15",

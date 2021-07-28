@@ -22,6 +22,20 @@ class Users::CartsController < ApplicationController
     end
   end
 
+  def my_orders
+    @carts = current_user.carts
+  end
+
+  def order
+    @cart = Cart.find(params[:id])
+    shipping = Shipping.find_status_by_order(@cart.service_order)
+    if shipping.status
+      @cart.update(status: shipping.status)
+    else
+      flash.now[:notice] = 'Atualização de status temporariamente indisponível'
+    end
+  end
+
   private
 
   def carts_params

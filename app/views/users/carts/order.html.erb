@@ -1,0 +1,14 @@
+<h1>Detalhes do Pedido</h1>
+<ul>
+  <p><%= @cart.product.name %></p>
+  <li><%= @cart.product.brand %></li>
+  <li><%= number_to_currency @cart.product.price %></li>
+  <li><%= @cart.product.description %></li>
+  <li>Altura: <%= @cart.product.height %> m</li>
+  <li>Largura: <%= @cart.product.width %> m</li>
+  <li>Comprimento: <%= @cart.product.length %> m</li>
+  <li>Peso: <%= @cart.product.weight %> kg</li>
+  <li><%= number_to_currency(@cart.product.price) %></li>
+  <li>Status <%= Cart.human_enum_name(:status, @cart.status) %></li>
+  <li>Data da compra <%= l(@cart.created_at, format: :custom) %></li>
+</ul>

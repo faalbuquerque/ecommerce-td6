@@ -2,10 +2,23 @@ class Shipping
   include ActionView::Helpers::NumberHelper
   include ActiveModel::Model
   attr_accessor :cep, :city, :name, :distance, :price, :arrival_time, :shipping_id,
-                :state, :district, :street, :number, :complement, :latitude, :longitude, :id
+                :state, :district, :street, :number, :complement, :latitude, :longitude,
+                :service_order, :id, :status
 
   def display_name
     "#{@name} - Preço: #{number_to_currency(@price)} - Prazo de entrega: #{@arrival_time} dias úteis"
+  end
+
+  def self.find_status_by_order(service_order)
+    response = Faraday.get 'http://shippingstatus', params: { service_order: service_order }
+    return new unless response.status == 200
+
+    current_status = JSON.parse(response.body, symbolize_names: true)
+    status_hash = { pending: 0, done: 1 }
+    status_integer = { status: status_hash[:"#{current_status.values.first}"] }
+    new(**status_integer)
+  rescue Faraday::ConnectionFailed
+    new
   end
 
   def self.find(params)
