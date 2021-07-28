@@ -1,14 +1,14 @@
-<h2><%= @product.name%></h2>
+<h2><%= @product.name %></h2>
 <ul>
   <li><%= link_to "Editar", edit_admin_product_path(@product), class:"btn btn-dark btn-sm mb-1 mt-1" %></li>
 </ul>
 <div>
-  <li><%= @product.brand%></li>
-  <li><%= number_to_currency @product.price%></li>
-  <li><%= @product.description%></li>
-  <li>Altura: <%= @product.height%> m</li>
-  <li>Largura: <%= @product.width%> m</li>
-  <li>Comprimento: <%= @product.length%> m</li>
+  <li><%= @product.brand %></li>
+  <li><%= number_to_currency @product.price %></li>
+  <li><%= @product.description %></li>
+  <li>Altura: <%= @product.height %> m</li>
+  <li>Largura: <%= @product.width %> m</li>
+  <li>Comprimento: <%= @product.length %> m</li>
   <li>Peso: <%= @product.weight %> kg</li>
   <li>SKU: <%= @product.sku %></li>
   <% if @product.positive? %>

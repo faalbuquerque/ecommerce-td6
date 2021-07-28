@@ -100,7 +100,6 @@ describe 'add products to cart' do
       attributes = product.as_json(only: %i[sku weight length width height])
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-      one_shipping_json = File.read(Rails.root.join('spec/fixtures/one_shipping.json'))
       allow(Faraday).to receive(:get)
         .with('http://stock', params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
@@ -109,10 +108,6 @@ describe 'add products to cart' do
         .with('http://shipping', params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
-      allow(Faraday).to receive(:get)
-        .with('http://shippingfind', params: { shipping_id: '3' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: one_shipping_json))
 
       login_as user, scope: :user
       visit root_path
@@ -140,7 +135,6 @@ describe 'add products to cart' do
       attributes = product.as_json(only: %i[sku weight length width height])
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-      one_shipping_json = File.read(Rails.root.join('spec/fixtures/one_shipping.json'))
       allow(Faraday).to receive(:get)
         .with('http://stock', params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
@@ -149,10 +143,7 @@ describe 'add products to cart' do
         .with('http://shipping', params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
-      allow(Faraday).to receive(:get)
-        .with('http://shippingfind', params: { shipping_id: '3' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: one_shipping_json))
+
       login_as user, scope: :user
       visit root_path
       click_on 'Nome do Produto 1'
