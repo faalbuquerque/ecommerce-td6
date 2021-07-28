@@ -27,9 +27,7 @@
   </div>
   <div class="container">
     <div class="row d-flex justify-content-end align-items-center">
-      <div class="col-md-6">
-        <div class="search"> <input type="text" class="form-control" placeholder=""> <button class="btn"><i class="bi bi-search"></i> </button> </div>
-      </div>
+      <%= render 'shared/search_products' %>
       <div class="col-md-3">
         <%= link_to users_carts_path, class: 'cart' do %>
           <i class="bi bi-cart3"></i> <strong>R$ 150,00</strong>

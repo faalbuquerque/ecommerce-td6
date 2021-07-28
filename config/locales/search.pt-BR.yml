@@ -1,0 +1,11 @@
+pt-BR:
+  home:
+    search:
+      not_result: Nenhum resultado encontrado!
+      back: Voltar
+      brand: Marca
+      price: R$
+  shared:
+    search_products:
+      search: Buscar Produtos
+      go: Pesquisar
