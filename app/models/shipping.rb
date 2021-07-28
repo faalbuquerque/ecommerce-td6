@@ -14,7 +14,7 @@ class Shipping
     return new unless response.status == 200
 
     current_status = JSON.parse(response.body, symbolize_names: true)
-    status_hash = { 'Pedido Realizado': 0, 'Pedido Entregue': 1 }
+    status_hash = { pending: 0, done: 1 }
     status_integer = { status: status_hash[:"#{current_status.values.first}"] }
     new(**status_integer)
   rescue Faraday::ConnectionFailed
