@@ -7,7 +7,7 @@ describe 'Visitor search products' do
 
     visit root_path
     fill_in 'Buscar Produtos', with: 'Chocolate 123'
-    click_on 'Pesquisar'
+    find('button#search_btn').click
 
     expect(page).to have_link('Chocolate 123')
     expect(page).to_not have_link('Biscoito')
@@ -21,7 +21,7 @@ describe 'Visitor search products' do
 
     visit root_path
     fill_in 'Buscar Produtos', with: 'Choco'
-    click_on 'Pesquisar'
+    find('button#search_btn').click
 
     expect(page).to have_link('Chocolate 123')
     expect(page).to have_link('Chocolate amargo')
@@ -35,7 +35,7 @@ describe 'Visitor search products' do
 
     visit root_path
     fill_in 'Buscar Produtos', with: '123'
-    click_on 'Pesquisar'
+    find('button#search_btn').click
 
     expect(page).to have_link('Chocolate 123')
     expect(page).to_not have_link('Chocolate 321')
@@ -46,7 +46,7 @@ describe 'Visitor search products' do
 
     visit root_path
     fill_in 'Buscar Produtos', with: 'Doce de leite'
-    click_on 'Pesquisar'
+    find('button#search_btn').click
 
     expect(page).to have_text('Nenhum resultado encontrado!')
     expect(page).to_not have_text('Pizza')
