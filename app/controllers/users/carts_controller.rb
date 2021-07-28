@@ -24,14 +24,16 @@ class Users::CartsController < ApplicationController
 
   def my_orders
     @carts = current_user.carts
-    @carts = Cart.all
   end
 
   def order
     @cart = Cart.find(params[:id])
-    shipping = Shipping.find_status(@cart.service_order)
-    find_status(shipping)
-    @carts = Cart.all
+    shipping = Shipping.find_status_by_order(@cart.service_order)
+    if shipping.status
+      @cart.update(status: shipping.status)
+    else
+      flash.now[:notice] = 'Atualização de status temporariamente indisponível'
+    end
   end
 
   private
@@ -42,15 +44,5 @@ class Users::CartsController < ApplicationController
 
   def find_product
     @product = Product.find(params[:product_id])
-  end
-
-  def find_status(shipping)
-    status_hash = { 'Pedido Realizado': 0, 'Pedido Entregue': 1 }
-    status = status_hash[:"#{shipping.status}"]
-    if status
-      @cart.update(status: status)
-    else
-      flash.now[:notice] = 'Atualização de status temporariamente indisponível'
-    end
   end
 end

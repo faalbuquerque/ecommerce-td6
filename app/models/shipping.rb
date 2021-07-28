@@ -9,12 +9,14 @@ class Shipping
     "#{@name} - Preço: #{number_to_currency(@price)} - Prazo de entrega: #{@arrival_time} dias úteis"
   end
 
-  def self.find_status(params)
-    response = Faraday.get 'http://shippingstatus', params: { service_order: params }
+  def self.find_status_by_order(service_order)
+    response = Faraday.get 'http://shippingstatus', params: { service_order: service_order }
     return new unless response.status == 200
 
-    status = JSON.parse(response.body, symbolize_names: true)
-    new(**status)
+    current_status = JSON.parse(response.body, symbolize_names: true)
+    status_hash = { 'Pedido Realizado': 0, 'Pedido Entregue': 1 }
+    status_integer = { status: status_hash[:"#{current_status.values.first}"] }
+    new(**status_integer)
   rescue Faraday::ConnectionFailed
     new
   end

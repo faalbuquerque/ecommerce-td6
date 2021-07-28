@@ -10,5 +10,5 @@
   <li>Peso: <%= @cart.product.weight %> kg</li>
   <li><%= number_to_currency(@cart.product.price) %></li>
   <li>Status <%= Cart.human_enum_name(:status, @cart.status) %></li>
-  <li>Data da compra <%= @cart.created_at.strftime("%d/%m/%Y") %></li>
+  <li>Data da compra <%= l(@cart.created_at, format: :custom) %></li>
 </ul>

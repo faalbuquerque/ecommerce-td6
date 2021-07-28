@@ -3,6 +3,6 @@
 <% @carts.each do |cart| %>
   <ul>
     <li><%= link_to cart.product.name, order_users_cart_path(cart), class:"btn btn-success btn-sm mb-1 mt-1" %></li>
-    <li>Data da compra <%= cart.created_at.strftime("%d/%m/%Y") %></li>
+    <li>Data da compra <%= l(cart.created_at, format: :custom) %></li>
   </ul>
 <% end %>
