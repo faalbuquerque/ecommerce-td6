@@ -1,0 +1,27 @@
+.container_search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0 10%;
+}
+
+.container_list {
+  display: flex;
+  justify-content: start;
+  width: 100%;
+  align-items: center;
+  margin: 0 10%;
+  flex-wrap: wrap;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 21%;
+  margin: 5px;
+  padding: 20px 16px;
+  min-width: 140px;
+}
