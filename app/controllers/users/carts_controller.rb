@@ -14,7 +14,7 @@ class Users::CartsController < User::UsersController
   def show; end
 
   def create
-    @cart = Cart.new(carts_params)
+    @cart = current_user.carts.new(carts_params)
     if @cart.save
       redirect_to users_carts_path, notice: t('.success')
     else
@@ -45,7 +45,7 @@ class Users::CartsController < User::UsersController
   private
 
   def carts_params
-    params.permit(:address_id, :product_id, :shipping_id).merge(user_id: current_user.id)
+    params.permit(:address_id, :product_id, :shipping_id)
   end
 
   def create_params
