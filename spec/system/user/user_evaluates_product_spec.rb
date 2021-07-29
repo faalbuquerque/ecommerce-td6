@@ -109,6 +109,8 @@ describe 'user evaluates product' do
                             price: 20.0, arrival_time: 1.month.ago)
     create(:cart, product: product, user: user, address: address, status: 1,
                   shipping_id: shipping.shipping_id, service_order: 'wc90ewir')
+    create(:cart, product: product, user: user2, address: address, status: 1,
+                  shipping_id: shipping.shipping_id, service_order: 'fd9021w4t')
     create(:evaluation, user: user, product: product, rate: 3, comment: 'Comentário novo')
     create(:evaluation, user: user2, product: product, rate: 5, comment: 'Comentário novo 2')
     product.update(average_rating: 4)
