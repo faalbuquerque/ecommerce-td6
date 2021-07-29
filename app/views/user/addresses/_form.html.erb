@@ -3,21 +3,46 @@
     <p><%= err %></p>
   <% end %>
 <% end %>
-
+<div class="align-items-center">
 <%= form_with model: [:user, address] do |f| %>
-  <%= f.label :state, 'Estado' %>
-  <%= f.text_field :state %>
-  <%= f.label :city, 'Cidade' %>
-  <%= f.text_field :city %>
-  <%= f.label :cep, 'CEP' %>
-  <%= f.text_field :cep %>
-  <%= f.label :neighborhood, 'Bairro' %>
-  <%= f.text_field :neighborhood %>
-  <%= f.label :street, 'Logradouro' %>
-  <%= f.text_field :street %>
-  <%= f.label :number, 'Número' %>
-  <%= f.text_field :number %>
-  <%= f.label :details, 'Complemento' %>
-  <%= f.text_field :details %>
-  <%= f.submit button_text %>
+    <div class="d-flex mb-1">
+      <div class="col-sm-3 me-2">
+        <%= f.label :state, 'Estado', class:"form-label" %>
+        <%= f.text_field :state, class:"form-control" %>
+      </div>
+      <div class="col-sm-3">
+        <%= f.label :city, 'Cidade', class:"form-label" %>
+        <%= f.text_field :city, class:"form-control" %>
+      </div>
+    </div>
+
+    <div class="d-flex">
+      <div class="col-sm-3 me-2">
+        <%= f.label :cep, 'CEP', class:"form-label" %>
+        <%= f.text_field :cep, class:"form-control" %>
+      </div>
+      <div class="col-sm-3">
+        <%= f.label :neighborhood, 'Bairro', class:"form-label" %>
+        <%= f.text_field :neighborhood, class:"form-control" %>
+      </div>
+    </div>
+
+    <div class="d-flex mb-1">
+     <div class="col-sm-5 me-2">
+       <%= f.label :street, 'Logradouro', class:"form-label" %>
+       <%= f.text_field :street, class:"form-control" %>
+     </div>
+      <div class="col-1">
+        <%= f.label :number, 'Número', class:"form-label" %>
+        <%= f.text_field :number, class:"form-control" %>
+      </div>
+    </div>
+
+    <div class="mb-4 align-items-center">
+      <%= f.label :details, 'Complemento', class:"form-label" %>
+      <%= f.text_field :details, class:"form-control", style: "width: 51%" %>
+    </div>
+      <%= f.submit button_text, class:"btn btn-primary justify-content-center" %>
+    </div>
 <%end%>
+</div>
