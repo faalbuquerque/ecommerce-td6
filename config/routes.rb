@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   get '/admin', to: 'admin/home#index', as: 'admin_root'
 
+  get '/search', to:"home#search"
+
   namespace :admin do
     resources :registration_admins, only: %i[ new create index]
     resources :products, only: %i[index new create show edit update]
