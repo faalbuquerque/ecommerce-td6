@@ -79,4 +79,16 @@ describe 'manage addresses' do
     expect(page).to_not have_text('Travessa ACM')
     expect(page).to_not have_text('1234')
   end
+
+  it 'and cannot create addresses without login' do
+    visit new_user_address_path
+
+    expect(current_path).to eq(new_user_session_path)
+  end
+
+  it 'and cannot view user profile page' do
+    visit user_profile_path
+
+    expect(current_path).to eq(new_user_session_path)
+  end
 end
