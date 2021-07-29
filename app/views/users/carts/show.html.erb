@@ -1,12 +1,14 @@
-<h1>Seu Carrinho</h1>
+<% if @cart.pending? %>
+  <h1><%= t('.title') %></h1>
+<% else%>
+  <h1><%= t('.my_order') %></h1>
+<% end %>
 <ul>
   <li><%= @cart.product.name %></li>
   <li><%= @cart.product.brand %></li>
   <li><%= number_to_currency(@cart.product.price) %></li>
-  <li>Unidade(s): 1</li>
-  <% if @shipping %>
-    <li>Frete: <%= @shipping.name %> - <%= number_to_currency(@shipping.price) %> - <%= @shipping.arrival_time %> dias úteis</li>
-  <% else %>
-    <li>Frete indisponível</li>
+  <% if @cart.success? %>
+    <li><%= @cart.address.cep %></li>
+    <li>Frete: <%= @cart.shipping_name %> - <%= number_to_currency(@cart.shipping_price) %> - <%= @cart.shipping_time %> dias úteis</li>
   <% end %>
 </ul>

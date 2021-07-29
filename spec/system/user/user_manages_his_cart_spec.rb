@@ -31,7 +31,7 @@ describe 'user manages his carts' do
                                  length: '3', weight: '4', sku: 'woeife3483ru')
       shipping = Shipping.new(name: 'Frete 1', shipping_id: '1', service_order: 'SO10000001')
       create(:cart, product: product, user: user, shipping_id: shipping.shipping_id,
-                    address: address, status: 1, service_order: shipping.service_order)
+                    address: address, status: 5, service_order: shipping.service_order)
 
       login_as user, scope: :user
 

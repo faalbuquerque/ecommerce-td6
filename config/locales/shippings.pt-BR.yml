@@ -1,0 +1,5 @@
+---
+pt-BR:
+  shippings:
+    shippings_options:
+      required_address: 'Selecione um endereço'

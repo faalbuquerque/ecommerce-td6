@@ -117,16 +117,12 @@ describe 'add products to cart' do
       click_on 'Nome do Produto 1'
       fill_in 'CEP', with: '13015301'
       click_on 'Calcular por CEP'
-      choose('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
       click_on 'Adicionar ao carrinho'
+      click_on 'Nome do Produto 1'
 
       expect(page).to have_content('Nome do Produto 1')
       expect(page).to have_content('R$ 30,00')
       expect(page).to have_content('Marca do Produto 1')
-      expect(page).to have_content('Unidade(s): 1')
-      expect(page).to have_content('Frete 1')
-      expect(page).to have_content('R$ 15,00')
-      expect(page).to have_content('10 dias úteis')
     end
     it 'after create cart see cart index' do
       user = create(:user)
@@ -153,7 +149,6 @@ describe 'add products to cart' do
       click_on 'Nome do Produto 1'
       fill_in 'CEP', with: '13015301'
       click_on 'Calcular por CEP'
-      choose('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
       click_on 'Adicionar ao carrinho'
 
       expect(page).to have_content('Produto adicionado ao carrrinho com sucesso!')
@@ -180,8 +175,8 @@ describe 'add products to cart' do
       click_on 'Nome do Produto 1'
       fill_in 'CEP', with: '13015301'
       click_on 'Calcular por CEP'
-      choose('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
 
+      expect(page).to have_content('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
       expect(page).to_not have_button('Adicionar ao Carrinho')
     end
     xit 'failure to add product to cart' do

@@ -4,7 +4,7 @@ RSpec.describe 'authenticating user', type: :request do
   context 'visitor' do
     context 'cart' do
       it 'POST' do
-        post users_carts_path, params: { cart: { user_id: '1' } }
+        post users_product_carts_path(product_id: '1'), params: { cart: { user_id: '1' } }
 
         expect(last_response.headers['location']).to be == 'http://example.org/users/sign_in'
       end

@@ -8,8 +8,16 @@ class Shipping
     "#{@name} - Preço: #{number_to_currency(@price)} - Prazo de entrega: #{@arrival_time} dias úteis"
   end
 
+  def self.find(params)
+    return new if params[:shipping_id].blank?
+
+    response = Faraday.get 'http://whoknows3', params: { shipping_id: params[:shipping_id] }
+    shipping = JSON.parse(response.body, symbolize_names: true)
+    new(**shipping.except(:created_at, :updated_at, :city))
+  end
+
   def self.chosen(shipping)
-    return nil if shipping.empty?
+    return nil if shipping.nil?
 
     result = JSON.parse(shipping, symbolize_names: true)
     new(**result)
