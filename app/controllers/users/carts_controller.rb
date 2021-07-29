@@ -15,7 +15,12 @@ class Users::CartsController < User::UsersController
 
   def create
     @cart = Cart.new(carts_params)
-    redirect_to users_carts_path, notice: t('.success') if @cart.save!
+    if @cart.save
+      redirect_to users_carts_path, notice: t('.success')
+    else
+      flash.now[:notice] = t('.failure')
+      render 'products/show'
+    end
   end
 
   def update
@@ -45,7 +50,6 @@ class Users::CartsController < User::UsersController
 
   def create_params
     params.require(:cart).permit(:address_id, :product_id, :shipping_id).merge(shipping_params)
-          .merge(user_id: current_user.id)
   end
 
   def shipping_params
