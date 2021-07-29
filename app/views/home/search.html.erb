@@ -1,17 +1,20 @@
-<p>
-  <%= link_to t('.back'), root_path, class:"btn btn-secondary" %>
-</p>
+<%= link_to t('.back'), root_path, class:"btn btn-secondary" %>
 <br>
-
-<h2>Resultados da busca</h2>
-<br>
-
-<% return t('.not_result') if @products.blank? %>
-
-<% @products.each do |product| %>
-  <p>
-    <%= link_to product.name, product_path(product) %> | 
-    <%= t('.brand') %>: <%= product.brand %> | 
-    <%= t('.price') %><%= product.price %>
-  </p>
-<% end %>
+<div class='container_search'>
+  <h2>Resultados da busca</h2>
+  <div class="container_list">
+    <% return t('.not_result') if @products.blank? %>
+    <% @products.each do |product| %>
+    <div class="item">
+      <p class='teste'>
+        <%= link_to product.name, product_path(product), class:'btn btn-primary' %>
+      </p>
+      <p class='teste'>
+        <%= t('.brand') %>: <%= product.brand %>
+      </p>
+      <p class='teste'>
+        <%= t('.price') %><%= product.price %>
+      </p>
+    </div>
+    <% end %>
+</div>

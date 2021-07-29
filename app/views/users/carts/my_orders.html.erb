@@ -1,8 +1,11 @@
 <h1>Meus Pedidos</h1>
-
+<%= link_to 'Minhas Devoluções', user_returns_path %>
 <% @carts.each do |cart| %>
   <ul>
     <%= link_to cart.product.name, order_users_cart_path(cart), class:"btn btn-success btn-sm mb-1 mt-1" %>
     <p>Data da compra <%= l(cart.created_at, format: :custom) %></p>
+    <% if cart.elegible_for_return %>
+      <li><%= link_to 'Solicitar Devolução', return_product_user_cart_path(cart), method: :post %></li>
+    <%end%>
   </ul>
 <% end %>
