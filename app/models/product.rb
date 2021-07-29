@@ -13,4 +13,11 @@ class Product < ApplicationRecord
             :description, :sku, :product_picture, :fragile, presence: true
 
   validates :sku, uniqueness: true
+
+  def calc_rate
+    evaluated = evaluations.where(rate: 1..)
+    sum = evaluated.sum(:rate)
+    rate_count = evaluated.count
+    update(average_rating: sum / rate_count) if rate_count.positive?
+  end
 end
