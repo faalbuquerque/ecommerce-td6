@@ -1,33 +1,70 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  
-  <%= link_to "Página Inicial", root_path, class:"navbar-brand ms-4" %>
-  
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <%= link_to 'Carrinho', users_carts_path, class:"nav-link" %>
-      </li>
-
-      <% if !user_signed_in? %>
-         <li class="nav-item active">
-          <%= link_to 'Entrar', new_user_session_path, class:"nav-link" %>
-        </li>
-        <li class="nav-item active">
-          <%= link_to 'Registrar-se', new_user_registration_path, class:"nav-link" %>
-        </li>
-      <% end %>
-
-      <% if user_signed_in? %>
-        <li class="nav-item active">
-          <%= link_to 'Sair', destroy_user_session_path, method: :delete, class:"nav-link" %>
-          <%= link_to 'Meus Pedidos', user_carts_path , class:"nav-link" %>
-          <%= link_to 'Meu Perfil', user_profile_path, class:"nav-link" %>
-        </li>
-      <% end %>
-    </ul>
+<header class="header-sectionss">
+  <div class="container">
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+      <ul class="navbar-nav mr-auto">
+      </ul>
+      <ul class=" mr-auto">   
+        <ul class="nav-item login-panel d-flex flex-row bd-highlight">
+          <% if user_signed_in?%>
+           <li class="dropdown list-unstyled">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-fill"></i><strong><%=current_user.email %></strong>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><%= link_to 'Meu Perfil', user_profile_path, class:"dropdown-item" %></li>
+                <li><%= link_to 'Meus Pedidos', my_orders_users_carts_path, class:"dropdown-item" %></li>
+              </ul>
+            </li>
+            <%= link_to 'Sair', destroy_user_session_path,  method: :delete %>
+          <% else %>
+            <%= link_to new_user_session_path do %>
+              <i class="bi bi-person-fill"></i><strong>Entrar</strong>
+              <%= link_to 'Registrar-se', new_user_registration_path %>
+            <% end %>
+          <% end %>
+        </ul>
+      </ul>
+    </nav>
   </div>
-</nav>
+  <div class="container">
+    <div class="row d-flex justify-content-end align-items-center">
+      <%= render 'shared/search_products' %>
+      <div class="col-md-3">
+        <%= link_to users_carts_path, class: 'cart' do %>
+          <i class="bi bi-cart3"></i> <strong>R$ 150,00</strong>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <br>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <%= link_to 'Início', root_path, class:"nav-link" %>
+          </li>
+        </ul>
+      </div>
+      <% @categories&.each do |category| %>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <%= link_to category.name, "#", class:"nav-link" %>
+            </li>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  </nav>
+  <div class="container">
+    <br>
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Library</li>
+      </ol>
+    </nav>
+    <hr>
+  </div>
+</header>

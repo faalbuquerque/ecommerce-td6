@@ -1,0 +1,17 @@
+<p>
+  <%= link_to t('.back'), root_path, class:"btn btn-secondary" %>
+</p>
+<br>
+
+<h2>Resultados da busca</h2>
+<br>
+
+<% return t('.not_result') if @products.blank? %>
+
+<% @products.each do |product| %>
+  <p>
+    <%= link_to product.name, product_path(product) %> | 
+    <%= t('.brand') %>: <%= product.brand %> | 
+    <%= t('.price') %><%= product.price %>
+  </p>
+<% end %>

@@ -1,5 +1,8 @@
 class Users::CartsController < ApplicationController
   before_action :authenticate_user!, only: %i[index]
+  before_action :find_product, only: %i[create]
+  before_action :find_shipping, only: %i[create]
+  before_action :find_stock, only: %i[create]
 
   def index
     @carts = current_user.carts
@@ -7,17 +10,48 @@ class Users::CartsController < ApplicationController
 
   def show
     @cart = Cart.find(params[:id])
-    @shipping = Shipping.find(shipping_id: @cart.shipping_id)
   end
 
   def create
-    @cart = Cart.new(carts_params)
-    redirect_to users_carts_path, notice: 'Produto adicionado ao carrrinho com sucesso!' if @cart.save!
+    @cart = current_user.carts.new(carts_params)
+    if @cart.save
+      flash.now[:notice] = t('.success')
+      render 'users/carts/show'
+    else
+      flash.now[:notice] = t('.failure')
+      render 'products/show'
+    end
+  end
+
+  def my_orders
+    @carts = current_user.carts
+  end
+
+  def order
+    @cart = Cart.find(params[:id])
+    shipping = Shipping.find_status_by_order(@cart.service_order)
+    if shipping.status
+      @cart.update(status: shipping.status)
+    else
+      flash.now[:notice] = 'Atualização de status temporariamente indisponível'
+    end
   end
 
   private
 
   def carts_params
-    params.permit(:address_id, :quantity, :product_id, :shipping_id).merge(user_id: current_user.id)
+    params.permit(:address_id, :product_id, :shipping_id)
+  end
+
+  def find_product
+    @product = Product.find(params[:product_id])
+  end
+
+  def find_shipping
+    @shipping = Shipping.chosen(params[:shipping_id])
+  end
+
+  def find_stock
+    @stock = Stock.to_product(sku: @product.sku)
   end
 end
