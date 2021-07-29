@@ -1,0 +1,11 @@
+.container_product_show {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0 5%;
+}
+
+.color_title_product {
+  text-shadow: 0 3px 3px  #32363b;
+}

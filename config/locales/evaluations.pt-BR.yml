@@ -1,0 +1,12 @@
+---
+pt-BR:
+  users:
+    evaluations:
+      edit:
+        title: Atualizar Avaliação
+        submit: Atualizar
+  activerecord:
+    attributes:
+      evaluation:
+        rate: Avaliação
+        comment: Comentário

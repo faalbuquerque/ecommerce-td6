@@ -1,17 +1,18 @@
 class Users::CartsController < ApplicationController
-  before_action :authenticate_user!, only: %i[index]
-  before_action :check_shipping, only: %i[update]
+  before_action :authenticate_user!
   before_action :find_product, only: %i[create]
+  before_action :find_cart, only: %i[show order]
+  before_action :check_shipping, only: %i[update]
   before_action :find_shipping, only: %i[update]
   before_action :find_stock, only: %i[create]
+  before_action :find_apis, only: %i[create]
+  before_action :setting_evaluation, only: %i[order]
 
   def index
     @carts = current_user.carts.where(status: 'pending')
   end
 
-  def show
-    @cart = Cart.find(params[:id])
-  end
+  def show; end
 
   def create
     @cart = Cart.new(carts_params)
@@ -20,11 +21,8 @@ class Users::CartsController < ApplicationController
 
   def update
     @cart = current_user.carts.find(params[:id])
-    
-    redirect_to users_cart_path(@cart), notice: t('.success') if @cart.update(create_params.merge(status: 'success'))
 
-    #flash.now[:notice] = t('.failure')
-    #render 'products/show'
+    redirect_to users_cart_path(@cart), notice: t('.success') if @cart.update(create_params.merge(status: 'success'))
   end
 
   def my_orders
@@ -32,7 +30,6 @@ class Users::CartsController < ApplicationController
   end
 
   def order
-    @cart = Cart.find(params[:id])
     shipping = Shipping.find_status_by_order(@cart.service_order)
     if shipping.status
       @cart.update(status: shipping.status)
@@ -48,12 +45,14 @@ class Users::CartsController < ApplicationController
   end
 
   def create_params
-    params.require(:cart).permit(:address_id, :product_id, :shipping_id).merge(shipping_params).merge(user_id: current_user.id)
+    params.require(:cart).permit(:address_id, :product_id, :shipping_id).merge(shipping_params)
+          .merge(user_id: current_user.id)
   end
 
   def shipping_params
     shipping = JSON.parse(params[:cart][:shipping_id])
-    {shipping_id: shipping['shipping_id'], shipping_name: shipping['name'], shipping_time: shipping['arrival_time'], shipping_price: shipping['price']}
+    { shipping_id: shipping['shipping_id'], shipping_name: shipping['name'],
+      shipping_time: shipping['arrival_time'], shipping_price: shipping['price'] }
   end
 
   def check_shipping
@@ -70,7 +69,20 @@ class Users::CartsController < ApplicationController
     @shipping = Shipping.chosen(params[:cart][:shipping_id])
   end
 
+  def find_apis
+    @shipping = Shipping.chosen(params[:shipping_id])
+  end
+
   def find_stock
     @stock = Stock.to_product(sku: @product.sku)
+  end
+
+  def find_cart
+    @cart = Cart.find(params[:id])
+  end
+
+  def setting_evaluation
+    @user_evaluation = current_user.evaluations.where(product: @cart.product)
+    @evaluation = Evaluation.new
   end
 end

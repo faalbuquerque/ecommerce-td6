@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_27_000218) do
+ActiveRecord::Schema.define(version: 2021_07_29_002553) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -96,6 +96,17 @@ ActiveRecord::Schema.define(version: 2021_07_27_000218) do
     t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
+  create_table "evaluations", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "product_id", null: false
+    t.integer "rate"
+    t.text "comment"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_evaluations_on_product_id"
+    t.index ["user_id"], name: "index_evaluations_on_user_id"
+  end
+
   create_table "orders", force: :cascade do |t|
     t.integer "cart_id", null: false
     t.integer "user_id", null: false
@@ -128,6 +139,7 @@ ActiveRecord::Schema.define(version: 2021_07_27_000218) do
     t.decimal "weight"
     t.integer "fragile", default: 0, null: false
     t.integer "status", default: 0, null: false
+    t.decimal "average_rating"
     t.index ["sku"], name: "index_products_on_sku", unique: true
   end
 
@@ -149,6 +161,8 @@ ActiveRecord::Schema.define(version: 2021_07_27_000218) do
   add_foreign_key "carts", "addresses"
   add_foreign_key "carts", "products"
   add_foreign_key "carts", "users"
+  add_foreign_key "evaluations", "products"
+  add_foreign_key "evaluations", "users"
   add_foreign_key "orders", "carts"
   add_foreign_key "orders", "users"
   add_foreign_key "product_categories", "categories", column: "subcategory_id"

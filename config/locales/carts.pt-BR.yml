@@ -22,3 +22,5 @@ pt-BR:
       show:
         title: Seu Carrinho
         my_order: Meu Pedido
+      order:
+        submit: Publicar
