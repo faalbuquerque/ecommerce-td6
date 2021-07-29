@@ -61,9 +61,7 @@ password: 123456
   <a href="https://github.com/TreinaDev/ecommerce-td6/projects/1">
    Link do Projeto no Github</a>
 </h3>
-
-<hr>
-
+<br>
 <p>Time Responsável pelo Ecommerce:</p>
 
 <p>&#10003; Mariana Ruiz</p>
