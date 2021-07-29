@@ -22,9 +22,12 @@ Rails.application.routes.draw do
     resources :products, only: %i[index new create show edit update]
     resources :categories, only: %i[index new create show edit update]
   end
-
   namespace :user do
     get '/profile', to: 'profile#index'
+    resources :returns, only: %i[index]
+    resources :carts, only: %i[index show] do
+      post 'return_product', to: 'returns#return_product' , on: :member
+    end
     resources :addresses, only: %i[index new create]
   end
 
