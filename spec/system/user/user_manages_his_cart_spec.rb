@@ -64,8 +64,7 @@ describe 'user manages his carts' do
       create(:cart, product: product, user: user, shipping_id: shipping.shipping_id,
                     address: address, status: 0, service_order: shipping.service_order)
       allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/shippingstatus",
-              params: { service_order: shipping.service_order })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/service_orders/#{shipping.service_order}")
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: order_status))
 
@@ -86,8 +85,7 @@ describe 'user manages his carts' do
       create(:cart, product: product, user: user, shipping_id: shipping.shipping_id,
                     address: address, status: 0, service_order: shipping.service_order)
       allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/shippingstatus",
-              params: { service_order: shipping.service_order })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/service_orders/#{shipping.service_order}")
         .and_return(instance_double(Faraday::Response, status: 500,
                                                        body: ''))
 
@@ -106,8 +104,7 @@ describe 'user manages his carts' do
       create(:cart, product: product, user: user, shipping_id: shipping.shipping_id,
                     address: address, status: 0, service_order: shipping.service_order)
       allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/shippingstatus",
-              params: { service_order: shipping.service_order })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/service_orders/#{shipping.service_order}")
         .and_raise(Faraday::ConnectionFailed, nil)
 
       login_as user, scope: :user

@@ -1,3 +1,11 @@
 {
-    "status": "done"
-}
+    "id": "1",
+    "code": "SOWUXRR4p6",
+    "sku": "1234abc",
+    "status": "done",
+    "final_address": "Rua Padre Francisco Araken, 40, Jardim, Fortaleza/CE",
+    "initial_address": "Rua Imperador, 6000, Centro, Fortaleza/CE",
+    "shipment_deadline": "2021-07-13",
+    "price": "30.0",
+    "shipping_co_id": "1"
+  }
