@@ -1,18 +1,46 @@
 [
   {
-    "id": 3,
-    "shipping_id" : "3",
-    "name": "Frete 1",
-    "distance": "30",
-    "price": "15",
-    "arrival_time": "10"
+    "warehouse": {
+      "warehouse_code": "CD34",
+      "latitude": "-23.737696",
+      "longitude": "-46.609861",
+      "state": "SP" },
+    "shipping_co": {
+      "id": 3,
+      "name": "Frete 1",
+      "corp_name": "Company1 S.A",
+      "cnpj": "12345678910111",
+      "address": "Rua teste, Nº 1 - Teste",
+      "status": "active" },
+    "customer": {
+      "latitude": "-23.565821213904478",
+      "longitude": "-46.65311298300678",
+      "state": "SP",
+      "validation_context": "nil",
+      "errors": {} },
+    "price": 15.0,
+    "shipment_days": 10
   },
   {
-    "id": 4,
-    "shipping_id" : "4",
-    "name": "Frete 2",
-    "distance": "40",
-    "price": "12",
-    "arrival_time": "15"
+    "warehouse": {
+      "warehouse_code": "CD34",
+      "latitude": "-23.737696",
+      "longitude": "-46.609861",
+      "state": "SP" },
+    "shipping_co": {
+      "id": 4,
+      "name": "Frete 2",
+      "corp_name": "Company1 S.A",
+      "cnpj": "12345678910111",
+      "address": "Rua teste, Nº 1 - Teste",
+      "status": "active" },
+    "customer": {
+      "latitude": "-23.565821213904478",
+      "longitude": "-46.65311298300678",
+      "state": "SP",
+      "validation_context": "nil",
+      "errors": {} },
+    "price": 12.0,
+    "shipment_days": 15
   }
 ]

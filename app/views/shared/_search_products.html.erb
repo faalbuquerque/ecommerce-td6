@@ -1,0 +1,8 @@
+<div class="col-md-6">
+  <%= form_with url: search_path, method: :get, class:"search" do |f| %>
+    <%= f.text_field :query, class: "form-control", placeholder: t('.search') %>
+    <%= f.button id: 'search_btn' ,class: 'btn' do %>
+      <i class="bi bi-search"></i>
+    <% end %>
+  <% end %>
+</div>

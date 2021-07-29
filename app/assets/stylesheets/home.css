@@ -1,0 +1,29 @@
+.product-item {
+    margin-bottom: 26px;
+}
+
+.product-item .pi-pic {
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+}
+
+.product-item .pi-text {
+    text-align: center;
+    padding-top: 26px;
+}
+
+.product-item .pi-text .brand-name {
+    font-size: 10px;
+    color: #b2b2b2;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.product-item .pi-text .product-price {
+    color: #e7ab3c;
+    font-size: 20px;
+    font-weight: 700;
+}
