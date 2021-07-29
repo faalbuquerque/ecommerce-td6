@@ -8,7 +8,6 @@ describe 'user management returns product' do
     visit root_path
 
     click_on 'Meus Pedidos'
-    save_page
     click_on 'Solicitar Devolução'
 
     expect(page).to have_text('Devolução Aberta com Sucesso')

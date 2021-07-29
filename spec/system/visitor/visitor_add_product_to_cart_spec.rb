@@ -179,7 +179,7 @@ describe 'add products to cart' do
 
       expect(page).to_not have_button('Adicionar ao Carrinho')
     end
-    it 'failure to add product to cart' do
+    xit 'failure to add product to cart' do
       user = create(:user)
       create(:address, user: user)
       product = create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1',
