@@ -1,0 +1,22 @@
+<h4><%= t('.title') %></h4>
+<% if @evaluation.errors.any? %>
+  <p>Foram encontrados <%= @evaluation.errors.count %> erro(s):</p>
+  <ul>
+    <div class="alert alert-warning alert-dismissible fade show d-inline-block" role="alert">
+      <%  @evaluation.errors.full_messages.each do |error| %>
+        <p><%= error %></p>
+      <% end %>
+    </div>
+  </ul>
+<% end %>
+<%= form_with url: users_evaluation_path(@evaluation), model: @evaluation do |f| %>
+  <div class="field form-group">
+    <%= f.label :rate %>
+    <%= f.number_field :rate, in: 1..5, placeholder: 'Avaliação 1-5', class:"form-control" %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :comment %>
+    <%= f.text_area :comment, placeholder: 'Comentário', class:"form-control" %>
+  </div>
+  <%= f.submit t('.submit'), class:"btn btn-success mb-1 mt-1" %>
+<% end %>

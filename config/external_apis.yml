@@ -1,0 +1,10 @@
+---
+production:
+  shipping_api: 'http://localhost:4000'
+  stock_api: 'http://localhost:5000'
+development:
+  shipping_api: 'http://localhost:4000'
+  stock_api: 'http://localhost:5000'
+test:
+  shipping_api: 'http://localhost:4000'
+  stock_api: 'http://localhost:5000'

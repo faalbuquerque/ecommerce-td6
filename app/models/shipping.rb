@@ -16,7 +16,8 @@ class Shipping
   end
 
   def self.find_status_by_order(service_order)
-    response = Faraday.get 'http://shippingstatus', params: { service_order: service_order }
+    response = Faraday.get("#{Rails.configuration.external_apis[:shipping_api]}/shippingstatus",
+                           params: { service_order: service_order })
     return new unless response.status == 200
 
     current_status = JSON.parse(response.body, symbolize_names: true)
@@ -29,7 +30,8 @@ class Shipping
 
   def self.to_product(product, zip)
     attributes = product.as_json(only: %i[sku weight length width height])
-    response = Faraday.get('http://shipping', params: { cep: zip, **attributes })
+    response = Faraday.get("#{Rails.configuration.external_apis[:shipping_api]}/shipping",
+                           params: { cep: zip, **attributes })
     return [] unless response.status == 200
 
     result = JSON.parse(response.body, symbolize_names: true)

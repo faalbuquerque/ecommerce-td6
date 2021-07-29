@@ -39,3 +39,17 @@
     <% end %>
   <% end %>
 </div>
+<div>
+  <p>Avaliação Média: <%= @product.average_rating %></p>
+  <% @product.evaluations.each do |evaluation| %>
+    <ul>
+      <% evaluation.rate.times do  %>
+        <i class="bi bi-star-fill"></i>
+      <% end %>
+      <% (5 - evaluation.rate).times do %>
+        <i class="bi bi-star"></i>
+      <% end %>
+      <p><%= evaluation.comment %></p>
+    </ul>
+  <% end %>
+</div>

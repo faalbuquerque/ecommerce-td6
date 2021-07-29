@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :shippings, only: %i[index]
   end
   namespace :users do
+    resources :evaluations, only: %i[create edit update]
     resources :carts, only: %i[index show create] do
       get 'my_orders', on: :collection
       get 'order', on: :member
@@ -17,7 +18,7 @@ Rails.application.routes.draw do
   get '/search', to:"home#search"
 
   namespace :admin do
-    resources :registration_admins, only: %i[ new create index ]
+    resources :registration_admins, only: %i[ new create index]
     resources :products, only: %i[index new create show edit update]
     resources :categories, only: %i[index new create show edit update]
   end
