@@ -8,14 +8,6 @@ class Shipping
     "#{@name} - Preço: #{number_to_currency(@price)} - Prazo de entrega: #{@arrival_time} dias úteis"
   end
 
-  def self.find(params)
-    return new if params[:shipping_id].blank?
-
-    response = Faraday.get 'http://whoknows3', params: { shipping_id: params[:shipping_id] }
-    shipping = JSON.parse(response.body, symbolize_names: true)
-    new(**shipping.except(:created_at, :updated_at, :city))
-  end
-
   def self.chosen(shipping)
     return nil if shipping.nil?
 
@@ -28,7 +20,7 @@ class Shipping
     return new unless response.status == 200
 
     current_status = JSON.parse(response.body, symbolize_names: true)[:status]
-    status_hash = { pending: 0, done: 1 }
+    status_hash = { pending: 1, done: 5 }
     status_integer = { status: status_hash[:"#{current_status}"] }
     new(**status_integer)
   rescue Faraday::ConnectionFailed

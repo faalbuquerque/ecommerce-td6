@@ -62,7 +62,7 @@ describe 'user manages his carts' do
       order_status = File.read(Rails.root.join('spec/fixtures/order_status.json'))
       shipping = Shipping.new(name: 'Frete 1', shipping_id: '1', service_order: 'SO10000001')
       create(:cart, product: product, user: user, shipping_id: shipping.shipping_id,
-                    address: address, status: 0, service_order: shipping.service_order)
+                    address: address, status: 1, service_order: shipping.service_order)
       allow(Faraday).to receive(:get)
         .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/service_orders/#{shipping.service_order}")
         .and_return(instance_double(Faraday::Response, status: 200,
