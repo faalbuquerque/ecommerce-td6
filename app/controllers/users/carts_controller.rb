@@ -1,5 +1,5 @@
 class Users::CartsController < ApplicationController
-  before_action :authenticate_user!, only: %i[index]
+  before_action :authenticate_user!
   before_action :find_product, only: %i[create]
   before_action :find_cart, only: %i[show order]
   before_action :find_apis, only: %i[create]

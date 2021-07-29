@@ -1,4 +1,5 @@
 class Users::EvaluationsController < ApplicationController
+  before_action :authenticate_user!
   before_action :find_product_cart, only: %i[create]
   before_action :find_evaluation, only: %i[edit update]
 
