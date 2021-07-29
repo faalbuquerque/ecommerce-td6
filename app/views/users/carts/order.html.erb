@@ -13,7 +13,17 @@
   <li>Data da compra <%= l(@cart.created_at, format: :custom) %></li>
 </ul>
 <% if @user_evaluation.empty? %>
-  <%= form_with url: users_evaluations_path(product_id: @cart.product.id), model: @evaluation do |f| %>
+  <% if @evaluation.errors.any? %>
+    <p>Foram encontrados <%= @evaluation.errors.count %> erro(s):</p>
+    <ul>
+      <div class="alert alert-warning alert-dismissible fade show d-inline-block" role="alert">
+        <%  @evaluation.errors.full_messages.each do |error| %>
+          <p><%= error %></p>
+        <% end %>
+      </div>
+    </ul>
+  <% end %>
+  <%= form_with url: users_evaluations_path(product_id: @cart.product.id, cart_id: @cart), model: @evaluation do |f| %>
     <div class="field form-group">
       <%= f.label :rate %>
       <%= f.number_field :rate, in: 1..5, placeholder: 'Avaliação 1-5', class:"form-control" %>

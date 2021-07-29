@@ -1,20 +1,27 @@
 class Users::EvaluationsController < ApplicationController
-  before_action :find_product, only: %i[create]
+  before_action :find_product_cart, only: %i[create]
   before_action :find_evaluation, only: %i[edit update]
 
   def create
     @evaluation = current_user.evaluations.new(evaluation_params)
     @evaluation.product = @product
-    @evaluation.save!
-    calc_rate
-    redirect_to product_path(@product)
+    if @evaluation.save
+      calc_rate
+      redirect_to product_path(@product)
+    else
+      render 'users/carts/order'
+    end
   end
 
   def edit; end
 
   def update
-    @evaluation.update!(evaluation_params)
-    redirect_to product_path(@evaluation.product)
+    if @evaluation.update(evaluation_params)
+      calc_rate
+      redirect_to product_path(@evaluation.product)
+    else
+      render 'users/evaluations/edit'
+    end
   end
 
   private
@@ -23,8 +30,10 @@ class Users::EvaluationsController < ApplicationController
     params.require(:evaluation).permit(:rate, :comment)
   end
 
-  def find_product
+  def find_product_cart
     @product = Product.find(params[:product_id])
+    @cart = Cart.find(params[:cart_id])
+    @user_evaluation = current_user.evaluations.where(product: @cart.product)
   end
 
   def find_evaluation

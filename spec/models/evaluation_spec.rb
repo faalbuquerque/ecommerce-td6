@@ -1,5 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Evaluation, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Evaluation do
+  it { should validate_presence_of(:rate) }
+  it { should validate_presence_of(:user_id) }
+  it { should validate_presence_of(:product_id) }
 end
