@@ -7,6 +7,9 @@
   <li>Largura: <%= @product.width %> m</li>
   <li>Comprimento: <%= @product.length %> m</li>
   <li>Peso: <%= @product.weight %> kg</li>
+    <% if @product.product_picture.attached? %>
+      <p><%= image_tag @product.product_picture %></p>
+    <% end %>
   <% if @stock&.quantity.to_i > 0 %>
     <p>Calcular frete por CEP</p>
     <%= form_with url: product_shippings_path(product_id: @product), method: :get do |f| %>
@@ -18,18 +21,16 @@
     <% end %>
   <% else %>
     <div class="alert alert-secondary" role="alert">
-      <p>Produto fora de estoque</p>
+      <h4>Produto fora de estoque</h4>
+      <h4>Não foi possível calcular o frete</h4>
     </div>
-  <% end %>
+  <% end %> <br>
   <% if @shippings %>
-   <%= form_with url: users_carts_path(product_id: @product), model: @cart, scope: 'cart' do |f| %>
+   <%= form_with url: users_product_carts_path(product_id: @product), model: @cart, scope: 'cart' do |f| %>
       <% @shippings.each do |shipping| %>
         <p><%= shipping.display_name %></p>
       <% end %>
       <% if user_signed_in? %>
-        <% if current_user.addresses.any? %>
-          <%= f.collection_radio_buttons :address_id , current_user.addresses, :id, :display_address %>
-        <% end %>
         <%= f.submit 'Adicionar ao carrinho', class:"btn btn-success btn-sm mb-1 mt-1" %>
       <% end %>
     <% end %>

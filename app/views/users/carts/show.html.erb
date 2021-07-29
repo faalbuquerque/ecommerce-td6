@@ -7,10 +7,8 @@
   <li><%= @cart.product.name %></li>
   <li><%= @cart.product.brand %></li>
   <li><%= number_to_currency(@cart.product.price) %></li>
-  <li>Unidade(s): <%= @cart.quantity %></li>
-  <li><%= number_to_currency(@cart.product.price) %></li>
   <% if @cart.success? %>
     <li><%= @cart.address.cep %></li>
-    <li>Frete: <%= @shipping.name %> - <%= number_to_currency(@shipping.price) %> - <%= @shipping.arrival_time %> dias úteis</li>
+    <li>Frete: <%= @cart.shipping_name %> - <%= number_to_currency(@cart.shipping_price) %> - <%= @cart.shipping_time %> dias úteis</li>
   <% end %>
 </ul>

@@ -1,5 +1,10 @@
 ---
 pt-BR:
+  activerecord:
+    attributes:
+      cart:
+        statuses:
+          delivered: Pedido Entregue
   users:
     carts:
       create:
@@ -16,4 +21,4 @@ pt-BR:
         update_order: Finalizar Compra
       show:
         title: Seu Carrinho
-        my_order: Meu Pedido  
+        my_order: Meu Pedido

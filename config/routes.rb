@@ -7,8 +7,14 @@ Rails.application.routes.draw do
     get '/shippings_options', to: 'shippings#shippings_options'
   end
   namespace :users do
-    resources :carts, only: %i[index show create update] 
     resources :orders, only: %i[index show create]
+    resources :products, only: %i[show] do
+      resources :carts, only: %i[create]
+    end
+    resources :carts, only: %i[index show update] do
+      get 'my_orders', on: :collection
+      get 'order', on: :member
+    end
   end
 
   get '/admin', to: 'admin/home#index', as: 'admin_root'

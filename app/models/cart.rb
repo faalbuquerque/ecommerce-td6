@@ -2,11 +2,8 @@ class Cart < ApplicationRecord
   belongs_to :product
   belongs_to :user, optional: true
   belongs_to :address, optional: true
-  before_create :set_quantity
 
-  enum status: { pending: 0, success: 1 }
+  validates :product_id,  presence: true #:shipping_id,
 
-  def set_quantity
-    self.quantity = 1 if quantity.blank?
-  end
+  enum status: { pending: 0, success: 1, delivered: 5 }
 end
