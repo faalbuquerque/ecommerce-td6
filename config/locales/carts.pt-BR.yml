@@ -5,6 +5,8 @@ pt-BR:
       create:
         success: Produto adicionado ao carrrinho com sucesso!
         failure: Obrigatório escolher o frete para adicionar ao carrinho
+      order:
+        submit: Publicar
   activerecord:
     attributes:
       cart:

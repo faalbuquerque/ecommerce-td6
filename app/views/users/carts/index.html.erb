@@ -2,10 +2,12 @@
 <div class="alert alert-warning alert-dismissible fade show d-inline-block" role="alert">
   <%= flash[:message] unless flash[:message].blank? %>
 </div>
-<% @carts.each do |cart| %>
-  <% if !cart.delivered? %>
-    <ul>
-      <li><%= link_to cart.product.name, users_cart_path(cart), class:"btn btn-success btn-sm mb-1 mt-1" %></li>
-    </ul>
+<div>
+  <% @carts.each do |cart| %>
+    <% if !cart.delivered? %>
+      <ul>
+        <li><%= link_to cart.product.name, users_cart_path(cart), class:"btn btn-success btn-sm mb-1 mt-1" %></li>
+      </ul>
+    <% end %>
   <% end %>
-<% end %>
+</div>
