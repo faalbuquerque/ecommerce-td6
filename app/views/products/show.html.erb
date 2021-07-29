@@ -1,12 +1,13 @@
-<h2><%= @product.name %></h2>
-<div>
-  <li><%= @product.brand %></li>
-  <li><%= number_to_currency @product.price %></li>
-  <li><%= @product.description %></li>
-  <li>Altura: <%= @product.height %> m</li>
-  <li>Largura: <%= @product.width %> m</li>
-  <li>Comprimento: <%= @product.length %> m</li>
-  <li>Peso: <%= @product.weight %> kg</li>
+<div class='container_product_show'>
+  <h2 class=" color_title_product"><%= @product.name %></h2>
+  <br>
+  <p><%= @product.brand %></p>
+  <p><%= number_to_currency @product.price %></p>
+  <p><%= @product.description %></p>
+  <p>Altura: <%= @product.height %> m</p>
+  <p>Largura: <%= @product.width %> m</p>
+  <p>Comprimento: <%= @product.length %> m</p>
+  <p>Peso: <%= @product.weight %> kg</p>
     <% if @product.product_picture.attached? %>
       <p><%= image_tag @product.product_picture %></p>
     <% end %>
@@ -32,7 +33,7 @@
         </div>
       <% else %>
         <%= f.collection_radio_buttons :shipping_id, @shippings, :to_json, :display_name %>
-      <% end %>
+      <% end %> <br>
       <% if user_signed_in? %>
         <%= f.submit 'Adicionar ao carrinho', class:"btn btn-success btn-sm mb-1 mt-1" %>
       <% end %>
