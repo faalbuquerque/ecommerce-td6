@@ -100,7 +100,6 @@ describe 'add products to cart' do
       attributes = product.as_json(only: %i[sku weight length width height])
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-      one_shipping_json = File.read(Rails.root.join('spec/fixtures/one_shipping.json'))
       allow(Faraday).to receive(:get)
         .with('http://stock', params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
@@ -109,10 +108,6 @@ describe 'add products to cart' do
         .with('http://shipping', params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
-      allow(Faraday).to receive(:get)
-        .with('http://shippingfind', params: { shipping_id: '3' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: one_shipping_json))
 
       login_as user, scope: :user
       visit root_path
@@ -121,10 +116,7 @@ describe 'add products to cart' do
       click_on 'Calcular por CEP'
       choose('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
       click_on 'Adicionar ao carrinho'
-      click_on class: 'cart'
-      click_on 'Nome do Produto 1'
 
-      expect(current_path).to eq(users_cart_path(Cart.last.id))
       expect(page).to have_content('Nome do Produto 1')
       expect(page).to have_content('R$ 30,00')
       expect(page).to have_content('Marca do Produto 1')
@@ -143,7 +135,6 @@ describe 'add products to cart' do
       attributes = product.as_json(only: %i[sku weight length width height])
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-      one_shipping_json = File.read(Rails.root.join('spec/fixtures/one_shipping.json'))
       allow(Faraday).to receive(:get)
         .with('http://stock', params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
@@ -152,10 +143,7 @@ describe 'add products to cart' do
         .with('http://shipping', params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
-      allow(Faraday).to receive(:get)
-        .with('http://shippingfind', params: { shipping_id: '3' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: one_shipping_json))
+
       login_as user, scope: :user
       visit root_path
       click_on 'Nome do Produto 1'
@@ -174,7 +162,6 @@ describe 'add products to cart' do
       attributes = product.as_json(only: %i[sku weight length width height])
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-      one_shipping_json = File.read(Rails.root.join('spec/fixtures/one_shipping.json'))
       allow(Faraday).to receive(:get)
         .with('http://stock', params: { sku: 'woeife3483ru' })
         .and_return(instance_double(Faraday::Response, status: 200,
@@ -183,10 +170,6 @@ describe 'add products to cart' do
         .with('http://shipping', params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
-      allow(Faraday).to receive(:get)
-        .with('http://shippingfind', params: { shipping_id: '3' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: one_shipping_json))
 
       visit root_path
       click_on 'Nome do Produto 1'
@@ -293,67 +276,6 @@ describe 'add products to cart' do
 
       expect(page).to_not have_button('Adicionar ao Carrinho')
       expect(page).to have_text('Não foi possível calcular o frete')
-    end
-    it 'find, not status 200' do
-      user = create(:user)
-      product = create(:product, name: 'Nome do Produto 1', sku: 'woeife3483ru')
-      attributes = product.as_json(only: %i[sku weight length width height])
-      stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-
-      shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
-      allow(Faraday).to receive(:get)
-        .with('http://stock', params: { sku: 'woeife3483ru' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: stock_json))
-      allow(Faraday).to receive(:get)
-        .with('http://shipping', params: { **attributes, cep: '13015301' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: shippings_json))
-      allow(Faraday).to receive(:get)
-        .with('http://shippingfind', params: { shipping_id: '3' })
-        .and_return(instance_double(Faraday::Response, status: 500, body: ''))
-
-      login_as user, scope: :user
-      visit root_path
-      click_on 'Nome do Produto 1'
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
-      choose('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
-      click_on 'Adicionar ao carrinho'
-      click_on 'Nome do Produto 1'
-
-      expect(page).to have_content('Frete indisponível')
-    end
-
-    it 'find shipping Connection failure' do
-      user = create(:user)
-      product = create(:product, name: 'Nome do Produto 1', sku: 'woeife3483ru')
-      attributes = product.as_json(only: %i[sku weight length width height])
-      stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-
-      shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
-      allow(Faraday).to receive(:get)
-        .with('http://stock', params: { sku: 'woeife3483ru' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: stock_json))
-      allow(Faraday).to receive(:get)
-        .with('http://shipping', params: { **attributes, cep: '13015301' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: shippings_json))
-      allow(Faraday).to receive(:get)
-        .with('http://shippingfind', params: { shipping_id: '3' })
-        .and_raise(Faraday::ConnectionFailed, nil)
-
-      login_as user, scope: :user
-      visit root_path
-      click_on 'Nome do Produto 1'
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
-      choose('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
-      click_on 'Adicionar ao carrinho'
-      click_on 'Nome do Produto 1'
-
-      expect(page).to have_text('Frete indisponível')
     end
   end
 end

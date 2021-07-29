@@ -1,6 +1,7 @@
-FactoryBot.create(:product)
-
-Admin.create!(email:'admin@mercadores.com.br', password: '123456')
+product = FactoryBot.create(:product)
+Admin.create(email:'admin@mercadores.com.br', password: '123456')
+user = User.create(email: 'user1@gmail.com', password: '123456')
+Cart.create(user: user, shipping_id: '1', product: product)
 
 product_one = Product.new(name: 'Produto diferente', brand: 'Marca D', price: 3.2,
                           description: 'Descrição produto 1', height: '11',
