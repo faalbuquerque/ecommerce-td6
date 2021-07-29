@@ -11,6 +11,6 @@ class Cart < ApplicationRecord
   end
 
   def elegible_for_return
-    self.delivery_date && self.delivery_date > 8.days.ago
+    delivery_date && delivery_date > 8.days.ago
   end
 end

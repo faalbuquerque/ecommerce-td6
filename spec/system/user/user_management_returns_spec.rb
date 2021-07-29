@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'user management returns product' do
   it 'succesfully' do
     user = create(:user)
-    create(:cart, user: user, delivery_date: 1.day.ago)
+    create(:cart, user: user, delivery_date: 1.day.ago, status: 1)
     login_as user, scope: :user
     visit root_path
 
