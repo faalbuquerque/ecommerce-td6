@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_27_000218) do
+ActiveRecord::Schema.define(version: 2021_07_27_191648) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -79,12 +79,9 @@ ActiveRecord::Schema.define(version: 2021_07_27_000218) do
     t.date "shipping_time"
     t.string "latitude"
     t.string "longitude"
-<<<<<<< HEAD
     t.datetime "delivery_date"
-=======
     t.integer "status", default: 0, null: false
     t.string "service_order"
->>>>>>> 494ef85763b8bd95db192d77013cb2db5168bc01
     t.index ["address_id"], name: "index_carts_on_address_id"
     t.index ["product_id"], name: "index_carts_on_product_id"
     t.index ["user_id"], name: "index_carts_on_user_id"
@@ -126,7 +123,6 @@ ActiveRecord::Schema.define(version: 2021_07_27_000218) do
     t.index ["sku"], name: "index_products_on_sku", unique: true
   end
 
-<<<<<<< HEAD
   create_table "returns", force: :cascade do |t|
     t.integer "status", default: 0, null: false
     t.integer "cart_id", null: false
@@ -137,8 +133,6 @@ ActiveRecord::Schema.define(version: 2021_07_27_000218) do
     t.index ["user_id"], name: "index_returns_on_user_id"
   end
 
-=======
->>>>>>> 494ef85763b8bd95db192d77013cb2db5168bc01
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -159,9 +153,6 @@ ActiveRecord::Schema.define(version: 2021_07_27_000218) do
   add_foreign_key "carts", "users"
   add_foreign_key "product_categories", "categories", column: "subcategory_id"
   add_foreign_key "product_categories", "products"
-<<<<<<< HEAD
   add_foreign_key "returns", "carts"
   add_foreign_key "returns", "users"
-=======
->>>>>>> 494ef85763b8bd95db192d77013cb2db5168bc01
 end
