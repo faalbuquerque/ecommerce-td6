@@ -1,4 +1,4 @@
-class Admin::ProductsController < ApplicationController
+class Admin::ProductsController < Admin::AdminController
   before_action :find_product, only: %i[show edit update]
   before_action :all_products, only: %i[index new create edit update]
 
