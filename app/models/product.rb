@@ -5,6 +5,8 @@ class Product < ApplicationRecord
   has_many :product_categories, dependent: false
   has_many :categories, through: :product_categories
 
+  has_many :evaluations, dependent: false
+
   has_one_attached :product_picture
 
   validates :name, :brand, :price, :length, :width, :height, :weight,

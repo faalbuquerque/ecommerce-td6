@@ -1,16 +1,15 @@
 class Users::CartsController < ApplicationController
   before_action :authenticate_user!, only: %i[index]
   before_action :find_product, only: %i[create]
-  before_action :find_shipping, only: %i[create]
-  before_action :find_stock, only: %i[create]
+  before_action :find_cart, only: %i[show order]
+  before_action :find_apis, only: %i[create]
+  before_action :setting_evaluation, only: %i[order]
 
   def index
     @carts = current_user.carts
   end
 
-  def show
-    @cart = Cart.find(params[:id])
-  end
+  def show; end
 
   def create
     @cart = current_user.carts.new(carts_params)
@@ -28,7 +27,6 @@ class Users::CartsController < ApplicationController
   end
 
   def order
-    @cart = Cart.find(params[:id])
     shipping = Shipping.find_status_by_order(@cart.service_order)
     if shipping.status
       @cart.update(status: shipping.status)
@@ -47,11 +45,17 @@ class Users::CartsController < ApplicationController
     @product = Product.find(params[:product_id])
   end
 
-  def find_shipping
+  def find_apis
+    @stock = Stock.to_product(sku: @product.sku)
     @shipping = Shipping.chosen(params[:shipping_id])
   end
 
-  def find_stock
-    @stock = Stock.to_product(sku: @product.sku)
+  def find_cart
+    @cart = Cart.find(params[:id])
+  end
+
+  def setting_evaluation
+    @user_evaluation = current_user.evaluations.where(product: @cart.product)
+    @evaluation = Evaluation.new
   end
 end
