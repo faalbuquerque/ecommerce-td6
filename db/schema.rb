@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_27_191648) do
+ActiveRecord::Schema.define(version: 2021_07_29_002553) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -97,6 +97,29 @@ ActiveRecord::Schema.define(version: 2021_07_27_191648) do
     t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
+<<<<<<< HEAD
+=======
+  create_table "evaluations", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "product_id", null: false
+    t.integer "rate"
+    t.text "comment"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_evaluations_on_product_id"
+    t.index ["user_id"], name: "index_evaluations_on_user_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "cart_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cart_id"], name: "index_orders_on_cart_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+>>>>>>> 60867a80073ed164e517c0158fef15c8538428bc
   create_table "product_categories", force: :cascade do |t|
     t.integer "product_id", null: false
     t.integer "subcategory_id", null: false
@@ -120,6 +143,7 @@ ActiveRecord::Schema.define(version: 2021_07_27_191648) do
     t.decimal "weight"
     t.integer "fragile", default: 0, null: false
     t.integer "status", default: 0, null: false
+    t.decimal "average_rating"
     t.index ["sku"], name: "index_products_on_sku", unique: true
   end
 
@@ -151,6 +175,13 @@ ActiveRecord::Schema.define(version: 2021_07_27_191648) do
   add_foreign_key "carts", "addresses"
   add_foreign_key "carts", "products"
   add_foreign_key "carts", "users"
+<<<<<<< HEAD
+=======
+  add_foreign_key "evaluations", "products"
+  add_foreign_key "evaluations", "users"
+  add_foreign_key "orders", "carts"
+  add_foreign_key "orders", "users"
+>>>>>>> 60867a80073ed164e517c0158fef15c8538428bc
   add_foreign_key "product_categories", "categories", column: "subcategory_id"
   add_foreign_key "product_categories", "products"
   add_foreign_key "returns", "carts"
