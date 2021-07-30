@@ -53,7 +53,8 @@ class Users::CartsController < User::UsersController
   def shipping_params
     shipping = JSON.parse(params[:cart][:shipping_id])
     { shipping_id: shipping['shipping_id'], shipping_name: shipping['name'],
-      shipping_time: shipping['arrival_time'], shipping_price: shipping['price'] }
+      shipping_time: shipping['arrival_time'], shipping_price: shipping['price'],
+      warehouse_code: shipping['warehouse_code'] }
   end
 
   def check_shipping
