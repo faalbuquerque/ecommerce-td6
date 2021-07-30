@@ -27,6 +27,16 @@ class Shipping
     new
   end
 
+  #  def self.selling_conclusion(keys_shipping)
+  #    response = Faraday.post("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/service_orders"),
+  #                             params: { service_order: { **keys_shipping } }
+  #    return nil unless response.status == 200
+
+  #    JSON.parse(response.body, symbolize_names: true)[:code]
+  #  rescue Faraday::ConnectionFailed
+  #    nil
+  #  end
+
   def self.to_product(product, zip)
     attributes = product.as_json(only: %i[sku weight length width height])
     response = Faraday.get("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",

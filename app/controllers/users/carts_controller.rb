@@ -24,6 +24,16 @@ class Users::CartsController < User::UsersController
   def update
     @cart = current_user.carts.find(params[:id])
 
+    #  return flash.now[:notice] = 'Fora de estoque' unless Stock.to_product(sku: @cart.product.sku)   # isso aqui é para reconfirmar se ainda tinha estoque
+    #  stock_address = Stock.find_address(@cart.warehouse_code)
+    #  keys_shipping = {sku: @cart.product.sku, final_address: ENDEREÇODOCLIENTE-STRING,
+    #                   initial_address: stock_address, shipping_co_id: @cart.shipping_id,
+    #                   price: @cart.shipping_price, shipment_deadline: @cart.shipping_time }
+    #  service_order = Shipping.selling_conclusion(keys_shipping)
+    #  keys_stock = {sku: @cart.product.sku, shipping_co_id: @cart.shipping_id,
+    #                warehouse_code: @cart.warehouse.code, service_order: service_order}
+    #  Stock.reservation(keys_stock)
+    # @cart.update(service_order: service_order)
     redirect_to users_cart_path(@cart), notice: t('.success') if @cart.update(create_params.merge(status: 'success'))
   end
 
