@@ -1,19 +1,20 @@
-<h2><%= @product.name %></h2>
-<ul>
-  <li><%= link_to "Editar", edit_admin_product_path(@product), class:"btn btn-dark btn-sm mb-1 mt-1" %></li>
-</ul>
-<div>
-  <li><%= @product.brand %></li>
-  <li><%= number_to_currency @product.price %></li>
-  <li><%= @product.description %></li>
-  <li>Altura: <%= @product.height %> m</li>
-  <li>Largura: <%= @product.width %> m</li>
-  <li>Comprimento: <%= @product.length %> m</li>
-  <li>Peso: <%= @product.weight %> kg</li>
-  <li>SKU: <%= @product.sku %></li>
-  <% if @product.positive? %>
-    <li>Frágil</li>
-  <% else %>
-    <li>Não Frágil</li>
-  <% end %>
-</div>
+<p>
+  <%= link_to 'Voltar', admin_products_path, class:"btn btn-primary btn-sm" %>
+</p>
+<h2 class=" color_title_product"><%= @product.name %></h2>
+<p>
+  <%= link_to "Editar", edit_admin_product_path(@product), class:"btn btn-dark btn-sm mb-1 mt-1" %>
+</p>
+<p><%= @product.brand %></p>
+<p><%= number_to_currency @product.price %></p>
+<p><%= @product.description %></p>
+<p>Altura: <%= @product.height %> m</p>
+<p>Largura: <%= @product.width %> m</p>
+<p>Comprimento: <%= @product.length %> m</p>
+<p>Peso: <%= @product.weight %> kg</p>
+<p>SKU: <%= @product.sku %></p>
+<% if @product.positive? %>
+  <p>Frágil</p>
+<% else %>
+  <p>Não Frágil</p>
+<% end %>
