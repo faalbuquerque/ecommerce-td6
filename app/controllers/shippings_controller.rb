@@ -10,7 +10,7 @@ class ShippingsController < ApplicationController
   def shippings_options
     @shippings = Shipping.to_product(@product, @address.cep)
     @carts = current_user.carts
-    render 'users/carts/index'
+    render 'user/carts/index'
   end
 
   private
@@ -26,6 +26,6 @@ class ShippingsController < ApplicationController
   def find_address
     @address = current_user.addresses.find(params[:address_id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to users_carts_path, alert: t('.required_address')
+    redirect_to user_carts_path, alert: t('.required_address')
   end
 end

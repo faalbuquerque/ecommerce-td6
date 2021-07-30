@@ -10,7 +10,7 @@ class Shipping
 
   def self.chosen!(shipping_id)
     raise ActiveRecord::RecordNotFound if shipping_id.blank?
-  
+
     chosen(shipping_id)
   end
 

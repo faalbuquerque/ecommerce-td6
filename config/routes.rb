@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     resources :shippings, only: %i[index] 
     get '/shippings_options', to: 'shippings#shippings_options'
   end
-  namespace :users do
+  namespace :user do
     resources :products, only: %i[show] do
       resources :carts, only: %i[create]
     end

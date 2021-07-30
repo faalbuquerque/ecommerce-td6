@@ -9,7 +9,7 @@
     </div>
   </ul>
 <% end %>
-<%= form_with url: users_evaluation_path(@evaluation), model: @evaluation do |f| %>
+<%= form_with url: user_evaluation_path(@evaluation), model: @evaluation do |f| %>
   <div class="field form-group">
     <%= f.label :rate %>
     <%= f.number_field :rate, in: 1..5, placeholder: 'Avaliação 1-5', class:"form-control" %>

@@ -16,8 +16,8 @@ describe 'user evaluates product' do
     click_on product.name
     fill_in 'Avaliação', with: 5
     fill_in 'Comentário', with: 'Algum comentário'
-    expect { click_on 'Publicar' }.to change { Evaluation.count }.by(1)
 
+    expect { click_on 'Publicar' }.to change { Evaluation.count }.by(1)
     expect(page).to have_content(5)
     expect(page).to have_content('Algum comentário')
   end
@@ -55,8 +55,8 @@ describe 'user evaluates product' do
     click_on 'Editar Avaliação'
     fill_in 'Avaliação', with: 2
     fill_in 'Comentário', with: 'Algum comentário 2'
-    expect { click_on 'Atualizar' }.to change { Evaluation.count }.by(0)
 
+    expect { click_on 'Atualizar' }.to change { Evaluation.count }.by(0)
     expect(page).to have_content(2)
     expect(page).to have_content('Algum comentário 2')
   end
@@ -75,8 +75,8 @@ describe 'user evaluates product' do
     click_on product.name
     fill_in 'Avaliação', with: ''
     fill_in 'Comentário', with: ''
-    expect { click_on 'Publicar' }.to change { Evaluation.count }.by(0)
 
+    expect { click_on 'Publicar' }.to change { Evaluation.count }.by(0)
     expect(page).to have_content('não pode ficar em branco', count: 1)
   end
   it 'editing missig parameters' do
@@ -96,8 +96,8 @@ describe 'user evaluates product' do
     click_on 'Editar Avaliação'
     fill_in 'Avaliação', with: ''
     fill_in 'Comentário', with: ''
-    expect { click_on 'Atualizar' }.to change { Evaluation.count }.by(0)
 
+    expect { click_on 'Atualizar' }.to change { Evaluation.count }.by(0)
     expect(page).to have_content('não pode ficar em branco', count: 1)
   end
   it 'not logged see average rating' do

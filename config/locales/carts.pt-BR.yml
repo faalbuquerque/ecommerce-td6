@@ -6,7 +6,7 @@ pt-BR:
         statuses:
           delivered: Pedido Entregue
           approved: Pedido Realizado
-  users:
+  user:
     carts:
       create:
         success: Produto adicionado ao carrrinho com sucesso!
