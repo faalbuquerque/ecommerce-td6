@@ -35,13 +35,12 @@ describe 'User view order' do
     click_on 'Produto 1'
     fill_in 'CEP', with: '15370496'
     click_on 'Calcular por CEP'
-
     click_on 'Adicionar ao carrinho'
-
     choose('Avenida Paulista - 1300 - Sede - São Paulo - SP - 15370496')
     click_on 'Calcular valor de entrega'
     choose('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
     click_on 'Finalizar Compra'
+
     expect(page).to have_content('Pedido realizado com sucesso!')
     expect(page).to have_content('Produto 1')
     expect(page).to have_content('R$ 20,00')
@@ -91,7 +90,6 @@ describe 'User view order' do
     click_on 'Produto 1'
     fill_in 'CEP', with: '15370496'
     click_on 'Calcular por CEP'
-
     click_on 'Adicionar ao carrinho'
     choose('Avenida Paulista - 1300 - Sede - São Paulo - SP - 15370496')
     click_on 'Calcular valor de entrega'
