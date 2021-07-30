@@ -3,11 +3,15 @@ Rails.application.routes.draw do
   devise_for :admins
   root 'home#index'
   resources :products, only: %i[show] do
-    resources :shippings, only: %i[index]
+    resources :shippings, only: %i[index] 
+    get '/shippings_options', to: 'shippings#shippings_options'
   end
-  namespace :users do
+  namespace :user do
+    resources :products, only: %i[show] do
+      resources :carts, only: %i[create]
+    end
     resources :evaluations, only: %i[create edit update]
-    resources :carts, only: %i[index show create] do
+    resources :carts, only: %i[index show update] do
       get 'my_orders', on: :collection
       get 'order', on: :member
     end

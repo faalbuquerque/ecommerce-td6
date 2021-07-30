@@ -1,0 +1,8 @@
+<h1>Meus Pedidos</h1>
+
+<% @orders.each do |order| %>
+  <p><%= order.product.name %></p>
+  <%= number_to_currency order.product.price %>
+  <%= number_to_currency order.shipping_price %>
+  <%= order.product.brand %>
+<% end %>

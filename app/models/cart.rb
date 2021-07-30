@@ -5,10 +5,7 @@ class Cart < ApplicationRecord
 
   validates :product_id, presence: true
 
-  enum status: { approved: 0, delivered: 1 }
-  def set_quantity
-    self.quantity = 1 if quantity.blank?
-  end
+  enum status: { pending: 0, success: 1, delivered: 5 }
 
   def elegible_for_return
     delivery_date && delivery_date > 8.days.ago

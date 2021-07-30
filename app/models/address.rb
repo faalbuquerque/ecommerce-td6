@@ -4,6 +4,6 @@ class Address < ApplicationRecord
   has_many :carts, dependent: :destroy
 
   def display_address
-    # 'Cidade - Estado'
+    "#{street} - #{number} - #{neighborhood} - #{city} - #{state} - #{cep}"
   end
 end
