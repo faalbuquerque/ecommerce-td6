@@ -34,7 +34,7 @@ class Admin::ProductsController < Admin::AdminController
   def product_params
     params.require(:product).permit(:name, :price, :brand, :description,
                                     :height, :length, :width, :weight,
-                                    :product_picture, :fragile, :sku)
+                                    :product_picture, :fragile, :sku, category_ids: [])
   end
 
   def find_product

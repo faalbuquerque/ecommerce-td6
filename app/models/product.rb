@@ -10,7 +10,7 @@ class Product < ApplicationRecord
   has_one_attached :product_picture
 
   validates :name, :brand, :price, :length, :width, :height, :weight,
-            :description, :sku, :product_picture, :fragile, presence: true
+            :description, :sku, :product_picture, :fragile, :categories, presence: true
 
   validates :sku, uniqueness: true
 

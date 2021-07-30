@@ -4,7 +4,7 @@ describe 'Admin manages products' do
   context 'create' do
     it 'successfully' do
       admin = create(:admin)
-
+      create(:category, name: 'Eletrônicos')
       login_as admin, scope: :admin
       visit admin_root_path
       click_on 'Produtos'
@@ -19,9 +19,10 @@ describe 'Admin manages products' do
       fill_in 'Comprimento', with: 0.53
       fill_in 'Peso', with: 1
       select 'Sim', from: 'Frágil?'
+      check 'Eletrônicos'
       attach_file('product_picture', Rails.root.join('spec/fixtures/files/product.jpg'))
-      expect { click_on 'Registrar' }.to change { Product.count }.by(1)
 
+      expect { click_on 'Registrar' }.to change { Product.count }.by(1)
       expect(page).to have_content('Produto 1')
       expect(page).to have_content('Marca 1')
       expect(page).to have_content('R$ 20')
@@ -32,6 +33,19 @@ describe 'Admin manages products' do
       expect(page).to have_content('Peso: 1.0 kg')
       expect(page).to have_content('SKU: 123456abcdef')
       expect(page).to have_content('Frágil')
+      expect(page).to have_css('img[src*="product.jpg"]')
+    end
+
+    it 'and attributes cannot be blank' do
+      admin = create(:admin)
+      create(:category, name: 'Eletrônicos')
+
+      login_as admin, scope: :admin
+      visit admin_products_path
+      click_on 'Adicionar Produto'
+      click_on 'Registrar'
+
+      expect(page).to have_content('não pode ficar em branco', count: 11)
     end
 
     it 'and attributes cannot be blank' do
@@ -42,7 +56,7 @@ describe 'Admin manages products' do
       click_on 'Adicionar Produto'
       click_on 'Registrar'
 
-      expect(page).to have_content('não pode ficar em branco', count: 10)
+      expect(page).to have_content('não pode ficar em branco', count: 11)
     end
 
     it 'and sku must be unique' do
@@ -71,9 +85,10 @@ describe 'Admin manages products' do
 
     it 'index' do
       admin = create(:admin)
-
-      create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1')
-      create(:product, name: 'Nome do Produto 2', brand: 'Marca do Produto 2')
+      create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1',
+                       product_picture: fixture_file_upload(Rails.root.join('spec/fixtures/files/product.jpg')))
+      create(:product, name: 'Nome do Produto 2', brand: 'Marca do Produto 2',
+                       product_picture: fixture_file_upload(Rails.root.join('spec/fixtures/files/product.jpg')))
 
       login_as admin, scope: :admin
       visit admin_root_path
@@ -84,13 +99,15 @@ describe 'Admin manages products' do
       expect(page).to have_content('R$ 20,00')
       expect(page).to have_content('Nome do Produto 2')
       expect(page).to have_content('Marca do Produto 2')
+      expect(page).to have_css('img[src*="product.jpg"]')
     end
     it 'show' do
       admin = create(:admin)
-
+      picture = fixture_file_upload(Rails.root.join('spec/fixtures/files/product.jpg'))
       product = create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1',
                                  description: 'Descrição sobre este produto', height: '2', width: '1',
-                                 length: '3', weight: '4', sku: 'woeife3483ru')
+                                 length: '3', weight: '4', sku: 'woeife3483ru',
+                                 product_picture: picture)
 
       login_as admin, scope: :admin
       visit admin_product_path(product)
@@ -105,13 +122,15 @@ describe 'Admin manages products' do
       expect(page).to have_content('4.0 kg')
       expect(page).to have_content('SKU: woeife3483ru')
       expect(page).to have_content('Frágil')
+      expect(page).to have_css('img[src*="product.jpg"]')
     end
   end
 
   context 'edit' do
     it 'successfully' do
       admin = create(:admin)
-      create(:product, name: 'Produto novo')
+      create(:product, name: 'Produto novo',
+                       product_picture: fixture_file_upload(Rails.root.join('spec/fixtures/files/product.jpg')))
 
       login_as admin, scope: :admin
       visit admin_root_path
@@ -128,8 +147,8 @@ describe 'Admin manages products' do
       fill_in 'Comprimento', with: 0.54
       fill_in 'Peso', with: 22
       select 'Não', from: 'Frágil?'
-      expect { click_on 'Atualizar' }.to change { Product.count }.by(0)
 
+      expect { click_on 'Atualizar' }.to change { Product.count }.by(0)
       expect(page).to have_content('Produto Alterado')
       expect(page).to have_content('Marca Alterado')
       expect(page).to have_content('R$ 22')
@@ -140,6 +159,7 @@ describe 'Admin manages products' do
       expect(page).to have_content('Peso: 22.0 kg')
       expect(page).to have_content('SKU: 00000abcdef')
       expect(page).to have_content('Não Frágil')
+      expect(page).to have_css('img[src*="product.jpg"]')
     end
 
     it 'and attributes cannot be blank' do

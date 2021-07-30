@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_30_000138) do
+ActiveRecord::Schema.define(version: 2021_07_30_202754) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -111,11 +111,11 @@ ActiveRecord::Schema.define(version: 2021_07_30_000138) do
 
   create_table "product_categories", force: :cascade do |t|
     t.integer "product_id", null: false
-    t.integer "subcategory_id", null: false
+    t.integer "category_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["category_id"], name: "index_product_categories_on_category_id"
     t.index ["product_id"], name: "index_product_categories_on_product_id"
-    t.index ["subcategory_id"], name: "index_product_categories_on_subcategory_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(version: 2021_07_30_000138) do
   add_foreign_key "carts", "users"
   add_foreign_key "evaluations", "products"
   add_foreign_key "evaluations", "users"
-  add_foreign_key "product_categories", "categories", column: "subcategory_id"
+  add_foreign_key "product_categories", "categories"
   add_foreign_key "product_categories", "products"
   add_foreign_key "returns", "carts"
   add_foreign_key "returns", "users"

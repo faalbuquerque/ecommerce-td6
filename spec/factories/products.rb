@@ -12,5 +12,6 @@ FactoryBot.define do
     height { 0.4 }
     weight { 0.4 }
     sequence(:brand) { |n| "Marca X#{n}" }
+    categories { build_list :category, 3 }
   end
 end

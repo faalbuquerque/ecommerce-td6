@@ -23,5 +23,8 @@
   <p>
     Marca: <%= product.brand %>
   </p>
+  <p>
+    <%= image_tag(product.product_picture.variant(resize_to_fill: [50, 50, gravity: 'north'])) %>
+  </p>
   <hr>
 <% end %>

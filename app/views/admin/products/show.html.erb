@@ -18,3 +18,8 @@
 <% else %>
   <p>Não Frágil</p>
 <% end %>
+<p>Categorias:</p>
+<% @product.categories.each do |category| %>
+  <p><%= category.name %></p>
+<% end %>
+<%= image_tag(@product.product_picture.variant(resize_to_fill: [150, 150, gravity: 'north'])) %>
