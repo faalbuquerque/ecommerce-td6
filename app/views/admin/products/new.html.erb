@@ -1,5 +1,6 @@
+<p>
+  <%= link_to 'Voltar', admin_products_path, class:"btn btn-primary btn-sm" %>
+</p>
 <h2><%= t('.title') %></h2>
 <%= render 'form', product: @product, products: @products, url: admin_products_path, button_text: t('.submit') %> 
 <%= link_to 'Cancelar', '#', class:"btn btn-dark btn-sm mb-1 mt-1" %>
-
-

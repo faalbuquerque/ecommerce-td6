@@ -6,13 +6,13 @@
     <% return t('.not_result') if @products.blank? %>
     <% @products.each do |product| %>
     <div class="item">
-      <p class='teste'>
+      <p>
         <%= link_to product.name, product_path(product), class:'btn btn-primary' %>
       </p>
-      <p class='teste'>
+      <p>
         <%= t('.brand') %>: <%= product.brand %>
       </p>
-      <p class='teste'>
+      <p>
         <%= t('.price') %><%= product.price %>
       </p>
     </div>
