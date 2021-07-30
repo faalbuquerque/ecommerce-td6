@@ -1,4 +1,4 @@
-class User::ReturnsController < ApplicationController
+class User::ReturnsController < User::UsersController
   def index
     @returns = current_user.returns
   end

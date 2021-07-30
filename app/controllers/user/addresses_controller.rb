@@ -1,6 +1,4 @@
 class User::AddressesController < User::UsersController
-  before_action :authenticate_user!
-
   def index
     @addresses = current_user.addresses
   end
