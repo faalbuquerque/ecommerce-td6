@@ -79,9 +79,9 @@ ActiveRecord::Schema.define(version: 2021_07_29_002553) do
     t.date "shipping_time"
     t.string "latitude"
     t.string "longitude"
-    t.datetime "delivery_date"
     t.integer "status", default: 0, null: false
     t.string "service_order"
+    t.datetime "delivery_date"
     t.index ["address_id"], name: "index_carts_on_address_id"
     t.index ["product_id"], name: "index_carts_on_product_id"
     t.index ["user_id"], name: "index_carts_on_user_id"

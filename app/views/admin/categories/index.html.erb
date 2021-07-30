@@ -1,4 +1,5 @@
-
+<h2>Categorias</h2>
+<br>
 <% @categories.each do |category| %>
   <p>
     <%= link_to category.name, edit_admin_category_path(category) %>
@@ -7,7 +8,6 @@
     <%= category.status %>
   </p>
 <% end %>
-
 <p>
-  <%= link_to 'Adicionar categoria', new_admin_category_path %>
+  <%= link_to 'Adicionar categoria', new_admin_category_path, class:"btn btn-primary btn-sm" %>
 </p>
