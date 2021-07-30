@@ -4,6 +4,7 @@ class ProductsController < ApplicationController
   def show
     @cart = Cart.new
     @stock = Stock.to_product(sku: @product.sku)
+    @stock = Stock.new(quantity: 1)
     @shipping = Shipping.new
   end
 

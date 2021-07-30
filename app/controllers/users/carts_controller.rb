@@ -24,9 +24,10 @@ class Users::CartsController < User::UsersController
   def update
     @cart = current_user.carts.find(params[:id])
 
-    #  return flash.now[:notice] = 'Fora de estoque' unless Stock.to_product(sku: @cart.product.sku)   # isso aqui é para reconfirmar se ainda tinha estoque
+    #  return flash.now[:notice] = 'Fora de estoque' unless Stock.to_product(sku: @cart.product.sku)
+    # isso aqui seria para reconfirmar se ainda tinha estoque
     #  stock_address = Stock.find_address(@cart.warehouse_code)
-    #  keys_shipping = {sku: @cart.product.sku, final_address: ENDEREÇODOCLIENTE-STRING,
+    #  keys_shipping = {sku: @cart.product.sku, final_address: ENDERECODOCLIENTE-STRING,
     #                   initial_address: stock_address, shipping_co_id: @cart.shipping_id,
     #                   price: @cart.shipping_price, shipment_deadline: @cart.shipping_time }
     #  service_order = Shipping.selling_conclusion(keys_shipping)

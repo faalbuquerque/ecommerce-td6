@@ -1,6 +1,7 @@
-def find_shippings(attributes, shippings_json, cep)
+def find_shippings(attributes, shippings_json, custumer)
   allow(Faraday).to receive(:get)
-    .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings", params: { **attributes, cep: cep })
+    .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
+          params: { product: attributes, custumer: custumer })
     .and_return(instance_double(Faraday::Response, status: 200,
                                                    body: shippings_json))
 end

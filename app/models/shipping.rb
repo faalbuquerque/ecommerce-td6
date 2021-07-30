@@ -27,20 +27,12 @@ class Shipping
     new
   end
 
-  #  def self.selling_conclusion(keys_shipping)
-  #    response = Faraday.post("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/service_orders"),
-  #                             params: { service_order: { **keys_shipping } }
-  #    return nil unless response.status == 200
-
-  #    JSON.parse(response.body, symbolize_names: true)[:code]
-  #  rescue Faraday::ConnectionFailed
-  #    nil
-  #  end
-
-  def self.to_product(product, zip)
-    attributes = product.as_json(only: %i[sku weight length width height])
+  def self.to_product(product, address)
+    find_coord(address)
+    setting_product(product)
+    attributes = { product: @product, custumer: @custumer }
     response = Faraday.get("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-                           params: { cep: zip, **attributes })   # MODIFICAR PARAMS
+                           params: { **attributes })
     return [] unless response.status == 200
 
     result = JSON.parse(response.body, symbolize_names: true)
@@ -59,4 +51,32 @@ class Shipping
       new(**attributes)
     end
   end
+
+  def self.find_coord(address)
+    states = { AC: 'Acre', AL: 'Alagoas', AP: 'Amapá', AM: 'Amazonas', BA: 'Bahia',
+               CE: 'Ceará', DF: 'Distrito Federal', ES: 'Espírito Santo', GO: 'Goiás',
+               MA: 'Maranhão', MT: 'Mato Grosso', MS: 'Mato Grosso do Sul', MG: 'Minas Gerais',
+               PA: 'Pará', PB: 'Paraíba', PR: 'Paraná', PE: 'Pernambuco', PI: 'Piauí',
+               RJ: 'Rio de Janeiro', RN: 'Rio Grande do Norte', RS: 'Rio Grande do Sul',
+               RO: 'Rondônia', RR: 'Roraima', SC: 'Santa Catarina', SP: 'São Paulo',
+               SE: 'Sergipe', TO: 'Tocantins' }
+    state = states.key(address.state).to_s
+    coord = address.coordinates
+    @custumer = { lat: coord[0], lon: coord[1], state: state }
+  end
+
+  def self.setting_product(product)
+    vol = product.height * product.length * product.width
+    @product = { sku: product.sku, volume: vol, weight: product.weight }
+  end
+
+  #  def self.selling_conclusion(keys_shipping)
+  #    response = Faraday.post("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/service_orders"),
+  #                             params: { service_order: { **keys_shipping } }
+  #    return nil unless response.status == 200
+
+  #    JSON.parse(response.body, symbolize_names: true)[:code]
+  #  rescue Faraday::ConnectionFailed
+  #    nil
+  #  end
 end

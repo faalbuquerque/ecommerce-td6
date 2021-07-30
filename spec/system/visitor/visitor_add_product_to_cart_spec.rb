@@ -42,7 +42,8 @@ describe 'add products to cart' do
                                  description: 'Descrição sobre este produto',
                                  price: 30, height: '2', width: '1',
                                  length: '3', weight: '4', sku: 'woeife3483ru')
-      attributes = product.as_json(only: %i[sku weight length width height])
+      vol = product.height * product.width * product.length
+      attributes = { sku: product.sku, volume: vol, weight: product.weight }
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
       allow(Faraday).to receive(:get)
@@ -51,13 +52,13 @@ describe 'add products to cart' do
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
         .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-              params: { **attributes, cep: '13015301' })
+              params: { product: attributes, custumer: { lat: -22.9054968, lon: -47.0538185, state: 'SP' } })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
       visit root_path
       click_on 'Nome do Produto 1'
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
+      fill_in 'Endereço', with: '800 Rua Padre Vieira - Centro, Campinas - São Paulo'
+      click_on 'Estimar Frete'
 
       expect(page).to have_content('Frete 1')
       expect(page).to have_content('R$ 15,00')
@@ -73,14 +74,15 @@ describe 'add products to cart' do
                                  length: '3', weight: '4', sku: 'woeife3483ru')
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       no_stock_json = File.read(Rails.root.join('spec/fixtures/no_product_stock.json'))
-      attributes = product.as_json(only: %i[sku weight length width height])
+      vol = product.height * product.width * product.length
+      attributes = { sku: product.sku, volume: vol, weight: product.weight }
       allow(Faraday).to receive(:get)
         .with("#{Rails.configuration.external_apis[:stock_api]}/api/v1/ecommerce/warehouses/#{product.sku}")
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: no_stock_json))
       allow(Faraday).to receive(:get)
         .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-              params: { **attributes, cep: '13015301' })
+              params: { product: attributes, custumer: { lat: -22.9054968, lon: -47.0538185, state: 'SP' } })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
 
@@ -99,7 +101,8 @@ describe 'add products to cart' do
                                  description: 'Descrição sobre este produto',
                                  price: 30, height: '2', width: '1',
                                  length: '3', weight: '4', sku: 'woeife3483ru')
-      attributes = product.as_json(only: %i[sku weight length width height])
+      vol = product.height * product.width * product.length
+      attributes = { sku: product.sku, volume: vol, weight: product.weight }
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
       allow(Faraday).to receive(:get)
@@ -108,15 +111,15 @@ describe 'add products to cart' do
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
         .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-              params: { **attributes, cep: '13015301' })
+              params: { product: attributes, custumer: { lat: -22.9054968, lon: -47.0538185, state: 'SP' } })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
 
       login_as user, scope: :user
       visit root_path
       click_on 'Nome do Produto 1'
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
+      fill_in 'Endereço', with: '800 Rua Padre Vieira - Centro, Campinas - São Paulo'
+      click_on 'Estimar Frete'
       click_on 'Adicionar ao carrinho'
       click_on 'Nome do Produto 1'
 
@@ -131,7 +134,8 @@ describe 'add products to cart' do
                                  description: 'Descrição sobre este produto',
                                  price: 30, height: '2', width: '1',
                                  length: '3', weight: '4', sku: 'woeife3483ru')
-      attributes = product.as_json(only: %i[sku weight length width height])
+      vol = product.height * product.width * product.length
+      attributes = { sku: product.sku, volume: vol, weight: product.weight }
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
       allow(Faraday).to receive(:get)
@@ -140,15 +144,15 @@ describe 'add products to cart' do
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
         .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-              params: { **attributes, cep: '13015301' })
+              params: { product: attributes, custumer: { lat: -22.9054968, lon: -47.0538185, state: 'SP' } })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
 
       login_as user, scope: :user
       visit root_path
       click_on 'Nome do Produto 1'
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
+      fill_in 'Endereço', with: '800 Rua Padre Vieira - Centro, Campinas - São Paulo'
+      click_on 'Estimar Frete'
       click_on 'Adicionar ao carrinho'
 
       expect(page).to have_content('Produto adicionado ao carrrinho com sucesso!')
@@ -158,7 +162,8 @@ describe 'add products to cart' do
                                  description: 'Descrição sobre este produto',
                                  price: 30, height: '2', width: '1',
                                  length: '3', weight: '4', sku: 'woeife3483ru')
-      attributes = product.as_json(only: %i[sku weight length width height])
+      vol = product.height * product.width * product.length
+      attributes = { sku: product.sku, volume: vol, weight: product.weight }
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
       allow(Faraday).to receive(:get)
@@ -167,14 +172,14 @@ describe 'add products to cart' do
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
         .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-              params: { **attributes, cep: '13015301' })
+              params: { product: attributes, custumer: { lat: -22.9054968, lon: -47.0538185, state: 'SP' } })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
 
       visit root_path
       click_on 'Nome do Produto 1'
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
+      fill_in 'Endereço', with: '800 Rua Padre Vieira - Centro, Campinas - São Paulo'
+      click_on 'Estimar Frete'
 
       expect(page).to have_content('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
       expect(page).to_not have_button('Adicionar ao Carrinho')
@@ -186,25 +191,23 @@ describe 'add products to cart' do
                                  description: 'Descrição sobre este produto',
                                  price: 30, height: '2', width: '1',
                                  length: '3', weight: '4', sku: 'woeife3483ru')
-      attributes = product.as_json(only: %i[sku weight length width height])
+      vol = product.height * product.width * product.length
+      attributes = { sku: product.sku, volume: vol, weight: product.weight }
       shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
       allow(Faraday).to receive(:get)
         .with("#{Rails.configuration.external_apis[:stock_api]}/api/v1/ecommerce/warehouses/#{product.sku}")
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: stock_json))
+        .and_return(instance_double(Faraday::Response, status: 200, body: stock_json))
       allow(Faraday).to receive(:get)
         .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-              params: { **attributes, cep: '13015301' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: shippings_json))
+              params: { product: attributes, custumer: { lat: -22.9054968, lon: -47.0538185, state: 'SP' } })
+        .and_return(instance_double(Faraday::Response, status: 200, body: shippings_json))
 
       login_as user, scope: :user
       visit root_path
       click_on 'Nome do Produto 1'
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
-
+      fill_in 'Endereço', with: '800 Rua Padre Vieira - Centro, Campinas - São Paulo'
+      click_on 'Estimar Frete'
       click_on 'Adicionar ao carrinho'
 
       expect(page).to have_content('Obrigatório escolher o frete para adicionar ao carrinho')
@@ -238,7 +241,8 @@ describe 'add products to cart' do
   context 'shipping' do
     it 'to_product not status 200' do
       product = create(:product, name: 'Nome do Produto 1', sku: 'woeife3483ru')
-      attributes = product.as_json(only: %i[sku weight length width height])
+      vol = product.height * product.width * product.length
+      attributes = { sku: product.sku, volume: vol, weight: product.weight }
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
 
       allow(Faraday).to receive(:get)
@@ -247,13 +251,13 @@ describe 'add products to cart' do
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
         .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-              params: { **attributes, cep: '13015301' })
+              params: { product: attributes, custumer: { lat: -22.9054968, lon: -47.0538185, state: 'SP' } })
         .and_return(instance_double(Faraday::Response, status: 500, body: ''))
 
       visit root_path
       click_on 'Nome do Produto 1'
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
+      fill_in 'Endereço', with: '800 Rua Padre Vieira - Centro, Campinas - São Paulo'
+      click_on 'Estimar Frete'
 
       expect(page).to_not have_button('Adicionar ao Carrinho')
       expect(page).to have_content('Não foi possível calcular o frete')
@@ -261,7 +265,8 @@ describe 'add products to cart' do
     it 'to_product Connection failure in shipping api' do
       product = create(:product, name: 'Nome do Produto 1', sku: 'woeife3483ru')
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-      attributes = product.as_json(only: %i[sku weight length width height])
+      vol = product.height * product.width * product.length
+      attributes = { sku: product.sku, volume: vol, weight: product.weight }
 
       allow(Faraday).to receive(:get)
         .with("#{Rails.configuration.external_apis[:stock_api]}/api/v1/ecommerce/warehouses/#{product.sku}")
@@ -269,13 +274,13 @@ describe 'add products to cart' do
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
         .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-              params: { **attributes, cep: '13015301' })
+              params: { product: attributes, custumer: { lat: -22.9054968, lon: -47.0538185, state: 'SP' } })
         .and_raise(Faraday::ConnectionFailed, nil)
 
       visit product_path(product)
 
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
+      fill_in 'Endereço', with: '800 Rua Padre Vieira - Centro, Campinas - São Paulo'
+      click_on 'Estimar Frete'
 
       expect(page).to_not have_button('Adicionar ao Carrinho')
       expect(page).to have_text('Não foi possível calcular o frete')
