@@ -5,7 +5,8 @@ pt-BR:
       cart:
         statuses:
           delivered: Pedido Entregue
-          approved: Pedido Realizado
+          success: Pedido Realizado
+          pending: Pendente
   user:
     carts:
       create:

@@ -50,7 +50,8 @@ describe 'add products to cart' do
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/shipping", params: { **attributes, cep: '13015301' })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
+              params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
       visit root_path
@@ -78,7 +79,8 @@ describe 'add products to cart' do
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: no_stock_json))
       allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/shipping", params: { **attributes, cep: '13015301' })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
+              params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
 
@@ -105,7 +107,8 @@ describe 'add products to cart' do
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/shipping", params: { **attributes, cep: '13015301' })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
+              params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
 
@@ -136,7 +139,8 @@ describe 'add products to cart' do
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/shipping", params: { **attributes, cep: '13015301' })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
+              params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
 
@@ -162,7 +166,8 @@ describe 'add products to cart' do
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/shipping", params: { **attributes, cep: '13015301' })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
+              params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
 
@@ -189,7 +194,8 @@ describe 'add products to cart' do
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/shipping", params: { **attributes, cep: '13015301' })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
+              params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: shippings_json))
 
@@ -240,7 +246,8 @@ describe 'add products to cart' do
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/shipping", params: { **attributes, cep: '13015301' })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
+              params: { **attributes, cep: '13015301' })
         .and_return(instance_double(Faraday::Response, status: 500, body: ''))
 
       visit root_path
@@ -261,7 +268,8 @@ describe 'add products to cart' do
         .and_return(instance_double(Faraday::Response, status: 200,
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/shipping", params: { **attributes, cep: '13015301' })
+        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
+              params: { **attributes, cep: '13015301' })
         .and_raise(Faraday::ConnectionFailed, nil)
 
       visit product_path(product)
