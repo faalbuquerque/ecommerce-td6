@@ -1,12 +1,12 @@
 class Users::CartsController < User::UsersController
   before_action :find_product, only: %i[create]
-  before_action :find_apis, only: %i[create]
+  before_action :find_stock, only: %i[create]
   before_action :check_shipping, only: %i[update]
   before_action :find_cart, only: %i[show order]
   before_action :setting_evaluation, only: %i[order]
 
   def index
-    @carts = current_user.carts.where(status: 'pending')
+    @carts = current_user.carts.pending
   end
 
   def show; end
@@ -57,9 +57,7 @@ class Users::CartsController < User::UsersController
   end
 
   def check_shipping
-    raise ActiveRecord::RecordNotFound if params[:cart][:shipping_id].blank?
-
-    @shipping = Shipping.chosen(params[:cart][:shipping_id])
+    @shipping = Shipping.chosen!(params[:cart][:shipping_id])
   rescue ActiveRecord::RecordNotFound
     redirect_to users_carts_path, alert: t('.required_shipping')
   end
@@ -68,8 +66,7 @@ class Users::CartsController < User::UsersController
     @product = Product.find(params[:product_id])
   end
 
-  def find_apis
-    @shipping = Shipping.chosen(params[:shipping_id])
+  def find_stock
     @stock = Stock.to_product(sku: @product.sku)
   end
 

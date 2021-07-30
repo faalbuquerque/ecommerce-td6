@@ -3,7 +3,6 @@ class ShippingsController < ApplicationController
   before_action :find_address, only: %i[shippings_options]
 
   def index
-    session[:cep] = shipping_params[:cep]
     @shippings = Shipping.to_product(@product, shipping_params[:cep])
     render 'products/show'
   end

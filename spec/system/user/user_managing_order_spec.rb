@@ -97,6 +97,6 @@ describe 'User view order' do
     click_on 'Calcular valor de entrega'
     click_on 'Finalizar Compra'
 
-    expect(page).to have_content('Selecione o frete')
+    expect(page).to have_content('Obrigatório escolher o frete para adicionar ao carrinho')
   end
 end

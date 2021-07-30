@@ -2,13 +2,12 @@
 <div class="alert alert-warning alert-dismissible fade show d-inline-block" role="alert">
   <%= flash[:message] unless flash[:message].blank? %>
 </div>
-<div>
-  <% @carts.each do |cart| %>
-    <% if !cart.delivered? %>
-      <ul>
-        <li><%= link_to cart.product.name, users_cart_path(cart), class:"btn btn-success btn-sm mb-1 mt-1" %></li>
-      </ul>
-    <% end %>
+<% @carts.each do |cart| %>
+  <% if !cart.delivered? %>
+    <ul>
+      <li><%= link_to cart.product.name, users_cart_path(cart), class:"btn btn-success btn-sm mb-1 mt-1" %></li>
+    </ul>
+  <% end %>
 
   <p><%= t('.calculate_frete') %>s</p>
   <%= form_with url: product_shippings_options_path(product_id: cart.product_id), method: :get do |form| %>
@@ -36,5 +35,4 @@
       <%= f.submit t('.update_order') %>
     <% end %>
   <% end %>
-
 <% end %>
