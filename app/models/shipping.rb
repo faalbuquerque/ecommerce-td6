@@ -15,6 +15,20 @@ class Shipping
     new(**result)
   end
 
+  def self.selling_conclusion(cart, address)
+    stock_address = Stock.find_address(cart.warehouse_code)
+    return nil unless stock_address
+
+    address_str = address.building_str
+    response = Faraday.post("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/service_orders",
+                            params: { service_order: { **keys_shipping(cart, address_str, stock_address) } })
+    return nil unless response.status == 200
+
+    JSON.parse(response.body, symbolize_names: true)[:code]
+  rescue Faraday::ConnectionFailed
+    nil
+  end
+
   def self.find_status_by_order(service_order)
     response = Faraday.get("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/service_orders/#{service_order}")
     return new unless response.status == 200
@@ -30,7 +44,7 @@ class Shipping
   def self.to_product(product, address)
     find_coord(address)
     setting_product(product)
-    attributes = { product: @product, custumer: @custumer }
+    attributes = { product: @product, customer: @customer }
     response = Faraday.get("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
                            params: { **attributes })
     return [] unless response.status == 200
@@ -62,7 +76,7 @@ class Shipping
                SE: 'Sergipe', TO: 'Tocantins' }
     state = states.key(address.state).to_s
     coord = address.coordinates
-    @custumer = { lat: coord[0], lon: coord[1], state: state }
+    @customer = { lat: coord[0], lon: coord[1], state: state }
   end
 
   def self.setting_product(product)
@@ -70,13 +84,9 @@ class Shipping
     @product = { sku: product.sku, volume: vol, weight: product.weight }
   end
 
-  #  def self.selling_conclusion(keys_shipping)
-  #    response = Faraday.post("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/service_orders"),
-  #                             params: { service_order: { **keys_shipping } }
-  #    return nil unless response.status == 200
-
-  #    JSON.parse(response.body, symbolize_names: true)[:code]
-  #  rescue Faraday::ConnectionFailed
-  #    nil
-  #  end
+  def self.keys_shipping(cart, address_str, stock_address)
+    { sku: cart.product.sku, final_address: address_str, initial_address: stock_address,
+      shipping_co_id: cart.shipping_id, price: cart.shipping_price,
+      shipment_deadline: cart.shipping_time }
+  end
 end

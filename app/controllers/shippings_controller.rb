@@ -1,9 +1,11 @@
 class ShippingsController < ApplicationController
   before_action :find_product, only: %i[index shippings_options]
+  before_action :find_stock, only: %i[index]
   before_action :find_address, only: %i[shippings_options]
 
   def index
     @shippings = Shipping.to_product(@product, Geocoder.search(params[:address_string]).first)
+    flash.now[:notice] = t('.failure') if @shippings.empty?
     render 'products/show'
   end
 
@@ -24,5 +26,11 @@ class ShippingsController < ApplicationController
     @geo = "#{@address.number} #{@address.street}, #{@address.neighborhood}, #{@address.city}, #{@address.state}"
   rescue ActiveRecord::RecordNotFound
     redirect_to users_carts_path, alert: t('.required_address')
+  end
+
+  def find_stock
+    @stock = Stock.to_product(sku: @product.sku)
+    @quantities = @stock.map { |stock| stock[:quantity] }
+    @quantity =  @quantities.max
   end
 end

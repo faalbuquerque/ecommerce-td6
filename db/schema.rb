@@ -110,15 +110,6 @@ ActiveRecord::Schema.define(version: 2021_07_30_053111) do
     t.index ["user_id"], name: "index_evaluations_on_user_id"
   end
 
-  create_table "orders", force: :cascade do |t|
-    t.integer "cart_id", null: false
-    t.integer "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["cart_id"], name: "index_orders_on_cart_id"
-    t.index ["user_id"], name: "index_orders_on_user_id"
-  end
-
   create_table "product_categories", force: :cascade do |t|
     t.integer "product_id", null: false
     t.integer "subcategory_id", null: false
@@ -176,8 +167,6 @@ ActiveRecord::Schema.define(version: 2021_07_30_053111) do
   add_foreign_key "carts", "users"
   add_foreign_key "evaluations", "products"
   add_foreign_key "evaluations", "users"
-  add_foreign_key "orders", "carts"
-  add_foreign_key "orders", "users"
   add_foreign_key "product_categories", "categories", column: "subcategory_id"
   add_foreign_key "product_categories", "products"
   add_foreign_key "returns", "carts"

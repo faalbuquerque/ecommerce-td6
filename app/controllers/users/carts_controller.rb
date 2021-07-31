@@ -1,12 +1,16 @@
 class Users::CartsController < User::UsersController
-  before_action :find_product, only: %i[create]
+  before_action :find_cart, only: %i[show order]
   before_action :find_apis, only: %i[create]
   before_action :check_shipping, only: %i[update]
-  before_action :find_cart, only: %i[show order]
   before_action :setting_evaluation, only: %i[order]
 
   def index
     @carts = current_user.carts.where(status: 'pending')
+
+    # shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
+
+    # result = JSON.parse(shippings_json, symbolize_names: true)
+    # @shippings = Shipping.from_json_array(result)
   end
 
   def show; end
@@ -23,19 +27,16 @@ class Users::CartsController < User::UsersController
 
   def update
     @cart = current_user.carts.find(params[:id])
+    return flash.now[:notice] = 'Fora de estoque' unless Stock.to_product(sku: @cart.product.sku)
 
-    #  return flash.now[:notice] = 'Fora de estoque' unless Stock.to_product(sku: @cart.product.sku)
-    # isso aqui seria para reconfirmar se ainda tinha estoque
-    #  stock_address = Stock.find_address(@cart.warehouse_code)
-    #  keys_shipping = {sku: @cart.product.sku, final_address: ENDERECODOCLIENTE-STRING,
-    #                   initial_address: stock_address, shipping_co_id: @cart.shipping_id,
-    #                   price: @cart.shipping_price, shipment_deadline: @cart.shipping_time }
-    #  service_order = Shipping.selling_conclusion(keys_shipping)
-    #  keys_stock = {sku: @cart.product.sku, shipping_co_id: @cart.shipping_id,
-    #                warehouse_code: @cart.warehouse.code, service_order: service_order}
-    #  Stock.reservation(keys_stock)
-    # @cart.update(service_order: service_order)
-    redirect_to users_cart_path(@cart), notice: t('.success') if @cart.update(create_params.merge(status: 'success'))
+    return redirect_to users_cart_path(@cart), notice: t('.shipping_failure') unless notificate_shipping(params)
+
+    if @cart.update(service_order: @service_order)
+      redirect_to users_cart_path(@cart), notice: t('.success')
+    else
+      @cart.pending!
+      redirect_to users_cart_path(@cart)
+    end
   end
 
   def my_orders
@@ -76,17 +77,23 @@ class Users::CartsController < User::UsersController
     redirect_to users_carts_path, alert: t('.required_shipping')
   end
 
-  def find_product
-    @product = Product.find(params[:product_id])
+  def find_cart
+    @cart = Cart.find(params[:id])
   end
 
   def find_apis
+    @product = Product.find(params[:product_id])
     @shipping = Shipping.chosen(params[:shipping_id])
     @stock = Stock.to_product(sku: @product.sku)
   end
 
-  def find_cart
-    @cart = Cart.find(params[:id])
+  def notificate_shipping(params)
+    @address = Address.find(params[:cart][:address_id])
+    @cart.update(**create_params, status: 1)
+    @service_order = Shipping.selling_conclusion(@cart, @address)
+    if @service_order
+      Stock.reservation(@cart, @service_order) 
+    end
   end
 
   def setting_evaluation

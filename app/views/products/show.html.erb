@@ -13,7 +13,7 @@
     <% end %>
 </div>
 <div>
-  <% if @stock&.quantity.to_i > 0 %>
+  <% if @quantity.positive? %>
     <h4>Estimar frete</h4>
     <%= form_with url: product_shippings_path(product_id: @product), method: :get do |f| %>
       <div class="field form-group">
@@ -37,7 +37,7 @@
         <%= f.submit 'Adicionar ao carrinho', class:"btn btn-success btn-sm mb-1 mt-1" %>
       <% end %>
     <% end %>
-   <% end %>
+  <% end %>
 </div>
 <div>
   <p>Avaliação Média: <%= @product.average_rating %></p>

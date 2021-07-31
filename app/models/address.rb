@@ -9,4 +9,8 @@ class Address < ApplicationRecord
   def display_address
     "#{street} - #{number} - #{neighborhood} - #{city} - #{state} - #{cep}"
   end
+
+  def building_str
+    "#{street}, #{number}, #{neighborhood}, #{city}/#{state}"
+  end
 end

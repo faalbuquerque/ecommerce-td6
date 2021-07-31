@@ -15,9 +15,10 @@ pt-BR:
       update:
         success: Pedido realizado com sucesso!
         required_shipping: Selecione o frete
+        shipping_failure: Não foi possível concluir a compra, frete indisponível
       index:
         title: Seu Carrinho
-        calculate_frete: Calcular frete por CEP
+        calculate_frete: Calcular frete por Endereço
         calculate_shipping: Calcular valor de entrega
         new_address: Cadastrar Endereço
         update_order: Finalizar Compra
