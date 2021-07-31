@@ -114,6 +114,7 @@ GEM
     faraday-net_http_persistent (1.2.0)
     faraday-patron (1.0.0)
     ffi (1.15.3)
+    geocoder (1.6.7)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     i18n (1.8.10)
@@ -299,6 +300,7 @@ DEPENDENCIES
   devise
   factory_bot_rails
   faraday
+  geocoder
   image_processing (~> 1.2)
   jbuilder (~> 2.7)
   listen (~> 3.3)

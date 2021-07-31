@@ -1,15 +1,17 @@
 class ProductsController < ApplicationController
-  before_action :find_product, only: %i[show]
+  before_action :find_product_stock, only: %i[show]
 
   def show
     @cart = Cart.new
-    @stock = Stock.to_product(sku: @product.sku)
     @shipping = Shipping.new
   end
 
   private
 
-  def find_product
+  def find_product_stock
     @product = Product.find(params[:id])
+    @stock = Stock.to_product(sku: @product.sku)
+    @quantities = @stock.pluck(:quantity)
+    @quantity = @quantities.max
   end
 end

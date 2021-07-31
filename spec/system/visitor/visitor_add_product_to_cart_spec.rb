@@ -6,7 +6,7 @@ describe 'add products to cart' do
       create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1',
                        description: 'Descrição sobre este produto', price: 30,
                        height: '2', width: '1', length: '3',
-                       weight: '4', sku: 'woeife3483ru')
+                       weight: '4', sku: '1234abc')
 
       visit root_path
 
@@ -17,12 +17,9 @@ describe 'add products to cart' do
     it 'successfully show product' do
       product = create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1',
                                  description: 'Descrição sobre este produto', height: '2', width: '1',
-                                 length: '3', weight: '4', sku: 'woeife3483ru')
-      stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:stock_api]}/api/v1/ecommerce/warehouses/#{product.sku}")
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: stock_json))
+                                 length: '3', weight: '4', sku: '1234abc')
+
+      find_stock_product(sku: product.sku, status: 200)
 
       visit root_path
       click_on 'Nome do Produto 1'
@@ -41,23 +38,18 @@ describe 'add products to cart' do
       product = create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1',
                                  description: 'Descrição sobre este produto',
                                  price: 30, height: '2', width: '1',
-                                 length: '3', weight: '4', sku: 'woeife3483ru')
-      attributes = product.as_json(only: %i[sku weight length width height])
-      shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
-      stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:stock_api]}/api/v1/ecommerce/warehouses/#{product.sku}")
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: stock_json))
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-              params: { **attributes, cep: '13015301' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: shippings_json))
+                                 length: '3', weight: '4', sku: '1234abc')
+      vol = product.height * product.width * product.length
+      attributes = { sku: product.sku, volume: vol, weight: product.weight }
+      customer = { lat: -22.9054968, lon: -47.0538185, state: 'SP' }
+
+      find_stock_product(sku: product.sku, status: 200)
+      find_shippings(attributes: attributes, customer: customer, status: 200)
+
       visit root_path
       click_on 'Nome do Produto 1'
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
+      fill_in 'Endereço', with: '800 Rua Padre Vieira - Centro, Campinas - São Paulo'
+      click_on 'Estimar Frete'
 
       expect(page).to have_content('Frete 1')
       expect(page).to have_content('R$ 15,00')
@@ -70,19 +62,13 @@ describe 'add products to cart' do
       product = create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1',
                                  description: 'Descrição sobre este produto',
                                  price: 30, height: '2', width: '1',
-                                 length: '3', weight: '4', sku: 'woeife3483ru')
-      shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
-      no_stock_json = File.read(Rails.root.join('spec/fixtures/no_product_stock.json'))
-      attributes = product.as_json(only: %i[sku weight length width height])
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:stock_api]}/api/v1/ecommerce/warehouses/#{product.sku}")
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: no_stock_json))
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-              params: { **attributes, cep: '13015301' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: shippings_json))
+                                 length: '3', weight: '4', sku: '1234abc')
+      vol = product.height * product.width * product.length
+      attributes = { sku: product.sku, volume: vol, weight: product.weight }
+      customer = { lat: -22.9054968, lon: -47.0538185, state: 'SP' }
+
+      no_stock_product(sku: product.sku, status: 200)
+      find_shippings(attributes: attributes, customer: customer, status: 200)
 
       visit root_path
       click_on 'Nome do Produto 1'
@@ -98,25 +84,19 @@ describe 'add products to cart' do
       product = create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1',
                                  description: 'Descrição sobre este produto',
                                  price: 30, height: '2', width: '1',
-                                 length: '3', weight: '4', sku: 'woeife3483ru')
-      attributes = product.as_json(only: %i[sku weight length width height])
-      shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
-      stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:stock_api]}/api/v1/ecommerce/warehouses/#{product.sku}")
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: stock_json))
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-              params: { **attributes, cep: '13015301' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: shippings_json))
+                                 length: '3', weight: '4', sku: '1234abc')
+      vol = product.height * product.width * product.length
+      attributes = { sku: product.sku, volume: vol, weight: product.weight }
+      customer = { lat: -22.9054968, lon: -47.0538185, state: 'SP' }
+
+      find_stock_product(sku: product.sku, status: 200)
+      find_shippings(attributes: attributes, customer: customer, status: 200)
 
       login_as user, scope: :user
       visit root_path
       click_on 'Nome do Produto 1'
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
+      fill_in 'Endereço', with: '800 Rua Padre Vieira - Centro, Campinas - São Paulo'
+      click_on 'Estimar Frete'
       click_on 'Adicionar ao carrinho'
       click_on 'Nome do Produto 1'
 
@@ -130,25 +110,19 @@ describe 'add products to cart' do
       product = create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1',
                                  description: 'Descrição sobre este produto',
                                  price: 30, height: '2', width: '1',
-                                 length: '3', weight: '4', sku: 'woeife3483ru')
-      attributes = product.as_json(only: %i[sku weight length width height])
-      shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
-      stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:stock_api]}/api/v1/ecommerce/warehouses/#{product.sku}")
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: stock_json))
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-              params: { **attributes, cep: '13015301' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: shippings_json))
+                                 length: '3', weight: '4', sku: '1234abc')
+      vol = product.height * product.width * product.length
+      attributes = { sku: product.sku, volume: vol, weight: product.weight }
+      customer = { lat: -22.9054968, lon: -47.0538185, state: 'SP' }
+
+      find_stock_product(sku: product.sku, status: 200)
+      find_shippings(attributes: attributes, customer: customer, status: 200)
 
       login_as user, scope: :user
       visit root_path
       click_on 'Nome do Produto 1'
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
+      fill_in 'Endereço', with: '800 Rua Padre Vieira - Centro, Campinas - São Paulo'
+      click_on 'Estimar Frete'
       click_on 'Adicionar ao carrinho'
 
       expect(page).to have_content('Produto adicionado ao carrrinho com sucesso!')
@@ -157,24 +131,18 @@ describe 'add products to cart' do
       product = create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1',
                                  description: 'Descrição sobre este produto',
                                  price: 30, height: '2', width: '1',
-                                 length: '3', weight: '4', sku: 'woeife3483ru')
-      attributes = product.as_json(only: %i[sku weight length width height])
-      shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
-      stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:stock_api]}/api/v1/ecommerce/warehouses/#{product.sku}")
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: stock_json))
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-              params: { **attributes, cep: '13015301' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: shippings_json))
+                                 length: '3', weight: '4', sku: '1234abc')
+      vol = product.height * product.width * product.length
+      attributes = { sku: product.sku, volume: vol, weight: product.weight }
+      customer = { lat: -22.9054968, lon: -47.0538185, state: 'SP' }
+
+      find_stock_product(sku: product.sku, status: 200)
+      find_shippings(attributes: attributes, customer: customer, status: 200)
 
       visit root_path
       click_on 'Nome do Produto 1'
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
+      fill_in 'Endereço', with: '800 Rua Padre Vieira - Centro, Campinas - São Paulo'
+      click_on 'Estimar Frete'
 
       expect(page).to have_content('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
       expect(page).to_not have_button('Adicionar ao Carrinho')
@@ -185,26 +153,19 @@ describe 'add products to cart' do
       product = create(:product, name: 'Nome do Produto 1', brand: 'Marca do Produto 1',
                                  description: 'Descrição sobre este produto',
                                  price: 30, height: '2', width: '1',
-                                 length: '3', weight: '4', sku: 'woeife3483ru')
-      attributes = product.as_json(only: %i[sku weight length width height])
-      shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
-      stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:stock_api]}/api/v1/ecommerce/warehouses/#{product.sku}")
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: stock_json))
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-              params: { **attributes, cep: '13015301' })
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: shippings_json))
+                                 length: '3', weight: '4', sku: '1234abc')
+      vol = product.height * product.width * product.length
+      attributes = { sku: product.sku, volume: vol, weight: product.weight }
+      customer = { lat: -22.9054968, lon: -47.0538185, state: 'SP' }
+
+      find_stock_product(sku: product.sku, status: 200)
+      find_shippings(attributes: attributes, customer: customer, status: 200)
 
       login_as user, scope: :user
       visit root_path
       click_on 'Nome do Produto 1'
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
-
+      fill_in 'Endereço', with: '800 Rua Padre Vieira - Centro, Campinas - São Paulo'
+      click_on 'Estimar Frete'
       click_on 'Adicionar ao carrinho'
 
       expect(page).to have_content('Obrigatório escolher o frete para adicionar ao carrinho')
@@ -212,10 +173,9 @@ describe 'add products to cart' do
   end
   context 'stock' do
     it 'to_product status different from 200 stock' do
-      product = create(:product, name: 'Nome do Produto 1', sku: 'woeife3483ru')
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:stock_api]}/api/v1/ecommerce/warehouses/#{product.sku}")
-        .and_return(instance_double(Faraday::Response, status: 500, body: ''))
+      product = create(:product, name: 'Nome do Produto 1', sku: '1234abc')
+
+      find_stock_product(sku: product.sku, status: 500)
 
       visit root_path
       click_on 'Nome do Produto 1'
@@ -224,10 +184,9 @@ describe 'add products to cart' do
       expect(page).to_not have_button('Adicionar ao Carrinho')
     end
     it 'Connection failure in stock api' do
-      product = create(:product, name: 'Nome do Produto 1', sku: 'woeife3483ru')
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:stock_api]}/api/v1/ecommerce/warehouses/#{product.sku}")
-        .and_raise(Faraday::ConnectionFailed, nil)
+      product = create(:product, name: 'Nome do Produto 1', sku: '1234abc')
+
+      failure_stock_connection(sku: product.sku)
 
       visit root_path
       click_on 'Nome do Produto 1'
@@ -237,31 +196,27 @@ describe 'add products to cart' do
   end
   context 'shipping' do
     it 'to_product not status 200' do
-      product = create(:product, name: 'Nome do Produto 1', sku: 'woeife3483ru')
-      attributes = product.as_json(only: %i[sku weight length width height])
-      stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
+      product = create(:product, name: 'Nome do Produto 1', sku: '1234abc')
+      vol = product.height * product.width * product.length
+      attributes = { sku: product.sku, volume: vol, weight: product.weight }
+      customer = { lat: -22.9054968, lon: -47.0538185, state: 'SP' }
 
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:stock_api]}/api/v1/ecommerce/warehouses/#{product.sku}")
-        .and_return(instance_double(Faraday::Response, status: 200,
-                                                       body: stock_json))
-      allow(Faraday).to receive(:get)
-        .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-              params: { **attributes, cep: '13015301' })
-        .and_return(instance_double(Faraday::Response, status: 500, body: ''))
+      find_stock_product(sku: product.sku, status: 200)
+      find_shippings(attributes: attributes, customer: customer, status: 500)
 
       visit root_path
       click_on 'Nome do Produto 1'
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
+      fill_in 'Endereço', with: '800 Rua Padre Vieira - Centro, Campinas - São Paulo'
+      click_on 'Estimar Frete'
 
       expect(page).to_not have_button('Adicionar ao Carrinho')
       expect(page).to have_content('Não foi possível calcular o frete')
     end
     it 'to_product Connection failure in shipping api' do
-      product = create(:product, name: 'Nome do Produto 1', sku: 'woeife3483ru')
+      product = create(:product, name: 'Nome do Produto 1', sku: '1234abc')
       stock_json = File.read(Rails.root.join('spec/fixtures/product_stock.json'))
-      attributes = product.as_json(only: %i[sku weight length width height])
+      vol = product.height * product.width * product.length
+      attributes = { sku: product.sku, volume: vol, weight: product.weight }
 
       allow(Faraday).to receive(:get)
         .with("#{Rails.configuration.external_apis[:stock_api]}/api/v1/ecommerce/warehouses/#{product.sku}")
@@ -269,13 +224,13 @@ describe 'add products to cart' do
                                                        body: stock_json))
       allow(Faraday).to receive(:get)
         .with("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-              params: { **attributes, cep: '13015301' })
+              params: { product: attributes, customer: { lat: -22.9054968, lon: -47.0538185, state: 'SP' } })
         .and_raise(Faraday::ConnectionFailed, nil)
 
       visit product_path(product)
 
-      fill_in 'CEP', with: '13015301'
-      click_on 'Calcular por CEP'
+      fill_in 'Endereço', with: '800 Rua Padre Vieira - Centro, Campinas - São Paulo'
+      click_on 'Estimar Frete'
 
       expect(page).to_not have_button('Adicionar ao Carrinho')
       expect(page).to have_text('Não foi possível calcular o frete')

@@ -1,8 +1,7 @@
 class User::CartsController < User::UsersController
-  before_action :find_product, only: %i[create]
-  before_action :find_stock, only: %i[create]
-  before_action :check_shipping, only: %i[update]
   before_action :find_cart, only: %i[show order]
+  before_action :find_product, only: %i[create update]
+  before_action :check_shipping, only: %i[update]
   before_action :setting_evaluation, only: %i[order]
 
   def index
@@ -13,15 +12,22 @@ class User::CartsController < User::UsersController
 
   def create
     @cart = current_user.carts.new(carts_params)
-
     redirect_to user_carts_path, notice: t('.success') if @cart.save!
   end
+  # rubocop:disable Metrics/AbcSize
 
   def update
     @cart = current_user.carts.find(params[:id])
+    return redirect_to user_cart_path(@cart), notice: t('.shipping_failure') unless notificate_shipping(params)
 
-    redirect_to user_cart_path(@cart), notice: t('.success') if @cart.update(create_params.merge(status: 'success'))
+    if @cart.update(service_order: @service_order)
+      redirect_to user_cart_path(@cart), notice: t('.success')
+    else
+      @cart.pending!
+      redirect_to user_cart_path(@cart)
+    end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def my_orders
     @carts = current_user.carts
@@ -59,16 +65,20 @@ class User::CartsController < User::UsersController
     redirect_to user_carts_path, alert: t('.required_shipping')
   end
 
-  def find_product
-    @product = Product.find(params[:product_id])
+  def find_cart
+    @cart = Cart.find(params[:id])
   end
 
-  def find_stock
+  def find_product
+    @product = Product.find(params[:product_id])
     @stock = Stock.to_product(sku: @product.sku)
   end
 
-  def find_cart
-    @cart = Cart.find(params[:id])
+  def notificate_shipping(params)
+    @address = Address.find(params[:cart][:address_id])
+    @cart.update(**create_params, status: 1)
+    @service_order = Shipping.selling_conclusion(@cart, @address)
+    Stock.reservation(@cart, @service_order) if @service_order
   end
 
   def setting_evaluation

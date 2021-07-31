@@ -11,14 +11,16 @@
     <% if @product.product_picture.attached? %>
       <p><%= image_tag @product.product_picture %></p>
     <% end %>
-  <% if @stock&.quantity.to_i > 0 %>
-    <p>Calcular frete por CEP</p>
-    <%= form_with url: product_shippings_path(product_id: @product), method: :get do |f| %>
+</div>
+<div>
+  <% if @quantity.positive? %>
+    <h4>Estimar frete</h4>
+    <%= form_with url: product_shippings_path(product_id: @product, shiping_id: @shipping), method: :get do |f| %>
       <div class="field form-group">
-        <%= f.label :cep, 'CEP' %>
-        <%= f.text_field :cep, class:"form-control" %>
+        <%= f.label :address_string, 'Endereço' %>
+        <%= f.text_field :address_string, placeholder: "Nº Rua X, Bairro, Cidade, Estado", class:"form-control" %>
       </div>
-      <%= f.submit 'Calcular por CEP', class:"btn btn-success mb-1 mt-1" %>
+      <%= f.submit 'Estimar Frete', class:"btn btn-success mb-1 mt-1" %>
     <% end %>
   <% else %>
     <div class="alert alert-secondary" role="alert">
@@ -36,6 +38,8 @@
       <% end %>
     <% end %>
   <% end %>
+</div>
+<div>
   <p>Avaliação Média: <%= @product.average_rating %></p>
   <% @product.evaluations.each do |evaluation| %>
     <ul>

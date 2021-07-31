@@ -1,5 +1,12 @@
 {
-    "id": 1,
-    "name": "Produto 1",
-    "quantity": "10"
+  "warehouses":[
+    {
+      "warehouse_code":"ROB2",
+      "quantity":9
+    },
+    {
+      "warehouse_code":"AMZ1",
+      "quantity":3
+    }
+  ]
 }
