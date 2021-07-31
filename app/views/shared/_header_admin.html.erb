@@ -1,30 +1,25 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  
-  <%= link_to "Página Inicial", admin_root_path, class:"navbar-brand ms-4" %>
-  
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <%= link_to '', '#', class:"nav-link" %>
-      </li>
-      <% if admin_signed_in? %>
-        <li class="nav-item active">
-          <%= link_to 'Produtos', admin_products_path, class:"nav-link" %>
-        </li>
-        <li class="nav-item active">
-          <%= link_to 'Administradores', admin_registration_admins_path, class:"nav-link" %>
-        </li>
-        <li class="nav-item active">
-          <%= link_to 'Categorias', admin_categories_path, class:"nav-link" %>
-        </li>
-        <li class="nav-item active">
-          <%= link_to 'Sair', destroy_admin_session_path, method: :delete, class:"nav-link" %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-</nav>
+<header class="header-sectionss">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <%= link_to "Página Inicial", admin_root_path, class:"navbar-brand" %>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto container_product_show">
+          <% if admin_signed_in? %>
+            <li class="nav-item active">
+              <%= link_to 'Produtos', admin_products_path, class:"nav-link" %>
+            </li>
+            <li class="nav-item active">
+              <%= link_to 'Administradores', admin_registration_admins_path, class:"nav-link" %>
+            </li>
+            <li class="nav-item active">
+              <%= link_to 'Categorias', admin_categories_path, class:"nav-link" %>
+            </li>
+            <li>
+              <%= link_to 'Sair', destroy_admin_session_path, method: :delete, class:"nav-link align-items-right" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

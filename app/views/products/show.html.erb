@@ -29,7 +29,7 @@
     </div>
   <% end %> <br>
   <% if @shippings %>
-   <%= form_with url: users_product_carts_path(product_id: @product), model: @cart, scope: 'cart' do |f| %>
+   <%= form_with url: user_product_carts_path(product_id: @product), model: @cart, scope: 'cart' do |f| %>
       <% @shippings.each do |shipping| %>
         <p><%= shipping.display_name %></p>
       <% end %>

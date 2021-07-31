@@ -1,4 +1,4 @@
-class Users::EvaluationsController < User::UsersController
+class User::EvaluationsController < User::UsersController
   before_action :find_product_cart, only: %i[create]
   before_action :find_evaluation, only: %i[edit update]
 
@@ -8,7 +8,7 @@ class Users::EvaluationsController < User::UsersController
       @product.calc_rate
       redirect_to product_path(@product)
     else
-      render 'users/carts/order'
+      render 'user/carts/order'
     end
   end
 
@@ -19,7 +19,7 @@ class Users::EvaluationsController < User::UsersController
       @product.calc_rate
       redirect_to product_path(@evaluation.product)
     else
-      render 'users/evaluations/edit'
+      render 'user/evaluations/edit'
     end
   end
 

@@ -8,9 +8,13 @@ class Shipping
     "#{@name} - Preço: #{number_to_currency(@price)} - Prazo de entrega: #{@arrival_time} dias úteis"
   end
 
-  def self.chosen(shipping)
-    return nil if shipping.nil?
+  def self.chosen!(shipping_id)
+    raise ActiveRecord::RecordNotFound if shipping_id.blank?
 
+    chosen(shipping_id)
+  end
+
+  def self.chosen(shipping)
     result = JSON.parse(shipping, symbolize_names: true)
     new(**result)
   end

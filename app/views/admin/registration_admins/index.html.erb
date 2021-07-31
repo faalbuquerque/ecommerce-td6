@@ -1,6 +1,9 @@
 <h2><%= t('.title') %></h2>
+<br>
 <% @admins.each do |admin| %>
   <p><%= admin.email %></p>
 <% end %>
-
-<%= link_to t('.new_admin'), new_admin_registration_admin_path %>
+<br>
+<p>
+  <%= link_to t('.new_admin'), new_admin_registration_admin_path, class:"btn btn-primary btn-sm" %>
+</p>

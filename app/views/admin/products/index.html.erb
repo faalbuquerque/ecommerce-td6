@@ -1,20 +1,27 @@
-<div class="container">
-  <h2>
-  <% if @products.empty? %>
-    Nenhum produto cadastrado
-  <% else %>
-    Produtos
-  <% end %>
-  </h2>
+<p>
+  <%= link_to 'Voltar', root_path, class:"btn btn-primary btn-sm" %>
+</p>
+<h2>
+<% if @products.empty? %>
+  Nenhum produto cadastrado
+<% else %>
+  Produtos <br>
+<% end %>
+</h2>
+<br>
+<p>
   <%= link_to "Adicionar Produto", new_admin_product_path, class:"btn btn-success btn-sm"  %>
-  <%= link_to 'Voltar', root_path, class:"btn btn-primary btn-sm" %> <br>
-  <div>
-    <% @products.each do |product|%>
-      <ul class="list-group">
-        <li class="list-group-item"><%= link_to "#{product.name}", admin_product_path(product), class:"btn btn-success btn-sm" %></li>
-        <li>Preço: <%= number_to_currency product.price %></li>
-        <li>Marca: <%= product.brand %></li>
-      </ul>
-    <% end %>
-  </div>
-</div>
+</p>
+<br>
+<% @products.each do |product|%>
+  <p>
+    <%= link_to "#{product.name}", admin_product_path(product), class:"btn btn-primary btn-sm" %>
+  </p>
+  <p>
+    Preço: <%= number_to_currency product.price %>
+  </p>
+  <p>
+    Marca: <%= product.brand %>
+  </p>
+  <hr>
+<% end %>

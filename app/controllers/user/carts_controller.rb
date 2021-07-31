@@ -5,24 +5,15 @@ class Users::CartsController < User::UsersController
   before_action :setting_evaluation, only: %i[order]
 
   def index
-    @carts = current_user.carts.where(status: 'pending')
-
-    # shippings_json = File.read(Rails.root.join('spec/fixtures/shippings.json'))
-
-    # result = JSON.parse(shippings_json, symbolize_names: true)
-    # @shippings = Shipping.from_json_array(result)
+    @carts = current_user.carts.pending
   end
 
   def show; end
 
   def create
     @cart = current_user.carts.new(carts_params)
-    if @cart.save
-      redirect_to users_carts_path, notice: t('.success')
-    else
-      flash.now[:notice] = t('.failure')
-      render 'products/show'
-    end
+
+    redirect_to user_carts_path, notice: t('.success') if @cart.save!
   end
 
   def update
@@ -70,11 +61,9 @@ class Users::CartsController < User::UsersController
   end
 
   def check_shipping
-    raise ActiveRecord::RecordNotFound if params[:cart][:shipping_id].blank?
-
-    @shipping = Shipping.chosen(params[:cart][:shipping_id])
+    @shipping = Shipping.chosen!(params[:cart][:shipping_id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to users_carts_path, alert: t('.required_shipping')
+    redirect_to user_carts_path, alert: t('.required_shipping')
   end
 
   def find_cart

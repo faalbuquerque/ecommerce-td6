@@ -12,7 +12,7 @@ class ShippingsController < ApplicationController
   def shippings_options
     @shippings = Shipping.to_product(@product, Geocoder.search(@geo).first)
     @carts = current_user.carts
-    render 'users/carts/index'
+    render 'user/carts/index'
   end
 
   private
@@ -25,7 +25,7 @@ class ShippingsController < ApplicationController
     @address = current_user.addresses.find(params[:address_id])
     @geo = "#{@address.number} #{@address.street}, #{@address.neighborhood}, #{@address.city}, #{@address.state}"
   rescue ActiveRecord::RecordNotFound
-    redirect_to users_carts_path, alert: t('.required_address')
+    redirect_to user_carts_path, alert: t('.required_address')
   end
 
   def find_stock

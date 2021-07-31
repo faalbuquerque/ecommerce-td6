@@ -7,14 +7,13 @@ pt-BR:
           delivered: Pedido Entregue
           success: Pedido Realizado
           pending: Pendente
-  users:
+  user:
     carts:
       create:
         success: Produto adicionado ao carrrinho com sucesso!
-        failure: Obrigatório escolher o frete para adicionar ao carrinho
       update:
         success: Pedido realizado com sucesso!
-        required_shipping: Selecione o frete
+        required_shipping: Obrigatório escolher o frete para adicionar ao carrinho
         shipping_failure: Não foi possível concluir a compra, frete indisponível
       index:
         title: Seu Carrinho
