@@ -9,7 +9,7 @@ class Cart < ApplicationRecord
   enum status: { pending: 0, success: 1, delivered: 5 }
 
   def status_delivered?
-    self.success?
+    success?
   end
 
   def elegible_for_return

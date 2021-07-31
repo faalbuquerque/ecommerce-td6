@@ -36,7 +36,8 @@ describe 'User view order' do
     find_stock_product(sku: product.sku, status: 200)
     find_shippings(attributes: attributes, customer: customer, status: 200)
     stock_address_mock(code: 'CD34', status: 200)
-    selling_conclusion(cart: cart, stock_address: 'Alameda Santos, 1293, Jardim Paulista, São Paulo/SP', address: address, status: 200)
+    selling_conclusion(cart: cart, stock_address: 'Alameda Santos, 1293, Jardim Paulista, São Paulo/SP',
+                       address: address, status: 200)
     notifying_stock(cart: cart, service_order: 'SOGEfKG2cv', status: 200)
     cart.destroy
 
@@ -103,7 +104,7 @@ describe 'User view order' do
     it 'status not 200' do
       user = create(:user, email: 'jhondoe@user.com')
       address = create(:address, user: user, street: 'Rua Padre Vieira', city: 'Campinas',
-                               state: 'SP', cep: '13015301', neighborhood: 'Centro', number: '880')
+                                 state: 'SP', cep: '13015301', neighborhood: 'Centro', number: '880')
       product = create(:product, name: 'Produto 1', sku: '1234abc')
       vol = product.height * product.width * product.length
       attributes = { sku: product.sku, volume: vol, weight: product.weight }
@@ -164,7 +165,8 @@ describe 'User view order' do
       find_stock_product(sku: product.sku, status: 200)
       find_shippings(attributes: attributes, customer: customer, status: 200)
       stock_address_mock(code: 'CD34', status: 200)
-      selling_conclusion(cart: cart, stock_address: 'Alameda Santos, 1293, Jardim Paulista, São Paulo/SP', address: address, status: 500)
+      selling_conclusion(cart: cart, stock_address: 'Alameda Santos, 1293, Jardim Paulista, São Paulo/SP',
+                         address: address, status: 500)
 
       login_as user, scope: :user
       visit user_carts_path
@@ -189,7 +191,8 @@ describe 'User view order' do
       find_stock_product(sku: product.sku, status: 200)
       find_shippings(attributes: attributes, customer: customer, status: 200)
       stock_address_mock(code: 'CD34', status: 200)
-      failure_selling_conclusion(cart: cart, stock_address: 'Alameda Santos, 1293, Jardim Paulista, São Paulo/SP', address: address)
+      failure_selling_conclusion(cart: cart, stock_address: 'Alameda Santos, 1293, Jardim Paulista, São Paulo/SP',
+                                 address: address)
 
       login_as user, scope: :user
       visit user_carts_path
@@ -216,7 +219,8 @@ describe 'User view order' do
       find_stock_product(sku: product.sku, status: 200)
       find_shippings(attributes: attributes, customer: customer, status: 200)
       stock_address_mock(code: 'CD34', status: 200)
-      selling_conclusion(cart: cart, stock_address: 'Alameda Santos, 1293, Jardim Paulista, São Paulo/SP', address: address, status: 200)
+      selling_conclusion(cart: cart, stock_address: 'Alameda Santos, 1293, Jardim Paulista, São Paulo/SP',
+                         address: address, status: 200)
       notifying_stock(cart: cart, service_order: 'SOGEfKG2cv', status: 500)
 
       login_as user, scope: :user
@@ -242,7 +246,8 @@ describe 'User view order' do
       find_stock_product(sku: product.sku, status: 200)
       find_shippings(attributes: attributes, customer: customer, status: 200)
       stock_address_mock(code: 'CD34', status: 200)
-      selling_conclusion(cart: cart, stock_address: 'Alameda Santos, 1293, Jardim Paulista, São Paulo/SP', address: address, status: 200)
+      selling_conclusion(cart: cart, stock_address: 'Alameda Santos, 1293, Jardim Paulista, São Paulo/SP',
+                         address: address, status: 200)
       failure_notifying_stock(cart: cart, service_order: 'SOGEfKG2cv')
 
       login_as user, scope: :user

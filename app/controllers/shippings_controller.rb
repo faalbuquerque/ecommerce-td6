@@ -30,7 +30,7 @@ class ShippingsController < ApplicationController
 
   def find_stock
     @stock = Stock.to_product(sku: @product.sku)
-    @quantities = @stock.map { |stock| stock[:quantity] }
-    @quantity =  @quantities.max
+    @quantities = @stock.pluck(:quantity)
+    @quantity = @quantities.max
   end
 end

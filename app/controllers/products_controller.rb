@@ -11,8 +11,7 @@ class ProductsController < ApplicationController
   def find_product_stock
     @product = Product.find(params[:id])
     @stock = Stock.to_product(sku: @product.sku)
-
-    @quantities = @stock.map { |stock| stock[:quantity] }
+    @quantities = @stock.pluck(:quantity)
     @quantity = @quantities.max
   end
 end

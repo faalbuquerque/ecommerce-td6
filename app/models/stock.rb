@@ -27,12 +27,8 @@ class Stock
     return nil unless resp.status == 200
 
     result = JSON.parse(resp.body, symbolize_names: true)
-    street = result[:warehouse][:full_address][:address]
-    number = result[:warehouse][:full_address][:number]
-    district = result[:warehouse][:full_address][:district]
-    city = result[:warehouse][:full_address][:city]
-    state = result[:warehouse][:full_address][:state]
-    "#{street}, #{number}, #{district}, #{city}/#{state}"
+    getting_components(result)
+    "#{@street}, #{@number}, #{@district}, #{@city}/#{@state}"
   rescue Faraday::ConnectionFailed
     nil
   end
@@ -47,5 +43,13 @@ class Stock
     JSON.parse(resp.body, symbolize_names: true)
   rescue Faraday::ConnectionFailed
     nil
+  end
+
+  def self.getting_components(result)
+    @street = result[:warehouse][:full_address][:address]
+    @number = result[:warehouse][:full_address][:number]
+    @district = result[:warehouse][:full_address][:district]
+    @city = result[:warehouse][:full_address][:city]
+    @state = result[:warehouse][:full_address][:state]
   end
 end

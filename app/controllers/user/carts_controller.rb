@@ -1,7 +1,6 @@
 class User::CartsController < User::UsersController
   before_action :find_cart, only: %i[show order]
   before_action :find_product, only: %i[create update]
-  # before_action :find_apis, only: %i[update]
   before_action :check_shipping, only: %i[update]
   before_action :setting_evaluation, only: %i[order]
 
@@ -13,14 +12,12 @@ class User::CartsController < User::UsersController
 
   def create
     @cart = current_user.carts.new(carts_params)
-
     redirect_to user_carts_path, notice: t('.success') if @cart.save!
   end
+  # rubocop:disable Metrics/AbcSize
 
   def update
     @cart = current_user.carts.find(params[:id])
-    return flash.now[:notice] = 'Fora de estoque' unless Stock.to_product(sku: @cart.product.sku)
-
     return redirect_to user_cart_path(@cart), notice: t('.shipping_failure') unless notificate_shipping(params)
 
     if @cart.update(service_order: @service_order)
@@ -30,6 +27,7 @@ class User::CartsController < User::UsersController
       redirect_to user_cart_path(@cart)
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def my_orders
     @carts = current_user.carts
@@ -76,20 +74,11 @@ class User::CartsController < User::UsersController
     @stock = Stock.to_product(sku: @product.sku)
   end
 
-  # def find_apis
-    
-  #   byebug
-  #   @shipping = Shipping.chosen(params[:shipping_id])
-    
-  # end
-
   def notificate_shipping(params)
     @address = Address.find(params[:cart][:address_id])
     @cart.update(**create_params, status: 1)
     @service_order = Shipping.selling_conclusion(@cart, @address)
-    if @service_order
-      Stock.reservation(@cart, @service_order) 
-    end
+    Stock.reservation(@cart, @service_order) if @service_order
   end
 
   def setting_evaluation
