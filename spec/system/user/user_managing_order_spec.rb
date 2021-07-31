@@ -72,7 +72,7 @@ describe 'User view order' do
     find_shippings(attributes: attributes, customer: customer, status: 200)
 
     login_as user, scope: :user
-    visit users_carts_path
+    visit user_carts_path
     click_on 'Calcular valor de entrega'
 
     expect(page).to have_content('Selecione um endereço')
@@ -92,7 +92,7 @@ describe 'User view order' do
     find_shippings(attributes: attributes, customer: customer, status: 200)
 
     login_as user, scope: :user
-    visit users_carts_path
+    visit user_carts_path
     choose('Rua Padre Vieira - 880 - Centro - Campinas - SP - 13015301')
     click_on 'Calcular valor de entrega'
     click_on 'Finalizar Compra'
@@ -116,7 +116,7 @@ describe 'User view order' do
       stock_address_mock(code: 'CD34', status: 500)
 
       login_as user, scope: :user
-      visit users_carts_path
+      visit user_carts_path
       choose('Rua Padre Vieira - 880 - Centro - Campinas - SP - 13015301')
       click_on 'Calcular valor de entrega'
       choose('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
@@ -140,7 +140,7 @@ describe 'User view order' do
       failure_stock_address(code: 'CD34')
 
       login_as user, scope: :user
-      visit users_carts_path
+      visit user_carts_path
       choose('Rua Padre Vieira - 880 - Centro - Campinas - SP - 13015301')
       click_on 'Calcular valor de entrega'
       choose('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
@@ -167,7 +167,7 @@ describe 'User view order' do
       selling_conclusion(cart: cart, stock_address: 'Alameda Santos, 1293, Jardim Paulista, São Paulo/SP', address: address, status: 500)
 
       login_as user, scope: :user
-      visit users_carts_path
+      visit user_carts_path
       choose('Rua Padre Vieira - 880 - Centro - Campinas - SP - 13015301')
       click_on 'Calcular valor de entrega'
       choose('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
@@ -192,7 +192,7 @@ describe 'User view order' do
       failure_selling_conclusion(cart: cart, stock_address: 'Alameda Santos, 1293, Jardim Paulista, São Paulo/SP', address: address)
 
       login_as user, scope: :user
-      visit users_carts_path
+      visit user_carts_path
       choose('Rua Padre Vieira - 880 - Centro - Campinas - SP - 13015301')
       click_on 'Calcular valor de entrega'
       choose('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
@@ -220,7 +220,7 @@ describe 'User view order' do
       notifying_stock(cart: cart, service_order: 'SOGEfKG2cv', status: 500)
 
       login_as user, scope: :user
-      visit users_carts_path
+      visit user_carts_path
       choose('Rua Padre Vieira - 880 - Centro - Campinas - SP - 13015301')
       click_on 'Calcular valor de entrega'
       choose('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')
@@ -246,7 +246,7 @@ describe 'User view order' do
       failure_notifying_stock(cart: cart, service_order: 'SOGEfKG2cv')
 
       login_as user, scope: :user
-      visit users_carts_path
+      visit user_carts_path
       choose('Rua Padre Vieira - 880 - Centro - Campinas - SP - 13015301')
       click_on 'Calcular valor de entrega'
       choose('Frete 1 - Preço: R$ 15,00 - Prazo de entrega: 10 dias úteis')

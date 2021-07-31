@@ -1,15 +1,15 @@
 <h1><%= t('.title') %></h1>
 <% if !flash[:message].blank? %>
-<div class="alert alert-warning alert-dismissible fade show d-inline-block" role="alert">
-  <%= flash[:message] %>
-</div>
+  <div class="alert alert-warning alert-dismissible fade show d-inline-block" role="alert">
+    <%= flash[:message] %>
+  </div>
+<% end %>
 <% @carts.each do |cart| %>
   <% if !cart.delivered? %>
     <ul>
       <li><%= link_to cart.product.name, user_cart_path(cart), class:"btn btn-success btn-sm mb-1 mt-1" %></li>
     </ul>
   <% end %>
-
   <p><%= t('.calculate_frete') %>s</p>
   <%= form_with url: product_shippings_options_path(product_id: cart.product_id), method: :get do |form| %>
     <%= form.collection_radio_buttons :address_id, current_user.addresses, :id, :display_address  do |b| %>
@@ -19,9 +19,10 @@
         <% end %>
       </div>
     <% end %>
+    <%= form.submit t('.calculate_shipping'), class:"btn btn-success mb-1 mt-1" %>
   <% end %>
 
-  <%= form_with url: user_cart_path(cart), model: cart do |f| %>
+  <%= form_with url: user_cart_path(cart, product_id: cart.product.id), model: cart do |f| %>
     <%= link_to t('.new_address'), new_user_address_path %>
     <% if current_user.addresses.any? && @shippings %>
       <%= f.hidden_field :address_id, value: @address.id %>

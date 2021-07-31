@@ -1,6 +1,7 @@
-class Users::CartsController < User::UsersController
+class User::CartsController < User::UsersController
   before_action :find_cart, only: %i[show order]
-  before_action :find_apis, only: %i[create]
+  before_action :find_product, only: %i[create update]
+  # before_action :find_apis, only: %i[update]
   before_action :check_shipping, only: %i[update]
   before_action :setting_evaluation, only: %i[order]
 
@@ -20,13 +21,13 @@ class Users::CartsController < User::UsersController
     @cart = current_user.carts.find(params[:id])
     return flash.now[:notice] = 'Fora de estoque' unless Stock.to_product(sku: @cart.product.sku)
 
-    return redirect_to users_cart_path(@cart), notice: t('.shipping_failure') unless notificate_shipping(params)
+    return redirect_to user_cart_path(@cart), notice: t('.shipping_failure') unless notificate_shipping(params)
 
     if @cart.update(service_order: @service_order)
-      redirect_to users_cart_path(@cart), notice: t('.success')
+      redirect_to user_cart_path(@cart), notice: t('.success')
     else
       @cart.pending!
-      redirect_to users_cart_path(@cart)
+      redirect_to user_cart_path(@cart)
     end
   end
 
@@ -70,11 +71,17 @@ class Users::CartsController < User::UsersController
     @cart = Cart.find(params[:id])
   end
 
-  def find_apis
+  def find_product
     @product = Product.find(params[:product_id])
-    @shipping = Shipping.chosen(params[:shipping_id])
     @stock = Stock.to_product(sku: @product.sku)
   end
+
+  # def find_apis
+    
+  #   byebug
+  #   @shipping = Shipping.chosen(params[:shipping_id])
+    
+  # end
 
   def notificate_shipping(params)
     @address = Address.find(params[:cart][:address_id])
