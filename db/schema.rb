@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2021_07_30_202754) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id", null: false
+    t.string "address_string"
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 

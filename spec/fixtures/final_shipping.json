@@ -1,0 +1,13 @@
+{
+  "id": 1,
+  "code": "SOGEfKG2cv",
+  "sku": "1234abc",
+  "status": "pending",
+  "final_address": "Rua Padre Francisco Araken, 40, Jardim, Fortaleza/CE",
+  "initial_address": "Rua Imperador, 6000, Centro, Fortaleza/CE",
+  "shipment_deadline": "2021-07-29",
+  "created_at": "2021-07-29T22:09:35.738-03:00",
+  "updated_at": "2021-07-29T22:09:35.738-03:00",
+  "price": "30.0",
+  "shipping_co_id": 1
+}
