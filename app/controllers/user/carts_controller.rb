@@ -76,7 +76,7 @@ class User::CartsController < User::UsersController
 
   def notificate_shipping(params)
     @address = Address.find(params[:cart][:address_id])
-    @cart.update(**create_params, status: 1)
+    @cart.update(**create_params, status: :success)
     @service_order = Shipping.selling_conclusion(@cart, @address)
     Stock.reservation(@cart, @service_order) if @service_order
   end

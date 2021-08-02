@@ -34,11 +34,11 @@ class Stock
   end
 
   def self.reservation(cart, service_order)
-    keys_stock = { sku: cart.product.sku, shipping_co_id: cart.shipping_id,
-                   warehouse_code: cart.warehouse_code, service_order: service_order }
-    resp = Faraday.post("#{Rails.configuration.external_apis[:stock_api]}/api/v1/RESERVADEPRODUTO",
-                        params: { **keys_stock })
-    return nil unless resp.status == 200
+    keys_stock = { sku: cart.product.sku, shipping_company: cart.shipping_name,
+                   warehouse: cart.warehouse_code, request_number: service_order }
+    resp = Faraday.post("#{Rails.configuration.external_apis[:stock_api]}/api/v1/reserve",
+                        { reserve: { **keys_stock } })
+    return nil unless resp.status == 201
 
     JSON.parse(resp.body, symbolize_names: true)
   rescue Faraday::ConnectionFailed

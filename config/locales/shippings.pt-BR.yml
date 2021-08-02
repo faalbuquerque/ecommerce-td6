@@ -4,4 +4,4 @@ pt-BR:
     shippings_options:
       required_address: 'Selecione um endereço'
     index:
-      failure: Não foi possível calcular o frete'
+      failure: Não foi possível calcular o frete

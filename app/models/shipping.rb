@@ -25,8 +25,8 @@ class Shipping
 
     address_str = address.building_str
     response = Faraday.post("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/service_orders",
-                            params: { service_order: { **keys_shipping(cart, address_str, stock_address) } })
-    return nil unless response.status == 200
+                            { service_order: { **keys_shipping(cart, address_str, stock_address) } })
+    return nil unless response.status == 201
 
     JSON.parse(response.body, symbolize_names: true)[:code]
   rescue Faraday::ConnectionFailed
@@ -50,7 +50,7 @@ class Shipping
     setting_product(product)
     attributes = { product: @product, customer: @customer }
     response = Faraday.get("#{Rails.configuration.external_apis[:shipping_api]}/api/v1/shippings",
-                           params: { **attributes })
+                           { **attributes })
     return [] unless response.status == 200
 
     result = JSON.parse(response.body, symbolize_names: true)
@@ -80,7 +80,7 @@ class Shipping
                SE: 'Sergipe', TO: 'Tocantins' }
     state = states.key(address.state).to_s
     coord = address.coordinates
-    @customer = { lat: coord[0], lon: coord[1], state: state }
+    @customer = { latitude: coord[0], longitude: coord[1], state: state }
   end
 
   def self.setting_product(product)
@@ -91,6 +91,6 @@ class Shipping
   def self.keys_shipping(cart, address_str, stock_address)
     { sku: cart.product.sku, final_address: address_str, initial_address: stock_address,
       shipping_co_id: cart.shipping_id, price: cart.shipping_price,
-      shipment_deadline: cart.shipping_time }
+      shipment_deadline: cart.shipping_time, shipping_days: 4 }
   end
 end

@@ -4,13 +4,14 @@
     <%= flash[:message] %>
   </div>
 <% end %>
-<% @carts.each do |cart| %>
+<% @carts[-1..-1].each do |cart| %>
   <% if !cart.delivered? %>
     <ul>
       <li><%= link_to cart.product.name, user_cart_path(cart), class:"btn btn-success btn-sm mb-1 mt-1" %></li>
     </ul>
   <% end %>
   <p><%= t('.calculate_frete') %>s</p>
+  <%= link_to t('.new_address'), new_user_address_path, class: 'btn btn-secondary my-3 btn-sm' %>
   <%= form_with url: product_shippings_options_path(product_id: cart.product_id), method: :get do |form| %>
     <%= form.collection_radio_buttons :address_id, current_user.addresses, :id, :display_address  do |b| %>
       <div class="radio">
@@ -22,8 +23,9 @@
     <%= form.submit t('.calculate_shipping'), class:"btn btn-success mb-1 mt-1" %>
   <% end %>
 
+  <hr>
+
   <%= form_with url: user_cart_path(cart, product_id: cart.product.id), model: cart do |f| %>
-    <%= link_to t('.new_address'), new_user_address_path %>
     <% if current_user.addresses.any? && @shippings %>
       <%= f.hidden_field :address_id, value: @address.id %>
       <%= f.collection_radio_buttons :shipping_id, @shippings, :to_json, :display_name do |b| %>
@@ -33,7 +35,7 @@
           <% end %>
         </div>
       <% end %>
-      <%= f.submit t('.update_order') %>
+      <%= f.submit t('.update_order'), class: 'btn btn-success my-3' %>
     <% end %>
   <% end %>
 <% end %>

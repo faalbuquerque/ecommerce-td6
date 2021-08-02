@@ -23,7 +23,7 @@ class ShippingsController < ApplicationController
 
   def find_address
     @address = current_user.addresses.find(params[:address_id])
-    @geo = "#{@address.number} #{@address.street}, #{@address.neighborhood}, #{@address.city}, #{@address.state}"
+    @geo = "#{@address.street} #{@address.number}, #{@address.neighborhood}, #{@address.city}, #{@address.state}"
   rescue ActiveRecord::RecordNotFound
     redirect_to user_carts_path, alert: t('.required_address')
   end
